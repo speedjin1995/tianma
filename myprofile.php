@@ -27,7 +27,7 @@ else{
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">My Profile</h1>
+				<h1 class="m-0 text-dark">Profile 个人资料</h1>
 			</div>
 		</div>
 	</div>
@@ -38,18 +38,18 @@ else{
 		<form role="form" id="profileForm" novalidate="novalidate">
 			<div class="card-body">
 				<div class="form-group">
-					<label for="name">Full Name *</label>
+					<label for="name">Full Name 全名 *</label>
 					<input type="text" class="form-control" id="userName" name="userName" value="<?=$fullName ?>" placeholder="Enter Full Name" required="">
 				</div>
 				
 				<div class="form-group">
-					<label for="name">Username *</label>
+					<label for="name">Username 用户名 *</label>
 					<input type="text" class="form-control" id="userEmail" name="userEmail" value="<?=$userName ?>" placeholder="Enter Username" readonly="">
 				</div>
 			</div>
 			
 			<div class="card-footer">
-				<button class="btn btn-success" id="saveProfile"><i class="fas fa-save"></i> Save</button>
+				<button class="btn btn-success" id="saveProfile"><i class="fas fa-save"></i>Save 保存</button>
 			</div>
 		</form>
 	</div>

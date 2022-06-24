@@ -16,7 +16,7 @@ else{
     <div class="container-fluid">
         <div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Lots</h1>
+				<h1 class="m-0 text-dark">Reasons 理由</h1>
 			</div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -33,7 +33,7 @@ else{
                         <div class="row">
                             <div class="col-9"></div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addLots">Add Lots</button>
+                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addLots">Add Reasons 新增理由</button>
                             </div>
                         </div>
                     </div>
@@ -41,9 +41,9 @@ else{
 						<table id="lotTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>No.</th>
-									<th>Lot No.</th>
-									<th>Actions</th>
+									<th>No. 排号</th>
+									<th>Reasons 理由</th>
+									<th></th>
 								</tr>
 							</thead>
 						</table>
@@ -59,7 +59,7 @@ else{
       <div class="modal-content">
         <form role="form" id="lotForm">
             <div class="modal-header">
-              <h4 class="modal-title">Add Lots</h4>
+              <h4 class="modal-title">Add Reasons 新增理由</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -70,14 +70,14 @@ else{
     					<input type="hidden" class="form-control" id="id" name="id">
     				</div>
     				<div class="form-group">
-    					<label for="lotsNumber">Lots Number *</label>
+    					<label for="lotsNumber">Reasons 理由 *</label>
     					<input type="text" class="form-control" name="lotsNumber" id="lotsNumber" placeholder="Enter Lots Number" required>
     				</div>
     			</div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
             </div>
         </form>
       </div>
@@ -97,11 +97,11 @@ $(function () {
         'order': [[ 1, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
-            'url':'php/loadLots.php'
+            'url':'php/loadReasons.php'
         },
         'columns': [
             { data: 'counter' },
-            { data: 'lots_no' },
+            { data: 'reasons' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -118,14 +118,14 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/lots.php', $('#lotForm').serialize(), function(data){
+            $.post('php/reasons.php', $('#lotForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
                     $('#lotModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
                     
-                    $.get('lots.php', function(data) {
+                    $.get('reasons.php', function(data) {
                         $('#mainContents').html(data);
                         $('#spinnerLoading').hide();
                     });
@@ -142,7 +142,7 @@ $(function () {
         }
     });
 
-    $('#addLots').on('click', function(){
+    $('#addReasons').on('click', function(){
         $('#lotModal').find('#id').val("");
         $('#lotModal').find('#lotsNumber').val("");
         $('#lotModal').modal('show');
@@ -165,12 +165,12 @@ $(function () {
 
 function edit(id){
     $('#spinnerLoading').show();
-    $.post('php/getLots.php', {userID: id}, function(data){
+    $.post('php/getReasons.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
             $('#lotModal').find('#id').val(obj.message.id);
-            $('#lotModal').find('#lotsNumber').val(obj.message.lots_no);
+            $('#lotModal').find('#lotsNumber').val(obj.message.reasons);
             $('#lotModal').modal('show');
             
             $('#lotForm').validate({
@@ -199,12 +199,12 @@ function edit(id){
 
 function deactivate(id){
     $('#spinnerLoading').show();
-    $.post('php/deleteLot.php', {userID: id}, function(data){
+    $.post('php/deleteReasons.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
             toastr["success"](obj.message, "Success:");
-            $.get('lots.php', function(data) {
+            $.get('Reasons.php', function(data) {
                 $('#mainContents').html(data);
                 $('#spinnerLoading').hide();
             });

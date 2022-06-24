@@ -6,7 +6,7 @@ session_start();
 if(isset($_POST['userID'])){
 	$id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
 
-    if ($update_stmt = $db->prepare("SELECT * FROM lots WHERE id=?")) {
+    if ($update_stmt = $db->prepare("SELECT * FROM grades WHERE id=?")) {
         $update_stmt->bind_param('s', $id);
         
         // Execute the prepared query.
@@ -23,14 +23,16 @@ if(isset($_POST['userID'])){
             
             while ($row = $result->fetch_assoc()) {
                 $message['id'] = $row['id'];
-                $message['lots_no'] = $row['lots_no'];
+                $message['class'] = $row['class'];
+                $message['market'] = $row['market'];
+                $message['grade'] = $row['grade'];
             }
             
             echo json_encode(
                 array(
                     "status" => "success",
                     "message" => $message
-                ));   
+                ));
         }
     }
 }

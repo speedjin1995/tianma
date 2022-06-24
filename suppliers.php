@@ -16,7 +16,7 @@ else{
     <div class="container-fluid">
         <div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Suppliers</h1>
+				<h1 class="m-0 text-dark">Suppliers 供应商</h1>
 			</div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -31,9 +31,9 @@ else{
 				<div class="card">
 					<div class="card-header">
               <div class="row">
-                  <div class="col-9"></div>
-                  <div class="col-3">
-                      <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addSuppliers">Add Suppliers</button>
+                  <div class="col-8"></div>
+                  <div class="col-4">
+                      <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addSuppliers">Add Suppliers 新增供应商</button>
                   </div>
               </div>
           </div>
@@ -41,12 +41,12 @@ else{
 						<table id="supplierTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-                                    <th>Code</th>
-									<th>Name</th>
-									<th>Address</th>
-									<th>Phone</th>
-									<th>Email</th>
-									<th>Actions</th>
+                                    <th>Code 编号</th>
+									<th>Name 名字</th>
+									<th>Address 地址</th>
+									<th>Phone 电话</th>
+									<th>Email 电邮</th>
+									<th></th>
 								</tr>
 							</thead>
 						</table>
@@ -62,7 +62,7 @@ else{
       <div class="modal-content">
         <form role="form" id="supplierForm">
             <div class="modal-header">
-              <h4 class="modal-title">Add Suppliers</h4>
+              <h4 class="modal-title">Add Suppliers 新增供应商</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -73,30 +73,30 @@ else{
                   <input type="hidden" class="form-control" id="id" name="id">
                 </div>
                 <div class="form-group">
-                  <label for="name">Supplier Code *</label>
+                  <label for="name">Supplier Code 供应商编号 *</label>
                   <input type="text" class="form-control" name="code" id="code" placeholder="Enter Supplier Code" required>
                 </div>
                 <div class="form-group">
-                  <label for="name">Supplier Name *</label>
+                  <label for="name">Supplier Name 供应商名字 *</label>
                   <input type="text" class="form-control" name="name" id="name" placeholder="Enter Supplier Name" required>
                 </div>
                 <div class="form-group"> 
-                  <label for="address">Address *</label>
+                  <label for="address">Address 供应商地址 *</label>
                   <textarea class="form-control" id="address" name="address" placeholder="Enter your address" required></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="phone">Phone *</label>
+                  <label for="phone">Phone 供应商电话 *</label>
                   <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Full Name" required>
                 </div>
                 <div class="form-group"> 
-                  <label for="email">Email *</label>
+                  <label for="email">Email 供应商电邮 *</label>
                   <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                 </div>
               </div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" name="submit" id="submitMember">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary" name="submit" id="submitMember">Submit 提交</button>
             </div>
         </form>
       </div>

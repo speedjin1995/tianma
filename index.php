@@ -366,13 +366,13 @@ to get the desired effect
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
                   <li class="nav-item">
-                    <a href="#lots" data-file="lots.php" class="nav-link link">
+                    <a href="#grades" data-file="grades.php" class="nav-link link">
                       <i class="nav-icon fas fa-store"></i>
                       <p>Grade 品规</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#status" data-file="status.php" class="nav-link link">
+                    <a href="#reasons" data-file="reasons.php" class="nav-link link">
                       <i class="nav-icon fas fa-weight"></i>
                       <p>Reasons 理由</p>
                     </a>

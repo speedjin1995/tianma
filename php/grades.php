@@ -8,14 +8,18 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['code'], $_POST['product'], $_POST['price'])){
+if(isset($_POST['code'], $_POST['packages'])){
     $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_STRING);
-    $product = filter_input(INPUT_POST, 'product', FILTER_SANITIZE_STRING);
-    $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_STRING);
+    $packages = filter_input(INPUT_POST, 'packages', FILTER_SANITIZE_STRING);
+    $market = "";
+
+    if($_POST['packages'] != null && $_POST['packages'] != ""){
+        $market = $_POST['packages'];
+    }
 
     if($_POST['id'] != null && $_POST['id'] != ''){
-        if ($update_stmt = $db->prepare("UPDATE products SET product_code=?, product_name=?, product_price=? WHERE id=?")) {
-            $update_stmt->bind_param('ssss', $code, $product, $price, $_POST['id']);
+        if ($update_stmt = $db->prepare("UPDATE grades SET class=?, market=?, grade=? WHERE id=?")) {
+            $update_stmt->bind_param('ssss', $code, $market, $packages, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
@@ -40,8 +44,8 @@ if(isset($_POST['code'], $_POST['product'], $_POST['price'])){
         }
     }
     else{
-        if ($insert_stmt = $db->prepare("INSERT INTO products (product_code, product_name, product_price) VALUES (?, ?, ?)")) {
-            $insert_stmt->bind_param('sss', $code, $product, $price);
+        if ($insert_stmt = $db->prepare("INSERT INTO grades (class, market, grade) VALUES (?, ?, ?)")) {
+            $insert_stmt->bind_param('sss', $code, $market, $packages);
             
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {

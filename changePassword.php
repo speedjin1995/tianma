@@ -16,7 +16,7 @@ else{
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Change Password</h1>
+                <h1 class="m-0 text-dark">Change Password 更换密码</h1>
             </div>
         </div>
     </div>
@@ -27,23 +27,23 @@ else{
         <form role="form" id="passwordForm">
             <div class="card-body">
                 <div class="form-group">
-                    <label for="oldPassword">Old Password *</label>
+                    <label for="oldPassword">Old Password 旧密码 *</label>
                     <input type="password" class="form-control" name="oldPassword" placeholder="Old Password" required="">
                 </div>
                 
                 <div class="form-group">
-                    <label for="newPassword">New Password</label>
+                    <label for="newPassword">New Password 新密码 *</label>
                     <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="New Password" required="">
                 </div>
                 
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm Password *</label>
+                    <label for="confirmPassword">Confirm Password 确认密码 *</label>
                     <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Re-type Password" required="">
                 </div>
             </div>
             
             <div class="card-footer">
-                <button type="submit" class="btn btn-success" name="submit"><i class="fas fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-success" name="submit"><i class="fas fa-save"></i>Save 保存</button>
             </div>
         </form>
     </div>

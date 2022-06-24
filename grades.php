@@ -15,7 +15,7 @@ else{
     <div class="container-fluid">
         <div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Packages</h1>
+				<h1 class="m-0 text-dark">Grades 品规</h1>
 			</div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -32,7 +32,7 @@ else{
                         <div class="row">
                             <div class="col-9"></div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addPackages">Add Packages</button>
+                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addPackages">Add Grades 新增品规</button>
                             </div>
                         </div>
                     </div>
@@ -40,10 +40,9 @@ else{
 						<table id="packageTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>No.</th>
-                                    <th>Code</th>
-									<th>Packages.</th>
-									<th>Actions</th>
+									<th>No. 排号</th>
+                                    <th>Grades 品规</th>
+									<th></th>
 								</tr>
 							</thead>
 						</table>
@@ -59,7 +58,7 @@ else{
       <div class="modal-content">
         <form role="form" id="packageForm">
             <div class="modal-header">
-              <h4 class="modal-title">Add Lots</h4>
+              <h4 class="modal-title">Add Grades 新增品规</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -70,18 +69,22 @@ else{
                   <input type="hidden" class="form-control" id="id" name="id">
                 </div>
                 <div class="form-group">
-                  <label for="code">Packages Code *</label>
-                  <input type="text" class="form-control" name="code" id="code" placeholder="Enter Product Code" maxlength="10" required>
+                  <label for="code">Class 级别 *</label>
+                  <input type="text" class="form-control" name="code" id="code" placeholder="Enter Class" required>
                 </div>
                 <div class="form-group">
-                  <label for="packages">Packages *</label>
-                  <input type="text" class="form-control" name="packages" id="packages" placeholder="Enter Packages Number" required>
+                  <label for="market">Market Grade 市场规格 </label>
+                  <input type="text" class="form-control" name="market" id="market" placeholder="Enter Market" >
+                </div>
+                <div class="form-group">
+                  <label for="packages">Grade 品规 *</label>
+                  <input type="text" class="form-control" name="packages" id="packages" placeholder="Enter Grade" required>
                 </div>
               </div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
             </div>
         </form>
       </div>
@@ -101,12 +104,11 @@ $(function () {
         'order': [[ 1, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
-            'url':'php/loadPackages.php'
+            'url':'php/loadGrades.php'
         },
         'columns': [
             { data: 'counter' },
-            { data: 'packages_code' },
-            { data: 'packages' },
+            { data: 'grade' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -123,14 +125,14 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/packages.php', $('#packageForm').serialize(), function(data){
+            $.post('php/grades.php', $('#packageForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
                     $('#packagesModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
                     
-                    $.get('packages.php', function(data) {
+                    $.get('grades.php', function(data) {
                         $('#mainContents').html(data);
                         $('#spinnerLoading').hide();
                     });
@@ -150,6 +152,7 @@ $(function () {
     $('#addPackages').on('click', function(){
         $('#packagesModal').find('#id').val("");
         $('#packagesModal').find('#code').val("");
+        $('#packagesModal').find('#market').val("");
         $('#packagesModal').find('#packages').val("");
         $('#packagesModal').modal('show');
         
@@ -171,13 +174,14 @@ $(function () {
 
 function edit(id){
     $('#spinnerLoading').show();
-    $.post('php/getPackages.php', {userID: id}, function(data){
+    $.post('php/getGrades.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
             $('#packagesModal').find('#id').val(obj.message.id);
-            $('#packagesModal').find('#code').val(obj.message.packages_code);
-            $('#packagesModal').find('#packages').val(obj.message.packages);
+            $('#packagesModal').find('#code').val(obj.message.class);
+            $('#packagesModal').find('#market').val(obj.message.market);
+            $('#packagesModal').find('#packages').val(obj.message.grade);
             $('#packagesModal').modal('show');
             
             $('#packageForm').validate({
@@ -206,7 +210,7 @@ function edit(id){
 
 function deactivate(id){
     $('#spinnerLoading').show();
-    $.post('php/deletePackages.php', {userID: id}, function(data){
+    $.post('php/deleteGrades.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
