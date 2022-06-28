@@ -332,19 +332,19 @@ to get the desired effect
             </a>
             <ul class="nav nav-treeview" style="display: block;">
               <li class="nav-item">
-                <a href="#billboard" data-file="billboard.php" class="nav-link link">
+                <a href="#receive" data-file="receive.php" class="nav-link link">
                   <i class="nav-icon fas fa-chart-pie"></i>
                   <p>Receive 验收</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#weight" data-file="weightPage.php" class="nav-link link">
+                <a href="#wgrade" data-file="wgrade.php" class="nav-link link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Grade 分级</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#weight" data-file="weightPage.php" class="nav-link link">
+                <a href="#wMoisture" data-file="wMoisture.php" class="nav-link link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Moisturise/Drying 风干/加湿 </p>
                 </a>
