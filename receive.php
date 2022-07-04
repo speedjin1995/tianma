@@ -40,11 +40,11 @@ else{
 						<table id="packageTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>No. 排号</th>
-                                    <th>Box/Tray No 桶/托盘代号</th>
-									<th>Box/Tray Weight 桶/托盘重量(G)</th>
-                                    <th>Grading Gross weight 分级毛重(G)</th>
-                                    <th>Grading Net weight 分级净重(G)</th>
+									<th>No. <br>排号</th>
+                                    <th>Box/Tray No <br>桶/托盘代号</th>
+									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
+                                    <th>Grading Gross weight <br>分级毛重(G)</th>
+                                    <th>Grading Net weight <br>分级净重(G)</th>
                                     
 								</tr>
 							</thead>
@@ -61,28 +61,67 @@ else{
       <div class="modal-content">
         <form role="form" id="packageForm">
             <div class="modal-header">
-              <h4 class="modal-title">Add Grades 新增品规</h4>
+              <h4 class="modal-title">Add Receive 新增验收</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               <div class="card-body">
-                <div class="form-group">
-                  <input type="hidden" class="form-control" id="id" name="id">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="itemType">Item Types 货品种类</label>
+                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType" required>
+                                <option selected="selected">-</option>
+                                <option value="t1">T1</option>
+                                <option value="t3">T3</option>
+                                <option value="t4">T4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="grossWeight">Grading Gross weight 分级毛重(G)</label>
+                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="code">Class 级别 *</label>
-                  <input type="text" class="form-control" name="code" id="code" placeholder="Enter Class" required>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lotNo">Lot No 批号</label>
+                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="market">Market Grade 市场规格 </label>
-                  <input type="text" class="form-control" name="market" id="market" placeholder="Enter Market" >
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
+                            <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="netWeight">Grading Net weight 分级净重(G)</label>
+                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="packages">Grade 品规 *</label>
-                  <input type="text" class="form-control" name="packages" id="packages" placeholder="Enter Grade" required>
-                </div>
+                
               </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -153,10 +192,12 @@ $(function () {
     });
 
     $('#addPackages').on('click', function(){
-        $('#packagesModal').find('#id').val("");
-        $('#packagesModal').find('#code').val("");
-        $('#packagesModal').find('#market').val("");
-        $('#packagesModal').find('#packages').val("");
+        $('#packagesModal').find('#itemType').val('-');
+        $('#packagesModal').find('#grossWeight').val("");
+        $('#packagesModal').find('#lotNo').val("");
+        $('#packagesModal').find('#bTrayWeight').val("");
+        $('#packagesModal').find('#bTrayNo').val("");
+        $('#packagesModal').find('#netWeight').val("");
         $('#packagesModal').modal('show');
         
         $('#packageForm').validate({

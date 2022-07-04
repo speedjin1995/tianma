@@ -344,7 +344,7 @@ to get the desired effect
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#wMoisture" data-file="wMoisture.php" class="nav-link link">
+                <a href="#wMoisturise" data-file="wMoisturise.php" class="nav-link link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Moisturise/Drying 风干/加湿 </p>
                 </a>

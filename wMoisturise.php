@@ -40,15 +40,15 @@ else{
 						<table id="packageTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>No. 排号</th>
-                                    <th>Lot No 批号</th>
-									<th>Grade 等级</th>
-                                    <th>Box/Tray No 桶/托盘代号</th>
-                                    <th>Box/Tray Weight 桶/托盘重量(G)</th>
-                                    <th>Grading Gross Weight 分级毛重(G)</th>
-                                    <th>Qty 片数(PCS)</th>
-                                    <th>Grading Net Weight 分级净重(G)</th>
-                                    <th>Moisture after grading 分级后湿度(%)</th> 
+									<th>No. <br>排号</th>
+                                    <th>Lot No <br>批号</th>
+									<th>Grade <br>等级</th>
+                                    <th>Box/Tray No <br>桶/托盘代号</th>
+                                    <th>Box/Tray Weight <br>桶/托盘重量(G)</th>
+                                    <th>Grading Gross Weight <br>分级毛重(G)</th>
+                                    <th>Qty <br>片数(PCS)</th>
+                                    <th>Grading Net Weight <br>分级净重(G)</th>
+                                    <th>Moisture after grading <br>分级后湿度(%)</th> 
 								</tr>
 							</thead>
 						</table>
