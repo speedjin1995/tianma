@@ -154,7 +154,7 @@ else{
                     <div class="col-md-3">
                         <div class="form-group">
                         <label for="itemType">Status 状态</label>
-                            <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus" readonly>
+                            <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
                                 <option selected="selected">-</option>
                                 <option value="ACCEPT">Accept 接受</option>
                                 <option value="REJECT">Reject 拒接</option>
@@ -165,7 +165,7 @@ else{
                     <div class="col-md-9">
                         <div class="form-group">
                         <label for="itemType">Reason 状态</label>
-                            <select class="form-control" style="width: 100%;" id="newReason" name="newReason" readonly>
+                            <select class="form-control" style="width: 100%;" id="newReason" name="newReason">
                                 <option selected="selected">-</option>
                                 <option value="ACCEPT">Accept 接受</option>
                                 <option value="REJECT">Reject 拒接</option>
