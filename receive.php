@@ -68,7 +68,7 @@ else{
             </div>
             <div class="modal-body">
               <div class="card-body">
-
+                <input type="hidden" class="form-control" id="id" name="id">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -149,7 +149,10 @@ $(function () {
         },
         'columns': [
             { data: 'counter' },
-            { data: 'grade' },
+            { data: 'bTrayNo' },
+            { data: 'bTrayWeight' },
+            { data: 'grossWeight' },
+            { data: 'netWeight' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -191,6 +194,7 @@ $(function () {
     });
 
     $('#addReceive').on('click', function(){
+        $('#receiveModal').find('#id').val("");
         $('#receiveModal').find('#itemType').val('-');
         $('#receiveModal').find('#grossWeight').val("");
         $('#receiveModal').find('#lotNo').val("");
@@ -222,9 +226,12 @@ function edit(id){
         
         if(obj.status === 'success'){
             $('#receiveModal').find('#id').val(obj.message.id);
-            $('#receiveModal').find('#code').val(obj.message.class);
-            $('#receiveModal').find('#market').val(obj.message.market);
-            $('#receiveModal').find('#packages').val(obj.message.grade);
+            $('#receiveModal').find('#itemType').val(obj.message.itemType);
+            $('#receiveModal').find('#grossWeight').val(obj.message.grossWeight);
+            $('#receiveModal').find('#lotNo').val(obj.message.lotNo);
+            $('#receiveModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
+            $('#receiveModal').find('#bTrayNo').val(obj.message.bTrayNo);
+            $('#receiveModal').find('#netWeight').val(obj.message.netWeight);
             $('#receiveModal').modal('show');
             
             $('#receiveForm').validate({
