@@ -38,7 +38,7 @@ else{
                         </div>
                     </div>
 					<div class="card-body">
-						<table id="lotTable" class="table table-bordered table-striped">
+						<table id="reasonsTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
 									<th>No. 排号</th>
@@ -54,10 +54,10 @@ else{
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
 
-<div class="modal fade" id="lotModal">
+<div class="modal fade" id="reasonModal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <form role="form" id="lotForm">
+        <form role="form" id="reasonForm">
             <div class="modal-header">
               <h4 class="modal-title">Add Reasons 新增理由</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -70,8 +70,8 @@ else{
     					<input type="hidden" class="form-control" id="id" name="id">
     				</div>
     				<div class="form-group">
-    					<label for="lotsNumber">Reasons 理由 *</label>
-    					<input type="text" class="form-control" name="lotsNumber" id="lotsNumber" placeholder="Enter Lots Number" required>
+    					<label for="reasons">Reasons 理由 *</label>
+    					<input type="text" class="form-control" name="reasons" id="reasons" placeholder="Enter Lots Number" required>
     				</div>
     			</div>
             </div>
@@ -88,7 +88,7 @@ else{
 
 <script>
 $(function () {
-    $("#lotTable").DataTable({
+    $("#reasonsTable").DataTable({
         "responsive": true,
         "autoWidth": false,
         'processing': true,
@@ -118,11 +118,11 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/reasons.php', $('#lotForm').serialize(), function(data){
+            $.post('php/reasons.php', $('#reasonForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
-                    $('#lotModal').modal('hide');
+                    $('#reasonModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
                     
                     $.get('reasons.php', function(data) {
@@ -143,11 +143,11 @@ $(function () {
     });
 
     $('#addReasons').on('click', function(){
-        $('#lotModal').find('#id').val("");
-        $('#lotModal').find('#lotsNumber').val("");
-        $('#lotModal').modal('show');
+        $('#reasonModal').find('#id').val("");
+        $('#reasonModal').find('#reasons').val("");
+        $('#reasonModal').modal('show');
         
-        $('#lotForm').validate({
+        $('#reasonForm').validate({
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
@@ -169,11 +169,11 @@ function edit(id){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
-            $('#lotModal').find('#id').val(obj.message.id);
-            $('#lotModal').find('#lotsNumber').val(obj.message.reasons);
-            $('#lotModal').modal('show');
+            $('#reasonModal').find('#id').val(obj.message.id);
+            $('#reasonModal').find('#reasons').val(obj.message.reasons);
+            $('#reasonModal').modal('show');
             
-            $('#lotForm').validate({
+            $('#reasonForm').validate({
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');
