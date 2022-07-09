@@ -32,12 +32,12 @@ else{
                         <div class="row">
                             <div class="col-9"></div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addPackages">Add Moisturise/Drying 新增风干/加湿</button>
+                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addMoistures">Add Moisturise/Drying 新增风干/加湿</button>
                             </div>
                         </div>
                     </div>
 					<div class="card-body">
-						<table id="packageTable" class="table table-bordered table-striped">
+						<table id="moistureTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
 									<th>No. <br>排号</th>
@@ -59,10 +59,10 @@ else{
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
 
-<div class="modal fade" id="packagesModal">
+<div class="modal fade" id="moistureModal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <form role="form" id="packageForm">
+        <form role="form" id="moistureForm">
             <div class="modal-header">
               <h4 class="modal-title">Add Grades 新增品规</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -75,12 +75,12 @@ else{
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label for="itemType">Item Types 货品种类</label>
+                                <label for="itemType">Item Types 货品种类</label>
                                 <select class="form-control" style="width: 100%;" id="moisturiseItemType" name="moisturiseItemType" readonly>
                                     <option selected="selected">-</option>
-                                    <option value="t1">T1</option>
-                                    <option value="t3">T3</option>
-                                    <option value="t4">T4</option>
+                                    <option value="T1">T1</option>
+                                    <option value="T3">T3</option>
+                                    <option value="T4">T4</option>
                                 </select>
                             </div>
                         </div>
@@ -88,7 +88,7 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G)</label>
-                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="grossWeight" placeholder="Enter Grading Gross weight">
+                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight">
                             </div>
                         </div>
                     </div>
@@ -97,14 +97,14 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="lotNo">Lot No 批号</label>
-                                <input type="text" class="form-control" name="moisturiselotNo" id="lotNo" placeholder="Enter Lot No" readonly>
+                                <input type="text" class="form-control" name="moisturiselotNo" id="moisturiselotNo" placeholder="Enter Lot No" readonly>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
-                                <input type="number" class="form-control" name="moisturiseTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                                <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
                             </div>
                         </div>
                     </div>
@@ -113,14 +113,14 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
-                                <input type="text" class="form-control" name="moisturiseTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" readonly>
+                                <input type="text" class="form-control" name="moisturiseTrayNo" id="moisturiseTrayNo" placeholder="Enter Box/Tray No" readonly>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="netWeight">Moisturise/Drying Net weight 加湿/风干后净重(G)</label>
-                                <input type="number" class="form-control" name="moisturiseNetWeight" id="netWeight" placeholder="Enter Grading Net weight" required>
+                                <input type="number" class="form-control" name="moisturiseNetWeight" id="moisturiseNetWeight" placeholder="Enter Grading Net weight" required>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@ else{
 
 <script>
 $(function () {
-    $("#packageTable").DataTable({
+    $("#moistureTable").DataTable({
         "responsive": true,
         "autoWidth": false,
         'processing': true,
@@ -164,11 +164,18 @@ $(function () {
         'order': [[ 1, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
-            'url':'php/loadGrades.php'
+            'url':'php/loadMoistures.php'
         },
         'columns': [
             { data: 'counter' },
+            { data: 'lotNo' },
             { data: 'grade' },
+            { data: 'bTrayNo' },
+            { data: 'bTrayWeight' },
+            { data: 'moisture_gross_weight' },
+            { data: 'pieces' },
+            { data: 'moisture_net_weight' },
+            { data: 'moisture_after_moisturing' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -177,7 +184,6 @@ $(function () {
             }
         ],
         "rowCallback": function( row, data, index ) {
-
             $('td', row).css('background-color', '#E6E6FA');
         },        
     });
@@ -185,14 +191,14 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/grades.php', $('#packageForm').serialize(), function(data){
+            $.post('php/moisturise.php', $('#moistureForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
-                    $('#packagesModal').modal('hide');
+                    $('#moistureModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
                     
-                    $.get('grades.php', function(data) {
+                    $.get('wMoisturise.php', function(data) {
                         $('#mainContents').html(data);
                         $('#spinnerLoading').hide();
                     });
@@ -209,14 +215,19 @@ $(function () {
         }
     });
 
-    $('#addPackages').on('click', function(){
-        $('#packagesModal').find('#id').val("");
-        $('#packagesModal').find('#code').val("");
-        $('#packagesModal').find('#market').val("");
-        $('#packagesModal').find('#packages').val("");
-        $('#packagesModal').modal('show');
+    $('#addMoistures').on('click', function(){
+        $('#moistureModal').find('#id').val("");
+        $('#moistureModal').find('#moisturiseItemType').val("");
+        $('#moistureModal').find('#moisturiseGrossWeight').val("");
+        $('#moistureModal').find('#moisturiselotNo').val("");
+        $('#moistureModal').find('#moisturiseTrayWeight').val("");
+        $('#moistureModal').find('#moisturiseTrayNo').val("");
+        $('#moistureModal').find('#moisturiseNetWeight').val("");
+        $('#moistureModal').find('#moisturiseQty').val("");
+        $('#moistureModal').find('#stockOutMoisture').val("");
+        $('#moistureModal').modal('show');
         
-        $('#packageForm').validate({
+        $('#moistureForm').validate({
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
@@ -234,17 +245,17 @@ $(function () {
 
 function edit(id){
     $('#spinnerLoading').show();
-    $.post('php/getGrades.php', {userID: id}, function(data){
+    $.post('php/getMoisture.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
-            $('#packagesModal').find('#id').val(obj.message.id);
-            $('#packagesModal').find('#code').val(obj.message.class);
-            $('#packagesModal').find('#market').val(obj.message.market);
-            $('#packagesModal').find('#packages').val(obj.message.grade);
-            $('#packagesModal').modal('show');
+            $('#moistureModal').find('#id').val(obj.message.id);
+            $('#moistureModal').find('#code').val(obj.message.class);
+            $('#moistureModal').find('#market').val(obj.message.market);
+            $('#moistureModal').find('#packages').val(obj.message.grade);
+            $('#moistureModal').modal('show');
             
-            $('#packageForm').validate({
+            $('#moistureForm').validate({
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');
@@ -270,12 +281,12 @@ function edit(id){
 
 function deactivate(id){
     $('#spinnerLoading').show();
-    $.post('php/deleteGrades.php', {userID: id}, function(data){
+    $.post('php/deleteReceives.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
             toastr["success"](obj.message, "Success:");
-            $.get('packages.php', function(data) {
+            $.get('wMoisturise.php', function(data) {
                 $('#mainContents').html(data);
                 $('#spinnerLoading').hide();
             });

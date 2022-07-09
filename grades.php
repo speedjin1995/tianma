@@ -70,7 +70,12 @@ else{
                 </div>
                 <div class="form-group">
                   <label for="code">Class 级别 *</label>
-                  <input type="text" class="form-control" name="code" id="code" placeholder="Enter Class" required>
+                  <select class="form-control" style="width: 100%;" id="code" name="code" required>
+                    <option selected="selected">-</option>
+                    <option value="T1">T1</option>
+                    <option value="T3">T3</option>
+                    <option value="T4">T4</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="market">Market Grade 市场规格 </label>

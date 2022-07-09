@@ -8,9 +8,9 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['grossWeight'], $_POST['netWeight'], $_POST['stockOutMoisture'])){
-    $grossWeight = filter_input(INPUT_POST, 'grossWeight', FILTER_SANITIZE_STRING);
-    $netWeight = filter_input(INPUT_POST, 'netWeight', FILTER_SANITIZE_STRING);
+if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST['stockOutMoisture'])){
+    $grossWeight = filter_input(INPUT_POST, 'moisturiseGrossWeight', FILTER_SANITIZE_STRING);
+    $netWeight = filter_input(INPUT_POST, 'moisturiseNetWeight', FILTER_SANITIZE_STRING);
     $stockOutMoisture = filter_input(INPUT_POST, 'stockOutMoisture', FILTER_SANITIZE_STRING);
 
     if($_POST['id'] != null && $_POST['id'] != ''){
