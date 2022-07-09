@@ -8,9 +8,9 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['code'], $_POST['packages'])){
+if(isset($_POST['code'], $_POST['grades'])){
     $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_STRING);
-    $packages = filter_input(INPUT_POST, 'packages', FILTER_SANITIZE_STRING);
+    $grades = filter_input(INPUT_POST, 'grades', FILTER_SANITIZE_STRING);
     $market = "";
 
     if($_POST['market'] != null && $_POST['market'] != ""){
@@ -19,7 +19,7 @@ if(isset($_POST['code'], $_POST['packages'])){
 
     if($_POST['id'] != null && $_POST['id'] != ''){
         if ($update_stmt = $db->prepare("UPDATE grades SET class=?, market=?, grade=? WHERE id=?")) {
-            $update_stmt->bind_param('ssss', $code, $market, $packages, $_POST['id']);
+            $update_stmt->bind_param('ssss', $code, $market, $grades, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
@@ -45,7 +45,7 @@ if(isset($_POST['code'], $_POST['packages'])){
     }
     else{
         if ($insert_stmt = $db->prepare("INSERT INTO grades (class, market, grade) VALUES (?, ?, ?)")) {
-            $insert_stmt->bind_param('sss', $code, $market, $packages);
+            $insert_stmt->bind_param('sss', $code, $market, $grades);
             
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {
