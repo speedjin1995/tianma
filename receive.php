@@ -32,12 +32,12 @@ else{
                         <div class="row">
                             <div class="col-9"></div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addPackages">Add Receive 新增验收</button>
+                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addReceive">Add Receive 新增验收</button>
                             </div>
                         </div>
                     </div>
 					<div class="card-body">
-						<table id="packageTable" class="table table-bordered table-striped">
+						<table id="receiveTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
 									<th>No. <br>排号</th>
@@ -56,10 +56,10 @@ else{
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
 
-<div class="modal fade" id="packagesModal">
+<div class="modal fade" id="receiveModal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <form role="form" id="packageForm">
+        <form role="form" id="receiveForm">
             <div class="modal-header">
               <h4 class="modal-title">Add Receive 新增验收</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -75,9 +75,9 @@ else{
                         <label for="itemType">Item Types 货品种类</label>
                             <select class="form-control" style="width: 100%;" id="itemType" name="itemType" required>
                                 <option selected="selected">-</option>
-                                <option value="t1">T1</option>
-                                <option value="t3">T3</option>
-                                <option value="t4">T4</option>
+                                <option value="T1">T1</option>
+                                <option value="T3">T3</option>
+                                <option value="T4">T4</option>
                             </select>
                         </div>
                     </div>
@@ -136,7 +136,7 @@ else{
 
 <script>
 $(function () {
-    $("#packageTable").DataTable({
+    $("#receiveTable").DataTable({
         "responsive": true,
         "autoWidth": false,
         'processing': true,
@@ -145,7 +145,7 @@ $(function () {
         'order': [[ 1, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
-            'url':'php/loadGrades.php'
+            'url':'php/loadReceives.php'
         },
         'columns': [
             { data: 'counter' },
@@ -166,14 +166,14 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/grades.php', $('#packageForm').serialize(), function(data){
+            $.post('php/receive.php', $('#receiveForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
-                    $('#packagesModal').modal('hide');
+                    $('#receiveModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
                     
-                    $.get('grades.php', function(data) {
+                    $.get('receive.php', function(data) {
                         $('#mainContents').html(data);
                         $('#spinnerLoading').hide();
                     });
@@ -190,16 +190,16 @@ $(function () {
         }
     });
 
-    $('#addPackages').on('click', function(){
-        $('#packagesModal').find('#itemType').val('-');
-        $('#packagesModal').find('#grossWeight').val("");
-        $('#packagesModal').find('#lotNo').val("");
-        $('#packagesModal').find('#bTrayWeight').val("");
-        $('#packagesModal').find('#bTrayNo').val("");
-        $('#packagesModal').find('#netWeight').val("");
-        $('#packagesModal').modal('show');
+    $('#addReceive').on('click', function(){
+        $('#receiveModal').find('#itemType').val('-');
+        $('#receiveModal').find('#grossWeight').val("");
+        $('#receiveModal').find('#lotNo').val("");
+        $('#receiveModal').find('#bTrayWeight').val("");
+        $('#receiveModal').find('#bTrayNo').val("");
+        $('#receiveModal').find('#netWeight').val("");
+        $('#receiveModal').modal('show');
         
-        $('#packageForm').validate({
+        $('#receiveForm').validate({
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
@@ -217,17 +217,17 @@ $(function () {
 
 function edit(id){
     $('#spinnerLoading').show();
-    $.post('php/getGrades.php', {userID: id}, function(data){
+    $.post('php/getReceives.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
-            $('#packagesModal').find('#id').val(obj.message.id);
-            $('#packagesModal').find('#code').val(obj.message.class);
-            $('#packagesModal').find('#market').val(obj.message.market);
-            $('#packagesModal').find('#packages').val(obj.message.grade);
-            $('#packagesModal').modal('show');
+            $('#receiveModal').find('#id').val(obj.message.id);
+            $('#receiveModal').find('#code').val(obj.message.class);
+            $('#receiveModal').find('#market').val(obj.message.market);
+            $('#receiveModal').find('#packages').val(obj.message.grade);
+            $('#receiveModal').modal('show');
             
-            $('#packageForm').validate({
+            $('#receiveForm').validate({
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');
@@ -253,12 +253,12 @@ function edit(id){
 
 function deactivate(id){
     $('#spinnerLoading').show();
-    $.post('php/deleteGrades.php', {userID: id}, function(data){
+    $.post('php/deleteReceives.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
             toastr["success"](obj.message, "Success:");
-            $.get('packages.php', function(data) {
+            $.get('receive.php', function(data) {
                 $('#mainContents').html(data);
                 $('#spinnerLoading').hide();
             });
