@@ -33,7 +33,7 @@ else{
                         <div class="row">
                             <div class="col-9"></div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addLots">Add Reasons 新增理由</button>
+                                <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addReasons">Add Reasons 新增理由</button>
                             </div>
                         </div>
                     </div>

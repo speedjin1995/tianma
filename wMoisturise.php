@@ -70,23 +70,78 @@ else{
               </button>
             </div>
             <div class="modal-body">
-              <div class="card-body">
-                <div class="form-group">
-                  <input type="hidden" class="form-control" id="id" name="id">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label for="itemType">Item Types 货品种类</label>
+                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType" readonly>
+                                <option selected="selected">-</option>
+                                <option value="t1">T1</option>
+                                <option value="t3">T3</option>
+                                <option value="t4">T4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G)</label>
+                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="code">Class 级别 *</label>
-                  <input type="text" class="form-control" name="code" id="code" placeholder="Enter Class" required>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="lotNo">Lot No 批号</label>
+                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="market">Market Grade 市场规格 </label>
-                  <input type="text" class="form-control" name="market" id="market" placeholder="Enter Market" >
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
+                            <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="netWeight">Moisturise/Drying Net weight 加湿/风干后净重(G)</label>
+                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="packages">Grade 品规 *</label>
-                  <input type="text" class="form-control" name="packages" id="packages" placeholder="Enter Grade" required>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="qty">Qty 片数 (pcs)</label>
+                            <input type="number" class="form-control" name="moisturiseQty" id="moisturiseQty" placeholder="Enter Box/Tray Weight" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="netWeight">Stock Out Moisture 出库湿度%</label>
+                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" required>
+                        </div>
+                    </div>
                 </div>
-              </div>
+
+                </div>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>

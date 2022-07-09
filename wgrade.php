@@ -97,7 +97,7 @@ else{
                     <div class="col-md-2">
                         <div class="form-group">
                         <label for="itemType">Item Types 货品种类</label>
-                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType" disabled>
+                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType" readonly>
                                 <option selected="selected">-</option>
                                 <option value="t1">T1</option>
                                 <option value="t3">T3</option>
@@ -109,35 +109,35 @@ else{
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="lotNo">Lot No 批号</label>
-                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" disabled>
+                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" readonly>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
-                            <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" disabled>
+                            <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" readonly>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="grossWeight">Gross weight 分级毛重(G)</label>
-                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" disabled>
+                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" readonly>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
-                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" disabled>
+                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="netWeight">Net weight 分级净重(G)</label>
-                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" disabled>
+                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly>
                         </div>
                     </div>
                 </div>
@@ -149,6 +149,32 @@ else{
                 <button style="margin-left:auto;margin-right: 25px;" type="button" class="btn btn-primary add-row">Add New</button>
             </div>
               <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="itemType">Status 状态</label>
+                            <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus" readonly>
+                                <option selected="selected">-</option>
+                                <option value="ACCEPT">Accept 接受</option>
+                                <option value="REJECT">Reject 拒接</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="form-group">
+                        <label for="itemType">Reason 状态</label>
+                            <select class="form-control" style="width: 100%;" id="newReason" name="newReason" readonly>
+                                <option selected="selected">-</option>
+                                <option value="ACCEPT">Accept 接受</option>
+                                <option value="REJECT">Reject 拒接</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="row">
 
                     <div class="col-md-3">
@@ -321,8 +347,8 @@ $(function () {
     });
 
     $(".add-row").click(function(){
-        var size = $("#TableId").find("tr").length;
-
+        var size = $("#TableId").find("tr").length - 1;
+        
         var newLotNo = $("#newLotNo").val();
         var newGrade = $("#newGrade").val();
         var newTrayNo = $("#newTrayNo").val();
@@ -332,15 +358,15 @@ $(function () {
         var newNetWeight = $("#newNetWeight").val();
         var moistureAfGrade = $("#moistureAfGrade").val();
 
-        var markup = "<tr><td>" + 
-        newLotNo + "</td><td>" + 
-        newGrade + "</td><td>" + 
-        newTrayNo + "</td><td>" + 
+        var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
+        newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
+        newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
+        newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
         newTrayWeight + "</td>" +
-        "<td>" + 
-        newGrossWeight + "</td><td>" + 
-        qty + "</td><td>" + 
-        newNetWeight + "</td><td>" + 
+        "<td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
+        newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
+        qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
+        newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
         moistureAfGrade + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
         $("#TableId tbody").append(markup);
     });
