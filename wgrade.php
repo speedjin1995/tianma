@@ -10,6 +10,10 @@ if(!isset($_SESSION['userID'])){
 else{
   $user = $_SESSION['userID'];
 }
+
+$reasons = $db->query("SELECT * FROM reasons WHERE deleted = '0'");
+$grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
+
 ?>
 
 <style>
@@ -167,8 +171,9 @@ else{
                         <label for="itemType">Reason 状态</label>
                             <select class="form-control" style="width: 100%;" id="newReason" name="newReason">
                                 <option selected="selected">-</option>
-                                <option value="ACCEPT">Accept 接受</option>
-                                <option value="REJECT">Reject 拒接</option>
+                                <?php while($rowS=mysqli_fetch_assoc($reasons)){ ?>
+                                    <option value="<?=$rowS['id'] ?>"><?=$rowS['reasons'] ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -187,7 +192,12 @@ else{
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="newGrade">Grade 等级</label>
-                            <input type="text" class="form-control" name="newGrade" id="newGrade" placeholder="Enter Box/Tray No">
+                            <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade">
+                                <option selected="selected">-</option>
+                                <?php while($rowS=mysqli_fetch_assoc($grades)){ ?>
+                                    <option value="<?=$rowS['id'] ?>"><?=$rowS['grade'] ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                     </div>
 

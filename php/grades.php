@@ -13,8 +13,8 @@ if(isset($_POST['code'], $_POST['packages'])){
     $packages = filter_input(INPUT_POST, 'packages', FILTER_SANITIZE_STRING);
     $market = "";
 
-    if($_POST['packages'] != null && $_POST['packages'] != ""){
-        $market = $_POST['packages'];
+    if($_POST['market'] != null && $_POST['market'] != ""){
+        $market = $_POST['market'];
     }
 
     if($_POST['id'] != null && $_POST['id'] != ''){
