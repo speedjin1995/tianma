@@ -303,8 +303,8 @@ to get the desired effect
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link logo-switch">
-      <img src="assets/home_logo.png" alt="Sneakercube Logo" class="brand-image-xl logo-xs">
-      <img src="assets/logo.png" alt="Sneakercube Logo" class="brand-image-xl logo-xl">
+      <img src="assets/home_logo.png" alt="Sneakercube Logo" class="brand-image-xl logo-xl">
+      <img src="assets/logo.png" alt="Sneakercube Logo" class="brand-image-xl logo-xs">
     </a>
 
     <!-- Sidebar -->
@@ -514,7 +514,7 @@ $(function () {
       });
   });
   
-  $("a[href='#billboard']").click();
+  $("a[href='#receive']").click();
 });
 </script>
 </body>
