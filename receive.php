@@ -45,6 +45,7 @@ else{
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
                                     <th>Grading Gross weight <br>分级毛重(G)</th>
                                     <th>Grading Net weight <br>分级净重(G)</th>
+                                    <th>Action <br>行动</th>
                                     
 								</tr>
 							</thead>
@@ -149,10 +150,10 @@ $(function () {
         },
         'columns': [
             { data: 'counter' },
-            { data: 'bTrayNo' },
-            { data: 'bTrayWeight' },
-            { data: 'grossWeight' },
-            { data: 'netWeight' },
+            { data: 'tray_no' },
+            { data: 'tray_weight' },
+            { data: 'gross_weight' },
+            { data: 'net_weight' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {

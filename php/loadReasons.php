@@ -32,7 +32,7 @@ $empQuery = "select * from reasons WHERE deleted = '0'".$searchQuery." order by 
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;
-
+echo $empQuery;
 while($row = mysqli_fetch_assoc($empRecords)) {
     $data[] = array( 
       "counter"=>$counter,

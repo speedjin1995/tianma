@@ -23,12 +23,12 @@ $records = mysqli_fetch_assoc($sel);
 $totalRecords = $records['allcount'];
 
 ## Total number of record with filtering
-$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE".$searchQuery);
+$sel = mysqli_query($db,"select count(*) as allcount from weighing");
 $records = mysqli_fetch_assoc($sel);
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$empQuery = "select * from weighing WHERE".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
+$empQuery = "select * from weighing".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;
@@ -36,13 +36,13 @@ $counter = 1;
 while($row = mysqli_fetch_assoc($empRecords)) {
     $data[] = array( 
       "counter"=>$counter,
+      "tray_no"=>$row['tray_no'],
+      "tray_weight"=>$row['tray_weight'],
+      "gross_weight"=>$row['gross_weight'],
+      "net_weight"=>$row['net_weight'],
       "id"=>$row['id'],
-      "itemType"=>$row['item_types'],
-      "grossWeight"=>$row['gross_weight'],
-      "lotNo"=>$row['lot_no'],
-      "bTrayWeight"=>$row['tray_weight'],
-      "bTrayNo"=>$row['tray_no'],
-      "netWeight"=>$row['net_weight']
+      "lot_no"=>$row['lot_no'],
+      "item_types"=>$row['item_types'],
     );
 
     $counter++;
