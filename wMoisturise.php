@@ -241,6 +241,36 @@ $(function () {
             }
         });
     });
+
+    $('#moisturiseGrossWeight').on('change', function(){
+        var grossWeight = $(this).val();
+        var bTrayNo = 0;
+
+        if($('#moisturiseTrayWeight').val()){
+            bTrayNo = $('#moisturiseTrayWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#moisturiseNetWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#moisturiseNetWeight').val(grossWeight.toFixed(2));
+        }
+    });
+
+    $('#moisturiseTrayWeight').on('change', function(){
+        var grossWeight = 0;
+        var bTrayNo = $(this).val();
+
+        if($('#moisturiseGrossWeight').val()){
+            grossWeight = $('#moisturiseGrossWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#moisturiseNetWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#moisturiseNetWeight').val((0).toFixed(2));
+        }
+    });
 });
 
 function edit(id){

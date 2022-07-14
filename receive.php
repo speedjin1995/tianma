@@ -118,7 +118,7 @@ else{
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="netWeight">Grading Net weight 分级净重(G)</label>
-                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" required>
+                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly required>
                         </div>
                     </div>
                 </div>
@@ -217,6 +217,36 @@ $(function () {
                 $(element).removeClass('is-invalid');
             }
         });
+    });
+
+    $('#grossWeight').on('change', function(){
+        var grossWeight = $(this).val();
+        var bTrayNo = 0;
+
+        if($('#bTrayWeight').val()){
+            bTrayNo = $('#bTrayWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#netWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#netWeight').val(grossWeight.toFixed(2));
+        }
+    });
+
+    $('#bTrayWeight').on('change', function(){
+        var grossWeight = 0;
+        var bTrayNo = $(this).val();
+
+        if($('#grossWeight').val()){
+            grossWeight = $('#grossWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#netWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#netWeight').val((0).toFixed(2));
+        }
     });
 });
 

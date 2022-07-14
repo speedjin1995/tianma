@@ -8,12 +8,17 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['lotsNumber'])){
-    $lotsNumber = filter_input(INPUT_POST, 'lotsNumber', FILTER_SANITIZE_STRING);
+if(isset($_POST['lotNo'], $_POST['bTrayNo'], $_POST['itemType'], $_POST['grossWeight'], $_POST['bTrayWeight'], $_POST['netWeight'])){
+    $itemType = filter_input(INPUT_POST, 'itemType', FILTER_SANITIZE_STRING);
+    $grossWeight = filter_input(INPUT_POST, 'grossWeight', FILTER_SANITIZE_STRING);
+    $lotNo = filter_input(INPUT_POST, 'lotNo', FILTER_SANITIZE_STRING);
+    $bTrayWeight = filter_input(INPUT_POST, 'bTrayWeight', FILTER_SANITIZE_STRING);
+    $bTrayNo = filter_input(INPUT_POST, 'bTrayNo', FILTER_SANITIZE_STRING);
+    $netWeight = filter_input(INPUT_POST, 'netWeight', FILTER_SANITIZE_STRING);
 
-    if($_POST['id'] != null && $_POST['id'] != ''){
-        if ($update_stmt = $db->prepare("UPDATE reasons SET reasons=? WHERE id=?")) {
-            $update_stmt->bind_param('ss', $lotsNumber, $_POST['id']);
+    /*if($_POST['id'] != null && $_POST['id'] != ''){
+        if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=? WHERE id=?")) {
+            $update_stmt->bind_param('sssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
@@ -38,8 +43,8 @@ if(isset($_POST['lotsNumber'])){
         }
     }
     else{
-        if ($insert_stmt = $db->prepare("INSERT INTO reasons (reasons) VALUES (?)")) {
-            $insert_stmt->bind_param('s', $lotsNumber);
+        if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight) VALUES (?, ?, ?, ?, ? ,?)")) {
+            $insert_stmt->bind_param('ssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight);
             
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {
@@ -62,7 +67,7 @@ if(isset($_POST['lotsNumber'])){
                 );
             }
         }
-    }
+    }*/
 }
 else{
     echo json_encode(
