@@ -97,6 +97,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
             <div class="modal-body">
                 <div class="card-body">
                     <input type="hidden" class="form-control" id="id" name="id">
+                    <input type="hidden" class="form-control" id="parentId" name="parentId">
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
@@ -362,10 +363,12 @@ $(function () {
                 var obj = JSON.parse(data);
                 
                 if(obj.status === 'success'){
+                    $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
                     $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
+                    $('#gradesModal').find("#newLotNo").val(lotNo + '/1');
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
@@ -388,10 +391,12 @@ $(function () {
                 var obj = JSON.parse(data);
                 
                 if(obj.status === 'success'){
+                    $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
                     $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
+                    $('#gradesModal').find("#newLotNo").val(lotNo + '/1');
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
@@ -428,7 +433,7 @@ $(function () {
         $("#TableId tbody").append(markup);
 
         // Reset to empty again
-        $("#newLotNo").val("");
+        $("#newLotNo").val($('#lotNo').val() + "/" + (size+2).toString());
         $("#newGrade").val("");
         $("#newTrayNo").val("");
         $("#newTrayWeight").val("");
