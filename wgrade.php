@@ -155,14 +155,13 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                             <div class="form-group">
                             <label for="itemType">Status 状态</label>
                                 <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
-                                    <option selected="selected">-</option>
-                                    <option value="ACCEPT">Accept 接受</option>
+                                    <option selected="selected" value="ACCEPT">Accept 接受</option>
                                     <option value="REJECT">Reject 拒接</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-md-9">
+                        <div id="hideReason" class="col-md-9" hidden>
                             <div class="form-group">
                             <label for="itemType">Reason 状态</label>
                                 <select class="form-control" style="width: 100%;" id="newReason" name="newReason">
@@ -471,6 +470,18 @@ $(function () {
         else{
             $('#newNetWeight').val((0).toFixed(2));
         }
+    });
+
+    $('#newStatus').on('change', function(){
+        if($('#newStatus').val() == 'ACCEPT')
+        {
+            $('#hideReason').attr('hidden', 'hidden');
+            $('#newReason').val('');
+
+        }else{
+            $('#hideReason').removeAttr('hidden');
+        }
+
     });
         
     // Find and remove selected table rows
