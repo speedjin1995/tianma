@@ -290,6 +290,7 @@ function edit(id){
 }
 
 function deactivate(id){
+    alert(id);
     $('#spinnerLoading').show();
     $.post('php/deleteReceives.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
