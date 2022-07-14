@@ -34,7 +34,7 @@ parent_no <> '0' AND weighing.grade=grades.id".$searchQuery." order by ".$column
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;
-
+echo $empQuery;
 while($row = mysqli_fetch_assoc($empRecords)) {
   $data[] = array( 
     "counter"=>$counter,

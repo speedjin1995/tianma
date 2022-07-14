@@ -252,6 +252,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                             <th>Qty <br>片数(pcs)</th>
                             <th>Net weight <br>分级净重(G)</th>
                             <th>Moisture after grading <br>分级后湿度(%)</th>
+                            <th>Status <br>状态</th>
                             <th>Action <br>行动</th>
                         </tr>
                     </thead>
@@ -409,15 +410,50 @@ $(function () {
 
     $(".add-row").click(function(){
         var size = $("#TableId").find("tr").length - 1;
-        
-        var newLotNo = $("#newLotNo").val();
-        var newGrade = $("#newGrade").val();
-        var newTrayNo = $("#newTrayNo").val();
-        var newTrayWeight = $("#newTrayWeight").val();
-        var newGrossWeight = $("#newGrossWeight").val();
-        var qty = $("#qty").val();
-        var newNetWeight = $("#newNetWeight").val();
-        var moistureAfGrade = $("#moistureAfGrade").val();
+
+        var newLotNo;
+        var newGrade;
+        var newTrayNo;
+        var newTrayWeight;
+        var newGrossWeight;
+        var qty;
+        var newNetWeight;
+        var moistureAfGrade;
+        var newStatus;
+        var newReason;
+
+        if($("#newLotNo").val() != null){
+            newLotNo = $("#newLotNo").val();
+        }
+
+        if($("#newGrade").val() != null){
+            newGrade = $("#newGrade").val();
+        }
+        if($("#newTrayNo").val() != null){
+            newTrayNo = $("#newTrayNo").val();
+        }
+        if($("#newTrayWeight").val() != null){
+            newTrayWeight = $("#newTrayWeight").val();
+        }
+        if($("#newGrossWeight").val() != null){
+            newGrossWeight = $("#newGrossWeight").val();
+        }
+
+        if($("#qty").val() != null){
+            qty = $("#qty").val();
+        }
+        if($("#newNetWeight").val() != null){
+            newNetWeight = $("#newNetWeight").val();
+        }
+        if($("#moistureAfGrade").val() != null){
+            moistureAfGrade = $("#moistureAfGrade").val();
+        }
+        if($("#newStatus").val() != null){
+            newStatus = $("#newStatus").val();
+        }
+        if($("#newStatus").val() != null){
+            newReason = $("#newReason").val();
+        }
 
         var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
         newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
@@ -427,7 +463,9 @@ $(function () {
         newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
         qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
         newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-        moistureAfGrade + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+        moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
+        newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
+        newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
         
         $("#TableId tbody").append(markup);
 
@@ -440,6 +478,9 @@ $(function () {
         $("#qty").val("");
         $("#newNetWeight").val("");
         $("#moistureAfGrade").val("");
+        $('#newStatus').val('ACCEPT');
+        $('#hideReason').attr('hidden', 'hidden');
+        $('#newReason').val('');
     });
 
     $('#newGrossWeight').on('change', function(){
