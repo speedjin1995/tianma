@@ -115,12 +115,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-2">
                             <div class="form-group">
                             <label for="itemType">Item Types 货品种类</label>
-                                <select class="form-control" style="width: 100%;" id="itemType" name="itemType" readonly>
-                                    <option selected="selected">-</option>
-                                    <option value="t1">T1</option>
-                                    <option value="t3">T3</option>
-                                    <option value="t4">T4</option>
-                                </select>
+                                <input type="text" class="form-control" name="itemType" id="itemType" placeholder="Enter item type" readonly>
                             </div>
                         </div>
 
@@ -183,14 +178,14 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newLotNo">Lot No 批号</label>
-                                <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No" >
+                                <label for="newLotNo">Lot No 批号 *</label>
+                                <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newGrade">Grade 等级</label>
+                                <label for="newGrade">Grade 等级 *</label>
                                 <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade">
                                     <option selected="selected">-</option>
                                     <?php while($rowS=mysqli_fetch_assoc($grades)){ ?>
@@ -202,14 +197,14 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newTrayNo">Box/Tray No 桶/托盘代号</label>
+                                <label for="newTrayNo">Box/Tray No 桶/托盘代号 *</label>
                                 <input type="text" class="form-control" name="newTrayNo" id="newTrayNo" placeholder="Enter Box/Tray No">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                                <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
                                 <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray No">
                             </div>
                         </div>
@@ -218,29 +213,29 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newGrossWeight">Gross weight 分级毛重(G)</label>
-                                <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight" >
+                                <label for="newGrossWeight">Gross weight 分级毛重(G) *</label>
+                                <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="qty">Qty 片数 (pcs)</label>
-                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter Box/Tray Weight" >
+                                <label for="qty">Qty 片数 (pcs) *</label>
+                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter Box/Tray Weight">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newNetWeight">Net weight 分级净重(G)</label>
-                                <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight" >
+                                <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight" readonly>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)</label>
-                                <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Grading Net weight" >
+                                <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)* </label>
+                                <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Grading Net weight" max="100">
                             </div>
                         </div>
                     </div>
@@ -286,11 +281,18 @@ $(function () {
         'order': [[ 1, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
-            'url':'php/loadGrades.php'
+            'url':'php/loadWgrade.php'
         },
         'columns': [
             { data: 'counter' },
+            { data: 'lot_no' },
             { data: 'grade' },
+            { data: 'tray_no' },
+            { data: 'tray_weight' },
+            { data: 'grading_gross_weight' },
+            { data: 'pieces' },
+            { data: 'grading_net_weight' },
+            { data: 'moisture_after_grading' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {

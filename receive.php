@@ -73,7 +73,7 @@ else{
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                        <label for="itemType">Item Types 货品种类</label>
+                        <label for="itemType">Item Types 货品种类 *</label>
                             <select class="form-control" style="width: 100%;" id="itemType" name="itemType" required>
                                 <option selected="selected">-</option>
                                 <option value="T1">T1</option>
@@ -85,7 +85,7 @@ else{
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="grossWeight">Grading Gross weight 分级毛重(G)</label>
+                            <label for="grossWeight">Grading Gross weight 分级毛重(G) *</label>
                             <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" required>
                         </div>
                     </div>
@@ -94,14 +94,14 @@ else{
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="lotNo">Lot No 批号</label>
-                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" >
+                            <label for="lotNo">Lot No 批号 *</label>
+                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" required>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
                             <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ else{
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
+                            <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
                             <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" required>
                         </div>
                     </div>

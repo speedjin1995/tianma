@@ -16,7 +16,9 @@ if(isset($_POST['lotNo'], $_POST['bTrayNo'], $_POST['itemType'], $_POST['grossWe
     $bTrayNo = filter_input(INPUT_POST, 'bTrayNo', FILTER_SANITIZE_STRING);
     $netWeight = filter_input(INPUT_POST, 'netWeight', FILTER_SANITIZE_STRING);
 
-    /*if($_POST['id'] != null && $_POST['id'] != ''){
+    for()
+
+    if($_POST['id'] != null && $_POST['id'] != ''){
         if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=? WHERE id=?")) {
             $update_stmt->bind_param('sssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $_POST['id']);
             
@@ -67,7 +69,7 @@ if(isset($_POST['lotNo'], $_POST['bTrayNo'], $_POST['itemType'], $_POST['grossWe
                 );
             }
         }
-    }*/
+    }
 }
 else{
     echo json_encode(

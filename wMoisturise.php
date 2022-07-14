@@ -87,8 +87,8 @@ else{
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G)</label>
-                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight">
+                                <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G) *</label>
+                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
                             </div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@ else{
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="netWeight">Moisturise/Drying Net weight 加湿/风干后净重(G)</label>
+                                <label for="netWeight">Moisturise/Drying Net weight 加湿/风干后净重(G) *</label>
                                 <input type="number" class="form-control" name="moisturiseNetWeight" id="moisturiseNetWeight" placeholder="Enter Grading Net weight" required>
                             </div>
                         </div>
@@ -128,14 +128,14 @@ else{
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="qty">Qty 片数 (pcs)</label>
-                                <input type="number" class="form-control" name="moisturiseQty" id="moisturiseQty" placeholder="Enter Moisturise Qty" >
+                                <label for="qty">Qty 片数 (pcs) *</label>
+                                <input type="number" class="form-control" name="moisturiseQty" id="moisturiseQty" placeholder="Enter Moisturise Qty" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="netWeight">Stock Out Moisture 出库湿度%</label>
+                                <label for="netWeight">Stock Out Moisture 出库湿度(%) *</label>
                                 <input type="number" class="form-control" name="stockOutMoisture" id="stockOutMoisture" placeholder="Enter Stock Out Moisture" required>
                             </div>
                         </div>

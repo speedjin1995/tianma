@@ -14,38 +14,42 @@ $searchValue = mysqli_real_escape_string($db,$_POST['search']['value']); // Sear
 ## Search 
 $searchQuery = " ";
 if($searchValue != ''){
-   $searchQuery = " AND tray_no like '%".$searchValue."%'";
+  $searchQuery = " AND tray_no like '%".$searchValue."%'";
 }
 
 ## Total number of records without filtering
-$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no='0'");
+$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no <> '0'");
 $records = mysqli_fetch_assoc($sel);
 $totalRecords = $records['allcount'];
 
 ## Total number of record with filtering
-$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no='0'".$searchQuery);
+$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no <> '0' AND weighing.grade=grades.id");
 $records = mysqli_fetch_assoc($sel);
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$empQuery = "select * from weighing WHERE parent_no = '0'".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
+$empQuery = "select weighing.lot_no, grades.grade, weighing.tray_no, weighing.tray_weight, weighing.grading_gross_weight, 
+weighing.pieces, weighing.grading_net_weight, weighing.id, weighing.moisture_after_grading from weighing, grades WHERE 
+parent_no <> '0' AND weighing.grade=grades.id".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;
 
 while($row = mysqli_fetch_assoc($empRecords)) {
-    $data[] = array( 
-      "counter"=>$counter,
-      "tray_no"=>$row['tray_no'],
-      "tray_weight"=>$row['tray_weight'],
-      "gross_weight"=>$row['gross_weight'],
-      "net_weight"=>$row['net_weight'],
-      "id"=>$row['id'],
-      "lot_no"=>$row['lot_no'],
-      "item_types"=>$row['item_types'],
-    );
+  $data[] = array( 
+    "counter"=>$counter,
+    "lot_no"=>$row['lot_no'],
+    "grade"=>$row['grade'],
+    "tray_no"=>$row['tray_no'],
+    "tray_weight"=>$row['tray_weight'],
+    "grading_gross_weight"=>$row['grading_gross_weight'],
+    "pieces"=>$row['pieces'],
+    "grading_net_weight"=>$row['grading_net_weight'],
+    "id"=>$row['id'],
+    "moisture_after_grading"=>$row['moisture_after_grading'],
+  );
 
-    $counter++;
+  $counter++;
 }
 
 ## Response
