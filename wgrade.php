@@ -178,14 +178,14 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newLotNo">Lot No 批号 *</label>
+                                <label for="newLotNo">Lot No 批号</label>
                                 <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newGrade">Grade 等级 *</label>
+                                <label for="newGrade">Grade 等级</label>
                                 <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade">
                                     <option selected="selected">-</option>
                                     <?php while($rowS=mysqli_fetch_assoc($grades)){ ?>
@@ -197,14 +197,14 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newTrayNo">Box/Tray No 桶/托盘代号 *</label>
+                                <label for="newTrayNo">Box/Tray No 桶/托盘代号</label>
                                 <input type="text" class="form-control" name="newTrayNo" id="newTrayNo" placeholder="Enter Box/Tray No">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
+                                <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) <span style="color:red;">*</span></label>
                                 <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray No">
                             </div>
                         </div>
@@ -213,14 +213,14 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="newGrossWeight">Gross weight 分级毛重(G) *</label>
+                                <label for="newGrossWeight">Gross weight 分级毛重(G) <span style="color:red;">*</span></label>
                                 <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="qty">Qty 片数 (pcs) *</label>
+                                <label for="qty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
                                 <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter Box/Tray Weight">
                             </div>
                         </div>
@@ -234,7 +234,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)* </label>
+                                <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)<span style="color:red;">*</span></label>
                                 <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Grading Net weight" max="100">
                             </div>
                         </div>
@@ -396,7 +396,8 @@ $(function () {
                     $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newLotNo").val(lotNo + '/1');
+                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    $('#gradesModal').find("#newLotNo").val(lotNo);
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
@@ -422,65 +423,51 @@ $(function () {
         var newStatus;
         var newReason;
 
-        if($("#newLotNo").val() != null){
-            newLotNo = $("#newLotNo").val();
-        }
+        if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != "" 
+        && $("#qty").val() != "" && $("#newNetWeight").val() != ""
+        && $("#moistureAfGrade").val() != ""){
 
-        if($("#newGrade").val() != null){
-            newGrade = $("#newGrade").val();
-        }
-        if($("#newTrayNo").val() != null){
-            newTrayNo = $("#newTrayNo").val();
-        }
-        if($("#newTrayWeight").val() != null){
-            newTrayWeight = $("#newTrayWeight").val();
-        }
-        if($("#newGrossWeight").val() != null){
-            newGrossWeight = $("#newGrossWeight").val();
-        }
+                newLotNo = $("#newLotNo").val();
+                newGrade = $("#newGrade").val();
+                newTrayNo = $("#newTrayNo").val();
+                newTrayWeight = $("#newTrayWeight").val();
+                newGrossWeight = $("#newGrossWeight").val();
+                qty = $("#qty").val();
+                newNetWeight = $("#newNetWeight").val();
+                moistureAfGrade = $("#moistureAfGrade").val();
+                newStatus = $("#newStatus").val();
+                newReason = $("#newReason").val();
 
-        if($("#qty").val() != null){
-            qty = $("#qty").val();
-        }
-        if($("#newNetWeight").val() != null){
-            newNetWeight = $("#newNetWeight").val();
-        }
-        if($("#moistureAfGrade").val() != null){
-            moistureAfGrade = $("#moistureAfGrade").val();
-        }
-        if($("#newStatus").val() != null){
-            newStatus = $("#newStatus").val();
-        }
-        if($("#newStatus").val() != null){
-            newReason = $("#newReason").val();
-        }
 
-        var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
-        newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
-        newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
-        newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
-        newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
-        newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
-        qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
-        newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-        moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
-        newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-        newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-        
-        $("#TableId tbody").append(markup);
+            var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
+            newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
+            newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
+            newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
+            newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
+            newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
+            qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
+            newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
+            moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
+            newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
+            newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+            
+            $("#TableId tbody").append(markup);
 
-        // Reset to empty again
-        $("#newLotNo").val($('#lotNo').val() + "/" + (size+2).toString());
-        $("#newGrade").val("");
-        $("#newTrayNo").val("");
-        $("#newTrayWeight").val("");
-        $("#newGrossWeight").val("");
-        $("#qty").val("");
-        $("#newNetWeight").val("");
-        $("#moistureAfGrade").val("");
-        $('#newStatus').val('ACCEPT');
-        $('#hideReason').attr('hidden', 'hidden');
-        $('#newReason').val('');
+            // Reset to empty again
+            $("#newLotNo").val($('#lotNo').val());
+            $("#newGrade").val("");
+            $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
+            $("#newTrayWeight").val("");
+            $("#newGrossWeight").val("");
+            $("#qty").val("");
+            $("#newNetWeight").val("");
+            $("#moistureAfGrade").val("");
+            $('#newStatus').val('ACCEPT');
+            $('#hideReason').attr('hidden', 'hidden');
+            $('#newReason').val('');
+        }else{
+            alert("Please Fill in all the required field!");
+        }
     });
 
     $('#newGrossWeight').on('change', function(){
