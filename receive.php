@@ -30,7 +30,10 @@ else{
 				<div class="card">
 					<div class="card-header">
                         <div class="row">
-                            <div class="col-9"></div>
+                            <div class="col-6"></div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-block bg-gradient-success btn-sm" id="excelSearch"><i class="fas fa-file-excel"></i>Export Excel</button>
+                            </div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addReceive">Add Receive 新增验收</button>
                             </div>
@@ -46,7 +49,6 @@ else{
                                     <th>Grading Gross weight <br>分级毛重(G)</th>
                                     <th>Grading Net weight <br>分级净重(G)</th>
                                     <th>Action <br>行动</th>
-                                    
 								</tr>
 							</thead>
 						</table>
