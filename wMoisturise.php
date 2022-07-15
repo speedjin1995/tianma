@@ -30,9 +30,12 @@ else{
 				<div class="card">
 					<div class="card-header">
                         <div class="row">
-                            <div class="col-6"></div>
+                            <div class="col-3"></div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-success btn-sm" id="excelSearch"><i class="fas fa-file-excel"></i>Export Excel</button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-block bg-gradient-info btn-sm" id="scanMoistures">Scan 扫描</button>
                             </div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addMoistures">Add Moisturise/Drying 新增风干/加湿</button>
@@ -61,6 +64,7 @@ else{
 		</div><!-- /.row -->
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
+<input type="text" id="barcodeScan">
 
 <div class="modal fade" id="moistureModal">
     <div class="modal-dialog modal-xl">
@@ -211,6 +215,35 @@ $(function () {
                 }
             });
         }
+    });
+
+    $('#scanMoistures').on('click', function(){
+        $('#barcodeScan').trigger('focus');
+    });
+
+    $('#barcodeScan').on('change', function(){
+        $('#spinnerLoading').show();
+        var url = this.val();
+        this.val('');
+
+        $.get(url, function(data){
+            var obj = JSON.parse(data);
+            
+            if(obj.status === 'success'){
+                $('#moistureModal').find('#id').val(obj.message.id);
+                $('#moistureModal').find('#moisturiselotNo').val(obj.message.lotNo);
+                $('#moistureModal').find('#moisturiseTrayNo').val(obj.message.bTrayNo);
+                $('#moistureModal').find('#moisturiselotNo').trigger('change');
+                $('#moistureModal').modal('show');
+            }
+            else if(obj.status === 'failed'){
+                toastr["error"](obj.message, "Failed:");
+            }
+            else{
+                toastr["error"]("Something wrong when activate", "Failed:");
+            }
+            $('#spinnerLoading').hide();
+        });
     });
 
     $('#addMoistures').on('click', function(){

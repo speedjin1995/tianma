@@ -55,9 +55,12 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 				<div class="card">
 					<div class="card-header">
                         <div class="row">
-                            <div class="col-6"></div>
+                            <div class="col-3"></div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-success btn-sm" id="excelSearch"><i class="fas fa-file-excel"></i>Export Excel</button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-block bg-gradient-info btn-sm" id="scanGrades">Scan 扫描</button>
                             </div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addGrades">Add Grade 新增分级</button>
@@ -86,6 +89,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 		</div><!-- /.row -->
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
+<input type="text" id="barcodeScan">
 
 <div class="modal fade" id="gradesModal">
     <div class="modal-dialog modal-xl">
@@ -335,6 +339,35 @@ $(function () {
                 }
             });
         }
+    });
+
+    $('#scanGrades').on('click', function(){
+        $('#barcodeScan').trigger('focus');
+    });
+
+    $('#barcodeScan').on('change', function(){
+        $('#spinnerLoading').show();
+        var url = this.val();
+        this.val('');
+
+        $.get(url, function(data){
+            var obj = JSON.parse(data);
+            
+            if(obj.status === 'success'){
+                $('#gradesModal').find('#parentId').val(obj.message.id);
+                $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
+                $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
+                $('#gradesModal').find('#lotNo').trigger('change');
+                $('#gradesModal').modal('show');
+            }
+            else if(obj.status === 'failed'){
+                toastr["error"](obj.message, "Failed:");
+            }
+            else{
+                toastr["error"]("Something wrong when activate", "Failed:");
+            }
+            $('#spinnerLoading').hide();
+        });
     });
 
     $('#addGrades').on('click', function(){

@@ -1,6 +1,6 @@
 <?php
-require_once 'php/db_connect.php';
-include 'php/phpqrcode/qrlib.php';
+require_once 'db_connect.php';
+include 'phpqrcode/qrlib.php';
  
 // Filter the excel data 
 function filterData(&$str){ 

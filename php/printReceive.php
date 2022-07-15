@@ -27,7 +27,7 @@ if(isset($_POST['userID'])){
                 $result = $select_stmt->get_result();
                     
                 if ($row = $result->fetch_assoc()) {
-                    $text = "https://speedjin.com/synctronix/qrprotrait.php?id=".$id;
+                    $text = "php/qrprotrait.php?id=".$id;
                     $path = 'receivesLabel/';
                     $file = $path.uniqid().".png";
                       
