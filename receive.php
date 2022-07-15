@@ -157,7 +157,7 @@ $(function () {
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
-                    return '<div class="row"><div class="col-3"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
+                    return '<div class="row"><div class="col-3"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3"><button type="button" id="print'+data+'" onclick="print('+data+')" class="btn btn-info btn-sm"><i class="fas fa-print"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
                 }
             }
         ],
@@ -286,6 +286,28 @@ function edit(id){
             toastr["error"]("Something wrong when activate", "Failed:");
         }
         $('#spinnerLoading').hide();
+    });
+}
+
+function print(id){
+    $.post('php/printReceive.php', {userID: id}, function(data){
+        var obj = JSON.parse(data);
+
+        if(obj.status === 'success'){
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write(obj.message);
+            printWindow.document.close();
+            setTimeout(function(){
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+        else if(obj.status === 'failed'){
+            toastr["error"](obj.message, "Failed:");
+        }
+        else{
+            toastr["error"]("Something wrong when activate", "Failed:");
+        }
     });
 }
 

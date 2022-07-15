@@ -23,12 +23,14 @@ $records = mysqli_fetch_assoc($sel);
 $totalRecords = $records['allcount'];
 
 ## Total number of record with filtering
-$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no <> '0'".$searchQuery);
+$sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no <> '0' AND weighing.grade=grades.id".$searchQuery);
 $records = mysqli_fetch_assoc($sel);
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$empQuery = "select * from weighing WHERE parent_no <> '0'".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
+$empQuery = "select weighing.id, weighing.lot_no, grades.grade, weighing.tray_no, weighing.tray_weight, weighing.moisture_gross_weight,
+weighing.pieces, weighing.moisture_net_weight, weighing.moisture_after_moisturing from weighing, grades 
+WHERE parent_no <> '0' AND weighing.grade=grades.id".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;

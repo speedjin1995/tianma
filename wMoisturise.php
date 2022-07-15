@@ -48,7 +48,7 @@ else{
                                     <th>Grading Gross Weight <br>分级毛重(G)</th>
                                     <th>Qty <br>片数(PCS)</th>
                                     <th>Grading Net Weight <br>分级净重(G)</th>
-                                    <th>Moisture after grading <br>分级后湿度(%)</th> 
+                                    <th>Moisture after moisturing <br>分级后湿度(%)</th> 
 								</tr>
 							</thead>
 						</table>
@@ -64,7 +64,7 @@ else{
       <div class="modal-content">
         <form role="form" id="moistureForm">
             <div class="modal-header">
-              <h4 class="modal-title">Add Grades 新增品规</h4>
+              <h4 class="modal-title">Add Moisture 新增品规</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -76,12 +76,7 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="itemType">Item Types 货品种类</label>
-                                <select class="form-control" style="width: 100%;" id="moisturiseItemType" name="moisturiseItemType" readonly>
-                                    <option selected="selected">-</option>
-                                    <option value="T1">T1</option>
-                                    <option value="T3">T3</option>
-                                    <option value="T4">T4</option>
-                                </select>
+                                <input type="text" class="form-control" name="moisturiseItemType" id="moisturiseItemType" placeholder="Enter item type" readonly>
                             </div>
                         </div>
 
@@ -97,7 +92,7 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="lotNo">Lot No 批号</label>
-                                <input type="text" class="form-control" name="moisturiselotNo" id="moisturiselotNo" placeholder="Enter Lot No" readonly>
+                                <input type="text" class="form-control" name="moisturiselotNo" id="moisturiselotNo" placeholder="Enter Lot No" required>
                             </div>
                         </div>
 
@@ -113,14 +108,14 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
-                                <input type="text" class="form-control" name="moisturiseTrayNo" id="moisturiseTrayNo" placeholder="Enter Box/Tray No" readonly>
+                                <input type="text" class="form-control" name="moisturiseTrayNo" id="moisturiseTrayNo" placeholder="Enter Box/Tray No" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="netWeight">Moisturise/Drying Net weight 加湿/风干后净重(G) *</label>
-                                <input type="number" class="form-control" name="moisturiseNetWeight" id="moisturiseNetWeight" placeholder="Enter Grading Net weight" required>
+                                <input type="number" class="form-control" name="moisturiseNetWeight" id="moisturiseNetWeight" placeholder="Enter Grading Net weight" readonly>
                             </div>
                         </div>
                     </div>
@@ -179,7 +174,7 @@ $(function () {
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
-                    return '<div class="row"><div class="col-3"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
+                    return '<div class="row"><div class="col-3"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3"><button type="button" id="print'+data+'" onclick="print('+data+')" class="btn btn-info btn-sm"><i class="fas fa-print"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
                 }
             }
         ],
@@ -240,6 +235,55 @@ $(function () {
                 $(element).removeClass('is-invalid');
             }
         });
+    });
+
+    $('#moisturiselotNo').on('change', function(){
+        if($(this).val() && $('#moisturiseTrayNo').val()){
+            $('#spinnerLoading').show();
+            var lotNo = $(this).val();
+            var bTrayNo = $('#moisturiseTrayNo').val();
+
+            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+                var obj = JSON.parse(data);
+                
+                if(obj.status === 'success'){
+                    $('#moistureModal').find('#id').val(obj.message.id);
+                    $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemType);
+                    $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.tray_weight);
+                }
+                else if(obj.status === 'failed'){
+                    toastr["error"](obj.message, "Failed:");
+                }
+                else{
+                    toastr["error"]("Something wrong when activate", "Failed:");
+                }
+                $('#spinnerLoading').hide();
+            });
+        }
+    });
+    
+    $('#moisturiseTrayNo').on('change', function(){
+        if($(this).val() && $('#moisturiselotNo').val()){
+            $('#spinnerLoading').show();
+            var lotNo = $('#moisturiselotNo').val();
+            var bTrayNo = $(this).val();
+
+            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+                var obj = JSON.parse(data);
+                
+                if(obj.status === 'success'){
+                    $('#moistureModal').find('#id').val(obj.message.id);
+                    $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemType);
+                    $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.tray_weight);
+                }
+                else if(obj.status === 'failed'){
+                    toastr["error"](obj.message, "Failed:");
+                }
+                else{
+                    toastr["error"]("Something wrong when activate", "Failed:");
+                }
+            });
+        }
     });
 
     $('#moisturiseGrossWeight').on('change', function(){
@@ -306,6 +350,28 @@ function edit(id){
             toastr["error"]("Something wrong when activate", "Failed:");
         }
         $('#spinnerLoading').hide();
+    });
+}
+
+function print(id){
+    $.post('php/printMosturing.php', {userID: id}, function(data){
+        var obj = JSON.parse(data);
+
+        if(obj.status === 'success'){
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write(obj.message);
+            printWindow.document.close();
+            setTimeout(function(){
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+        else if(obj.status === 'failed'){
+            toastr["error"](obj.message, "Failed:");
+        }
+        else{
+            toastr["error"]("Something wrong when activate", "Failed:");
+        }
     });
 }
 

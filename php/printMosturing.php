@@ -12,7 +12,9 @@ function filterData(&$str){
 if(isset($_POST['userID'])){
     $id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
 
-    if ($select_stmt = $db->prepare("SELECT * FROM weighing, grades WHERE weighing.grade=grades.id AND id=?")) {
+    if ($select_stmt = $db->prepare("select weighing.lot_no, grades.grade, weighing.tray_no, weighing.tray_weight, 
+    weighing.moisture_gross_weight, weighing.pieces, weighing.moisture_net_weight, weighing.moisture_after_moisturing 
+    from weighing, grades WHERE parent_no <> '0' AND weighing.grade=grades.id AND weighing.id=?")) {
             $select_stmt->bind_param('s', $id);
 
             // Execute the prepared query.
