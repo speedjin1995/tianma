@@ -80,6 +80,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                                     <th>Qty <br>片数(PCS)</th>
                                     <th>Grading Net Weight <br>分级净重(G)</th>
                                     <th>Moisture after grading <br>分级后湿度(%)</th>
+                                    <th>Action <br>行动</th>
 								</tr>
 							</thead>
 						</table>
