@@ -280,7 +280,7 @@ $(function () {
             var lotNo = $(this).val();
             var bTrayNo = $('#moisturiseTrayNo').val();
 
-            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+            $.post('php/getGradingInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
                 var obj = JSON.parse(data);
                 
                 if(obj.status === 'success'){
@@ -305,7 +305,7 @@ $(function () {
             var lotNo = $('#moisturiselotNo').val();
             var bTrayNo = $(this).val();
 
-            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+            $.post('php/getGradingInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
                 var obj = JSON.parse(data);
                 
                 if(obj.status === 'success'){
