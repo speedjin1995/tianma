@@ -44,7 +44,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
             array(
                 "status"=> "failed", 
                 "message"=> "No ID for records" 
-            );
+            )
         );
     }
 }

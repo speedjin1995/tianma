@@ -171,7 +171,7 @@ $(function () {
         },
         'columns': [
             { data: 'counter' },
-            { data: 'lotNo' },
+            { data: 'lot_no' },
             { data: 'grade' },
             { data: 'bTrayNo' },
             { data: 'bTrayWeight' },
