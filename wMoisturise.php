@@ -194,7 +194,7 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
-            $.post('php/moisturise.php', $('#moistureForm').serialize(), function(data){
+            $.post('php/moisture.php', $('#moistureForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
