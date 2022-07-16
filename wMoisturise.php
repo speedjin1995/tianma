@@ -89,8 +89,8 @@ else{
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G) *</label>
-                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
+                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                                <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
                             </div>
                         </div>
                     </div>
@@ -105,8 +105,8 @@ else{
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
-                                <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                                <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G) *</label>
+                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
                             </div>
                         </div>
                     </div>

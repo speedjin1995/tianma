@@ -162,8 +162,8 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                             <div class="form-group">
                             <label for="itemType">Status 状态</label>
                                 <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
-                                    <option selected="selected" value="ACCEPT">Accept 接受</option>
-                                    <option value="REJECT">Reject 拒接</option>
+                                    <option selected="selected" value="PASSED">Passed 合格</option>
+                                    <option value="REJECT">Reject 不合格</option>
                                 </select>
                             </div>
                         </div>

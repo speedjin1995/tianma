@@ -46,8 +46,8 @@ else{
 									<th>No. <br>排号</th>
                                     <th>Box/Tray No <br>桶/托盘代号</th>
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
-                                    <th>Grading Gross weight <br>分级毛重(G)</th>
-                                    <th>Grading Net weight <br>分级净重(G)</th>
+                                    <th>Receive Gross weight <br>验收毛重(G)</th>
+                                    <th>Receive Net weight <br>验收净重(G)</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -87,8 +87,8 @@ else{
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="grossWeight">Grading Gross weight 分级毛重(G) *</label>
-                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" required>
+                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
+                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
                         </div>
                     </div>
                 </div>
@@ -103,8 +103,8 @@ else{
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
-                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
+                            <label for="grossWeight">Receive Gross Weight 验收毛重(G) *</label>
+                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" required>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@ else{
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="netWeight">Grading Net weight 分级净重(G)</label>
+                            <label for="netWeight">Receive Net weight 验收净重(G)</label>
                             <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly required>
                         </div>
                     </div>
