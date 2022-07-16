@@ -319,6 +319,7 @@ $(function () {
                 else{
                     toastr["error"]("Something wrong when activate", "Failed:");
                 }
+                $('#spinnerLoading').hide();
             });
         }
     });
