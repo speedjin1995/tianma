@@ -101,12 +101,12 @@ if(isset($_POST['userID'])){
                     </style>
                 </head>
                 <body>
-                    <table style="width:80%">
+                    <table style="width: 640px;height: 27px;">
                         <tr>
-                            <td style="width: 20%;">
-                                <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="30%" class="center"/><hr>
+                            <td style="width: 30%;">
+                                <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/><hr>
                             </td>
-                            <td style="width: 60%;">
+                            <td style="width: 70%;">
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
