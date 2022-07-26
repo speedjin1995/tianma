@@ -213,7 +213,10 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) <span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray No">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray Weight">
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -229,7 +232,7 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="qty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter Box/Tray Weight">
+                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter qty">
                             </div>
                         </div>
 
@@ -243,7 +246,16 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)<span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Grading Net weight" max="100">
+                                <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Moisture after grading" max="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="remark">Remark 备注</label>
+                                <textarea class="form-control" name="remark" id="remark" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -539,7 +551,7 @@ $(function () {
     });
 
     $('#newStatus').on('change', function(){
-        if($('#newStatus').val() == 'ACCEPT')
+        if($('#newStatus').val() == 'PASSED')
         {
             $('#hideReason').attr('hidden', 'hidden');
             $('#newReason').val('');

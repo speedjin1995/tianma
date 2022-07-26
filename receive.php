@@ -11,6 +11,27 @@ else{
   $user = $_SESSION['userID'];
 }
 ?>
+
+<style>
+    @media screen and (min-width: 676px) {
+        .modal-dialog {
+          max-width: 1600px; /* New width for default modal */
+        }
+    }
+
+    table{
+        width: 100%;
+        margin-bottom: 20px;
+		border-collapse: collapse;
+    }
+    table, th, td{
+        border: 1px solid #cdcdcd;
+    }
+    table th, table td{
+        padding: 10px;
+        text-align: left;
+    }
+</style>
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -44,6 +65,7 @@ else{
 							<thead>
 								<tr>
 									<th>No. <br>排号</th>
+                                    <th>Lot No <br>批号</th>
                                     <th>Box/Tray No <br>桶/托盘代号</th>
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
                                     <th>Receive Gross weight <br>验收毛重(G)</th>
@@ -70,65 +92,103 @@ else{
               </button>
             </div>
             <div class="modal-body">
-              <div class="card-body">
-                <input type="hidden" class="form-control" id="id" name="id">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                        <label for="itemType">Item Types 货品种类 *</label>
-                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType" required>
-                                <option selected="selected">-</option>
-                                <option value="T1">T1</option>
-                                <option value="T3">T3</option>
-                                <option value="T4">T4</option>
-                            </select>
+                <div class="card-body">
+                    <input type="hidden" class="form-control" id="id" name="id">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="itemType">Item Types 货品种类 *</label>
+                                <select class="form-control" style="width: 100%;" id="itemType" name="itemType">
+                                    <option selected="selected">-</option>
+                                    <option value="T1">T1</option>
+                                    <option value="T3">T3</option>
+                                    <option value="T4">T4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="lotNo">Lot No 批号 *</label>
+                                <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
-                            <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <h4>Add Receiving 添加验收</h4>
+                    <button style="margin-left:auto;margin-right: 25px;" type="button" class="btn btn-primary add-row">Add New</button>
+                </div> 
+
+                <div class="card-body">
+                    <input type="hidden" class="form-control" id="id" name="id">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
+                                <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
+                            </div>
                         </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
+                                <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight">
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="netWeight">Net weight 验收净重(G)</label>
+                                <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="moistureValue">Moisture Value 水分值</label>
+                                <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value">
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="lotNo">Lot No 批号 *</label>
-                            <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="grossWeight">Receive Gross Weight 验收毛重(G) *</label>
-                            <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
-                            <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" required>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="netWeight">Receive Net weight 验收净重(G)</label>
-                            <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly required>
-                        </div>
-                    </div>
-                </div>
-              </div>
+                <table id="TableId">
+                    <thead>
+                        <tr>
+                            <th>Item Types <br>货品种类</th>
+                            <th>Lot No <br>批号</th>
+                            <th>Box/Tray No <br>桶/托盘代号</th>
+                            <th>Box/Tray Weight <br>桶/托盘重量(G)</th>
+                            <th>Gross weight <br>分级毛重(G)</th>
+                            <th>Net weight <br>分级净重(G)</th>
+                            <th>Moisture Value <br>水分值</th>
+                            <th>Action <br>行动</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
-              <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+                    <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
             </div>
         </form>
       </div>
@@ -152,6 +212,7 @@ $(function () {
         },
         'columns': [
             { data: 'counter' },
+            { data: 'lot_no' },
             { data: 'tray_no' },
             { data: 'tray_weight' },
             { data: 'gross_weight' },
@@ -194,6 +255,96 @@ $(function () {
                 }
             });
         }
+    });
+
+    $(".add-row").click(function(){
+        var size = $("#TableId").find("tr").length - 1;
+
+        var itemType;
+        var lotNo;
+        var bTrayNo;
+        var grossWeight;
+        var bTrayWeight;
+        var netWeight;
+        var moistureValue;
+
+        if($("#itemType").val() == "T1" || $("#itemType").val() == "T3")
+        {
+            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "")
+            {
+                itemType = $("#itemType").val();
+                lotNo = $("#lotNo").val();
+                bTrayNo = $("#bTrayNo").val();
+                grossWeight = $("#grossWeight").val();
+                bTrayWeight = $("#bTrayWeight").val();
+                netWeight = $("#netWeight").val();
+                moistureValue = $("#moistureValue").val();
+
+                var markup = "<tr><td><input type='hidden' name='itemType["+size+"]' value='"+itemType+"' />" +
+                itemType + "</td><td><input type='hidden' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
+                lotNo + "</td><td><input type='hidden' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
+                bTrayNo + "</td><td><input type='hidden' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
+                grossWeight + "</td><td><input type='hidden' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
+                bTrayWeight + "</td><td><input type='hidden' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
+                netWeight + "</td><td><input type='hidden' name='moistureValue["+size+"]' value='"+moistureValue+"' />" + 
+                moistureValue + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+                $("#TableId tbody").append(markup);
+
+                // Reset to empty again
+                $("#itemType").val($('#lotNo').val());
+                $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
+                $("#lotNo").val("");
+                $("#grossWeight").val("");
+                $("#bTrayWeight").val("");
+                $("#netWeight").val("");
+                $("#moistureValue").val("");
+            }else{
+                alert("Please Fill in all the required field!");
+            }
+
+    }else{
+
+        if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "" 
+            && $("#bTrayWeight").val() != "" && $("#bTrayNo").val() != "")
+            {
+                itemType = $("#itemType").val();
+                lotNo = $("#lotNo").val();
+                bTrayNo = $("#bTrayNo").val();
+                grossWeight = $("#grossWeight").val();
+                bTrayWeight = $("#bTrayWeight").val();
+                netWeight = $("#netWeight").val();
+                moistureValue = $("#moistureValue").val();
+
+                var markup = "<tr><td><input type='hidden' name='itemType["+size+"]' value='"+itemType+"' />" +
+                itemType + "</td><td><input type='hidden' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
+                lotNo + "</td><td><input type='hidden' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
+                bTrayNo + "</td><td><input type='hidden' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
+                grossWeight + "</td><td><input type='hidden' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
+                bTrayWeight + "</td><td><input type='hidden' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
+                netWeight + "</td><td><input type='hidden' name='moistureValue["+size+"]' value='"+moistureValue+"' />" + 
+                moistureValue + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+                $("#TableId tbody").append(markup);
+
+                // Reset to empty again
+                $("#itemType").val($('#lotNo').val());
+                $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
+                $("#lotNo").val("");
+                $("#grossWeight").val("");
+                $("#bTrayWeight").val("");
+                $("#netWeight").val("");
+                $("#moistureValue").val("");
+
+        }else{
+                alert("Please Fill in all the required field!");
+            }
+    }
+    });
+
+    // Find and remove selected table rows
+    $("#TableId tbody").on('click', 'button[name^="delete"]', function () {
+        $(this).parents("tr").remove();
     });
 
     $('#addReceive').on('click', function(){
@@ -248,6 +399,19 @@ $(function () {
         }
         else{
             $('#netWeight').val((0).toFixed(2));
+        }
+    });
+
+    $('#itemType').on('change', function(){
+        var itemType = $(this).val();
+
+        if(itemType == 'T3' || itemType == 'T1'){
+            $("#bTrayWeight").removeAttr("required");
+            $("#bTrayNo").removeAttr("required");
+        }
+        else{
+            $("#bTrayWeight").attr("required","required");
+            $("#bTrayNo").attr("required","required");
         }
     });
 });

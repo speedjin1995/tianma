@@ -362,9 +362,14 @@ function edit(id){
         
         if(obj.status === 'success'){
             $('#moistureModal').find('#id').val(obj.message.id);
-            $('#moistureModal').find('#code').val(obj.message.class);
-            $('#moistureModal').find('#market').val(obj.message.market);
-            $('#moistureModal').find('#packages').val(obj.message.grade);
+            $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemType);
+            $('#moistureModal').find('#moisturiseGrossWeight').val(obj.message.moisture_gross_weight);
+            $('#moistureModal').find('#moisturiselotNo').val(obj.message.lotNo);
+            $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.bTrayWeight);
+            $('#moistureModal').find('#moisturiseTrayNo').val(obj.message.bTrayNo);
+            $('#moistureModal').find('#moisturiseNetWeight').val(obj.message.moisture_net_weight);
+            $('#moistureModal').find('#moisturiseQty').val(obj.message.pieces);
+            $('#moistureModal').find('#stockOutMoisture').val(obj.message.moisture_after_moisturing);
             $('#moistureModal').modal('show');
             
             $('#moistureForm').validate({
