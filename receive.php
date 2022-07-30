@@ -238,7 +238,7 @@ else{
                                 <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
-                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <button type="button" class="btn btn-primary" id="editTrayWeightBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@ else{
                                 <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight" required>                                    
-                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <button type="button" class="btn btn-primary" id="editGrossWeightBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -526,6 +526,22 @@ $(function () {
     $('#lotNo').on('change', function(){
         var size = $("#TableId").find("tr").length;
         $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size).toString(), 3));
+    });
+
+    $('#grossWeightSyncBtn').on('click', function(){
+        
+    });
+
+    $('#trayWeightSyncBtn').on('click', function(){
+        
+    });
+
+    $('#editTrayWeightBtn').on('click', function(){
+        
+    });
+
+    $('#editGrossWeightBtn').on('click', function(){
+        
     });
 });
 
