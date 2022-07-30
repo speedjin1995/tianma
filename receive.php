@@ -526,7 +526,7 @@ $(function () {
     $('#lotNo').on('change', function(){
         if($("#bTrayNo").val() == null || $("#bTrayNo").val() == ""){
             var size = $("#TableId").find("tr").length;
-            $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+1).toString());
+            $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size).toString());
         }
     });
 });
