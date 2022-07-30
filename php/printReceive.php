@@ -101,6 +101,11 @@ if(isset($_POST['userID'])){
                 <body>
                     <table style="width: 640px;height: 27px;">
                         <tr>
+                            <td colspan="2">
+                                <h2 style="text-align: center;">Receive Labels</h2>
+                            </td>
+                        </tr>
+                        <tr>
                             <td style="width: 30%;">
                                 <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/><hr>
                             </td>

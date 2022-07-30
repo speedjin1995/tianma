@@ -232,9 +232,14 @@ $(function () {
             
             if(obj.status === 'success'){
                 $('#moistureModal').find('#id').val(obj.message.id);
+                $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemTypes);
+                $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.trayWeight);
                 $('#moistureModal').find('#moisturiselotNo').val(obj.message.lotNo);
+                $('#moistureModal').find('#moisturiseGrossWeight').val(obj.message.moistureGrossWeight);
                 $('#moistureModal').find('#moisturiseTrayNo').val(obj.message.bTrayNo);
-                $('#moistureModal').find('#moisturiselotNo').trigger('change');
+                $('#moistureModal').find('#moisturiseNetWeight').val(obj.message.moistureNetWeight);
+                $('#moistureModal').find('#moisturiseQty').val(obj.message.pieces);
+                $('#moistureModal').find('#stockOutMoisture').val(obj.message.moistureAfterMoisturing);
                 $('#moistureModal').modal('show');
             }
             else if(obj.status === 'failed'){
