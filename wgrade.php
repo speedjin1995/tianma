@@ -225,7 +225,10 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newGrossWeight">Gross weight 分级毛重(G) <span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
+                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
 
@@ -239,7 +242,7 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newNetWeight">Net weight 分级净重(G)</label>
-                                <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight" readonly>
+                                <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight">
                             </div>
                         </div>
 
@@ -325,14 +328,17 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-6">
                             <div class="form-group">
                             <label for="editItemType">Item Types 货品种类</label>
-                                <input type="text" class="form-control" name="editItemType" id="editItemType" placeholder="Enter item type" readonly>
+                                <input type="text" class="form-control" name="editItemType" id="editItemType" placeholder="Enter item type">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="editGrossWeight">Gross weight 分级毛重(G)</label>
-                                <input type="number" class="form-control" name="editGrossWeight" id="editGrossWeight" placeholder="Enter Grading Gross weight" readonly>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="editGrossWeight" id="editGrossWeight" placeholder="Enter Grading Gross weight">
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,7 +347,10 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="editBTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
-                                <input type="number" class="form-control" name="editBTrayWeight" id="editBTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="editBTrayWeight" id="editBTrayWeight" placeholder="Enter Box/Tray Weight">
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
 
