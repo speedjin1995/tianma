@@ -37,6 +37,15 @@ if($_GET["id"] != null && $_GET["id"] != ''){
                 $message['moistureNetWeight'] = $row['moisture_net_weight'];
                 $message['pieces'] = $row['pieces'];
                 $message['moistureAfterMoisturing'] = $row['moisture_after_moisturing'];
+                $message['parentNo'] = $row['parent_no'];
+                $message['grossWeight'] = $row['gross_weight'];
+                $message['netWeight'] = $row['net_weight'];
+                $message['afterReceiving'] = $row['moisture_after_receiving'];
+                $message['gradingGrossWeight'] = $row['grading_gross_weight'];
+                $message['gradingNetWeight'] = $row['grading_net_weight'];
+                $message['moistureAfterGrading'] = $row['moisture_after_grading'];
+                $message['grade'] = $row['grade'];
+                $message['remark'] = $row['remark'];
                 
                 echo json_encode(
                     array(

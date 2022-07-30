@@ -51,9 +51,12 @@ else{
 				<div class="card">
 					<div class="card-header">
                         <div class="row">
-                            <div class="col-6"></div>
+                            <div class="col-3"></div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-success btn-sm" id="excelSearch"><i class="fas fa-file-excel"></i>Export Excel</button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-block bg-gradient-info btn-sm" id="scanReceives">Scan 扫描</button>
                             </div>
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-warning btn-sm" id="addReceive">Add Receive 新增验收</button>
@@ -80,6 +83,7 @@ else{
 		</div><!-- /.row -->
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
+<input type="text" id="barcodeScan">
 
 <div class="modal fade" id="receiveModal">
     <div class="modal-dialog modal-xl">
@@ -448,6 +452,39 @@ $(function () {
                 alert("Please Fill in all the required field!");
             }
         }
+    });
+
+    $('#scanReceives').on('click', function(){
+        $('#barcodeScan').trigger('focus');
+    });
+
+    $('#barcodeScan').on('change', function(){
+        $('#spinnerLoading').show();
+        var url = this.val();
+        this.val('');
+
+        $.get(url, function(data){
+            var obj = JSON.parse(data);
+            
+            if(obj.status === 'success'){
+                $('#editModal').find('#id').val(obj.message.id);
+                $('#editModal').find('#itemType').val(obj.message.itemTypes);
+                $('#editModal').find('#lotNo').val(obj.message.lotNo);
+                $('#editModal').find('#bTrayNo').val(obj.message.bTrayNo);
+                $('#editModal').find('#bTrayWeight').val(obj.message.trayWeight);
+                $('#editModal').find('#grossWeight').val(obj.message.grossWeight);
+                $('#editModal').find('#netWeight').val(obj.message.netWeight);
+                $('#editModal').find('#moistureValue').val(obj.message.afterReceiving);
+                $('#editModal').modal('show');
+            }
+            else if(obj.status === 'failed'){
+                toastr["error"](obj.message, "Failed:");
+            }
+            else{
+                toastr["error"]("Something wrong when activate", "Failed:");
+            }
+            $('#spinnerLoading').hide();
+        });
     });
 
     // Find and remove selected table rows

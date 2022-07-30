@@ -516,11 +516,28 @@ $(function () {
             var obj = JSON.parse(data);
             
             if(obj.status === 'success'){
-                $('#gradesModal').find('#parentId').val(obj.message.id);
-                $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
-                $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
-                $('#gradesModal').find('#lotNo').trigger('change');
-                $('#gradesModal').modal('show');
+                if(obj.message.parentNo == '0'){
+                    $('#gradesModal').find('#parentId').val(obj.message.id);
+                    $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
+                    $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
+                    $('#gradesModal').find('#lotNo').trigger('change');
+                    $('#gradesModal').modal('show');
+                }
+                else{
+                    $('#editGradesModal').find('#editId').val(obj.message.id);
+                    $('#editGradesModal').find('#editParentId').val(obj.message.parentNo);
+                    $('#editGradesModal').find('#editLotNo').val(obj.message.lotNo);
+                    $('#editGradesModal').find('#editBTrayNo').val(obj.message.bTrayNo);
+                    $('#editGradesModal').find('#editItemType').val(obj.message.itemTypes);
+                    $('#editGradesModal').find('#editGrossWeight').val(obj.message.gradingGrossWeight);
+                    $('#editGradesModal').find('#editBTrayWeight').val(obj.message.trayWeight);
+                    $('#editGradesModal').find('#editNetWeight').val(obj.message.gradingNetWeight);
+                    $('#editGradesModal').find('#editQty').val(obj.message.pieces);
+                    $('#editGradesModal').find('#editGrade').val(obj.message.grade);
+                    $('#editGradesModal').find('#editMoistureAfGrade').val(obj.message.moistureAfterGrading);
+                    $('#editGradesModal').find('#editRemark').val(obj.message.remark);
+                    $('#editGradesModal').modal('show');
+                }
             }
             else if(obj.status === 'failed'){
                 toastr["error"](obj.message, "Failed:");
