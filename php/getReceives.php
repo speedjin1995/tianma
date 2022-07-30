@@ -29,6 +29,7 @@ if(isset($_POST['userID'])){
                 $message['bTrayWeight'] = $row['tray_weight'];
                 $message['bTrayNo'] = $row['tray_no'];
                 $message['netWeight'] = $row['net_weight'];
+                $message['moistureAfterReceiving'] = $row['moisture_after_receiving'];
             }
             
             echo json_encode(

@@ -114,7 +114,6 @@ else{
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <hr>
 
@@ -126,7 +125,6 @@ else{
                 <div class="card-body">
                     <input type="hidden" class="form-control" id="id" name="id">
                     <div class="row">
-
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
@@ -137,7 +135,10 @@ else{
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
-                                <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight">                                    
+                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
 
@@ -154,7 +155,7 @@ else{
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="netWeight">Net weight 验收净重(G)</label>
-                                <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly>
+                                <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter receive Net weight" readonly>
                             </div>
                         </div>
 
@@ -164,9 +165,7 @@ else{
                                 <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value" min="0" max="100">
                             </div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <table id="TableId">
@@ -187,8 +186,95 @@ else{
                 </table>
             </div>
             <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
-                    <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+                <button type="submit" class="btn btn-primary" name="submit" id="submitLot">Submit 提交</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <form role="form" id="editForm">
+            <div class="modal-header">
+              <h4 class="modal-title">Edit Receive 修改验收</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="itemType">Item Types 货品种类 *</label>
+                                <input type="text" class="form-control" name="itemType" id="itemType" placeholder="Enter Lot No" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lotNo">Lot No 批号 *</label>
+                                <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
+                                <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight" required>
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight" required>                                    
+                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="netWeight">Net weight 验收净重(G)</label>
+                                <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter receive Net weight" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="moistureValue">Moisture Value 水分值</label>
+                                <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value" min="0" max="100" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary" name="submit" id="submitEdit">Submit 提交</button>
             </div>
         </form>
       </div>
@@ -232,35 +318,59 @@ $(function () {
     
     $.validator.setDefaults({
         submitHandler: function () {
-            $('#spinnerLoading').show();
-            debugger;
-            $.post('php/receive.php', $('#receiveForm').serialize(), function(data){
-                var obj = JSON.parse(data); 
-                
-                if(obj.status === 'success'){
-                    $('#receiveModal').modal('hide');
-                    toastr["success"](obj.message, "Success:");
+            if($('#receiveModal').hasClass('show')){
+                $('#spinnerLoading').show();
+                $.post('php/receive.php', $('#receiveForm').serialize(), function(data){
+                    var obj = JSON.parse(data); 
                     
-                    $.get('receive.php', function(data) {
-                        $('#mainContents').html(data);
+                    if(obj.status === 'success'){
+                        $('#receiveModal').modal('hide');
+                        toastr["success"](obj.message, "Success:");
+                        
+                        $.get('receive.php', function(data) {
+                            $('#mainContents').html(data);
+                            $('#spinnerLoading').hide();
+                        });
+                    }
+                    else if(obj.status === 'failed'){
+                        toastr["error"](obj.message, "Failed:");
                         $('#spinnerLoading').hide();
-                    });
-                }
-                else if(obj.status === 'failed'){
-                    toastr["error"](obj.message, "Failed:");
-                    $('#spinnerLoading').hide();
-                }
-                else{
-                    toastr["error"]("Something wrong when edit", "Failed:");
-                    $('#spinnerLoading').hide();
-                }
-            });
+                    }
+                    else{
+                        toastr["error"]("Something wrong when edit", "Failed:");
+                        $('#spinnerLoading').hide();
+                    }
+                });
+            }
+            else if($('#editModal').hasClass('show')){
+                $('#spinnerLoading').show();
+                $.post('php/receive.php', $('#editForm').serialize(), function(data){
+                    var obj = JSON.parse(data); 
+                    
+                    if(obj.status === 'success'){
+                        $('#editModal').modal('hide');
+                        toastr["success"](obj.message, "Success:");
+                        
+                        $.get('receive.php', function(data) {
+                            $('#mainContents').html(data);
+                            $('#spinnerLoading').hide();
+                        });
+                    }
+                    else if(obj.status === 'failed'){
+                        toastr["error"](obj.message, "Failed:");
+                        $('#spinnerLoading').hide();
+                    }
+                    else{
+                        toastr["error"]("Something wrong when edit", "Failed:");
+                        $('#spinnerLoading').hide();
+                    }
+                });
+            }
         }
     });
 
     $(".add-row").click(function(){
         var size = $("#TableId").find("tr").length - 1;
-
         var itemType;
         var lotNo;
         var bTrayNo;
@@ -269,10 +379,8 @@ $(function () {
         var netWeight;
         var moistureValue;
 
-        if($("#itemType").val() == "T1" || $("#itemType").val() == "T3")
-        {
-            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "")
-            {
+        if($("#itemType").val() == "T1" || $("#itemType").val() == "T3"){
+            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != ""){
                 itemType = $("#itemType").val();
                 lotNo = $("#lotNo").val();
                 bTrayNo = $("#bTrayNo").val();
@@ -304,11 +412,9 @@ $(function () {
                 alert("Please Fill in all the required field!");
             }
 
-    }else{
-
-        if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "" 
-            && $("#bTrayWeight").val() != "" && $("#bTrayNo").val() != "")
-            {
+        }
+        else{
+            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "" && $("#bTrayWeight").val() != "" && $("#bTrayNo").val() != ""){
                 itemType = $("#itemType").val();
                 lotNo = $("#lotNo").val();
                 bTrayNo = $("#bTrayNo").val();
@@ -336,11 +442,11 @@ $(function () {
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
                 $("#moistureValue").val("");
-
-        }else{
+            }
+            else{
                 alert("Please Fill in all the required field!");
             }
-    }
+        }
     });
 
     // Find and remove selected table rows
@@ -417,12 +523,10 @@ $(function () {
     });
 
     $('#lotNo').on('change', function(){
-        var lotNo = $(this).val();
-
         if($("#bTrayNo").val() == null || $("#bTrayNo").val() == ""){
-            $("#bTrayNo").val(lotNo);
+            var size = $("#TableId").find("tr").length;
+            $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+1).toString());
         }
-
     });
 });
 
@@ -432,16 +536,17 @@ function edit(id){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
-            $('#receiveModal').find('#id').val(obj.message.id);
-            $('#receiveModal').find('#itemType').val(obj.message.itemType);
-            $('#receiveModal').find('#grossWeight').val(obj.message.grossWeight);
-            $('#receiveModal').find('#lotNo').val(obj.message.lotNo);
-            $('#receiveModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
-            $('#receiveModal').find('#bTrayNo').val(obj.message.bTrayNo);
-            $('#receiveModal').find('#netWeight').val(obj.message.netWeight);
-            $('#receiveModal').modal('show');
+            $('#editModal').find('#id').val(obj.message.id);
+            $('#editModal').find('#itemType').val(obj.message.itemType);
+            $('#editModal').find('#grossWeight').val(obj.message.grossWeight);
+            $('#editModal').find('#lotNo').val(obj.message.lotNo);
+            $('#editModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
+            $('#editModal').find('#bTrayNo').val(obj.message.bTrayNo);
+            $('#editModal').find('#netWeight').val(obj.message.netWeight);
+            $('#editModal').find('#moistureValue').val(obj.message.moistureAfterReceiving);
+            $('#editModal').modal('show');
             
-            $('#receiveForm').validate({
+            $('#editForm').validate({
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');

@@ -46,7 +46,6 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
     }
     else{
         for($i=0; $i<sizeof($lotNo); $i++){
-
             if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, moisture_after_receiving) VALUES (?, ?, ?, ?, ? ,?, ?)")) {
                 $insert_stmt->bind_param('sssssss', $itemType, $grossWeight[$i], $lotNo[$i], $bTrayWeight[$i], $bTrayNo[$i], $netWeight[$i], $moistureValue[$i]);
                 
