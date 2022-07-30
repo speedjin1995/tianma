@@ -13,12 +13,12 @@ else{
 
 $reasons = $db->query("SELECT * FROM reasons WHERE deleted = '0'");
 $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
-
+$editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 ?>
 
 <style>
     @media screen and (min-width: 676px) {
-        .modal-dialog {
+        #gradesModal .modal-dialog {
           max-width: 1600px; /* New width for default modal */
         }
     }
@@ -291,6 +291,117 @@ $grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
     <!-- /.modal-dialog -->
 </div>
 
+<div class="modal fade" id="editGradesModal">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <form role="form" id="editGradeForm">
+            <div class="modal-header">
+              <h4 class="modal-title">Edit Grades 修改品规</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <input type="hidden" class="form-control" id="editId" name="editId">
+                    <input type="hidden" class="form-control" id="editParentId" name="editParentId">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editLotNo">Lot No 批号</label>
+                                <input type="text" class="form-control" name="editLotNo" id="editLotNo" placeholder="Enter Lot No">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editBTrayNo">Box/Tray No 桶/托盘代号</label>
+                                <input type="text" class="form-control" name="editBTrayNo" id="editBTrayNo" placeholder="Enter Box/Tray No">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label for="editItemType">Item Types 货品种类</label>
+                                <input type="text" class="form-control" name="editItemType" id="editItemType" placeholder="Enter item type" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editGrossWeight">Gross weight 分级毛重(G)</label>
+                                <input type="number" class="form-control" name="editGrossWeight" id="editGrossWeight" placeholder="Enter Grading Gross weight" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editBTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
+                                <input type="number" class="form-control" name="editBTrayWeight" id="editBTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editNetWeight">Net weight 分级净重(G)</label>
+                                <input type="number" class="form-control" name="editNetWeight" id="editNetWeight" placeholder="Enter Grading Net weight" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editQty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
+                                <input type="number" class="form-control" name="editQty" id="editQty" placeholder="Enter qty">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editGrade">Grade 等级</label>
+                                <select class="form-control" style="width: 100%;" id="editGrade" name="editGrade">
+                                    <option selected="selected">-</option>
+                                    <?php while($rowS=mysqli_fetch_assoc($editGrades)){ ?>
+                                        <option value="<?=$rowS['id'] ?>"><?=$rowS['grade'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editMoistureAfGrade">Moisture after grading 分级后湿度(%)<span style="color:red;">*</span></label>
+                                    <input type="number" class="form-control" name="editMoistureAfGrade" id="editMoistureAfGrade" placeholder="Enter Moisture after grading" max="100">
+                                </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="editRemark">Remark 备注</label>
+                                <textarea class="form-control" name="editRemark" id="editRemark" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-danger editCloseBtn" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary editSubmitBtn" name="submit" id="submitLot">Submit 提交</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
 <script>
 $(function () {
     $("#gradeTable").DataTable({
@@ -329,28 +440,57 @@ $(function () {
     
     $.validator.setDefaults({
         submitHandler: function () {
+
             $('#spinnerLoading').show();
-            $.post('php/wgrade.php', $('#gradeForm').serialize(), function(data){
-                var obj = JSON.parse(data); 
-                
-                if(obj.status === 'success'){
-                    $('#gradesModal').modal('hide');
-                    toastr["success"](obj.message, "Success:");
-                    
-                    $.get('wgrade.php', function(data) {
-                        $('#mainContents').html(data);
-                        $('#spinnerLoading').hide();
+            if($('#gradesModal').hasClass('show')){
+
+                $.post('php/wgrade.php', $('#gradeForm').serialize(), function(data){
+                        var obj = JSON.parse(data); 
+                        
+                        if(obj.status === 'success'){
+                            $('#gradesModal').modal('hide');
+                            toastr["success"](obj.message, "Success:");
+                            
+                            $.get('wgrade.php', function(data) {
+                                $('#mainContents').html(data);
+                                $('#spinnerLoading').hide();
+                            });
+                        }
+                        else if(obj.status === 'failed'){
+                            toastr["error"](obj.message, "Failed:");
+                            $('#spinnerLoading').hide();
+                        }
+                        else{
+                            toastr["error"]("Something wrong when edit", "Failed:");
+                            $('#spinnerLoading').hide();
+                        }
                     });
-                }
-                else if(obj.status === 'failed'){
-                    toastr["error"](obj.message, "Failed:");
-                    $('#spinnerLoading').hide();
-                }
-                else{
-                    toastr["error"]("Something wrong when edit", "Failed:");
-                    $('#spinnerLoading').hide();
-                }
-            });
+                
+            }else if($('#editGradesModal').hasClass('show')){
+
+                $.post('php/editGrading.php', $('#editGradeForm').serialize(), function(data){
+                        var obj = JSON.parse(data); 
+                        
+                        if(obj.status === 'success'){
+                            $('#gradesModal').modal('hide');
+                            toastr["success"](obj.message, "Success:");
+                            
+                            $.get('wgrade.php', function(data) {
+                                $('#mainContents').html(data);
+                                $('#spinnerLoading').hide();
+                            });
+                        }
+                        else if(obj.status === 'failed'){
+                            toastr["error"](obj.message, "Failed:");
+                            $('#spinnerLoading').hide();
+                        }
+                        else{
+                            toastr["error"]("Something wrong when edit", "Failed:");
+                            $('#spinnerLoading').hide();
+                        }
+                    });
+            }
+            
         }
     });
 
@@ -570,17 +710,26 @@ $(function () {
 
 function edit(id){
     $('#spinnerLoading').show();
-    $.post('php/getGrades.php', {userID: id}, function(data){
+    $.post('php/getEditGrading.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){
-            $('#gradesModal').find('#id').val(obj.message.id);
-            $('#gradesModal').find('#code').val(obj.message.class);
-            $('#gradesModal').find('#market').val(obj.message.market);
-            $('#gradesModal').find('#packages').val(obj.message.grade);
-            $('#gradesModal').modal('show');
+            $('#editGradesModal').find('#editId').val(obj.message.id);
+            $('#editGradesModal').find('#editParentId').val(obj.message.parent_no);
+            $('#editGradesModal').find('#editItemType').val(obj.message.itemType);
+            $('#editGradesModal').find('#editGrossWeight').val(obj.message.grossWeight);
+            $('#editGradesModal').find('#editLotNo').val(obj.message.lotNo);
+            $('#editGradesModal').find('#editBTrayWeight').val(obj.message.tray_weight);
+            $('#editGradesModal').find('#editBTrayNo').val(obj.message.bTrayNo);
+            $('#editGradesModal').find('#editNetWeight').val(obj.message.netWeight);
+            $('#editGradesModal').find('#editQty').val(obj.message.pieces);
+            $('#editGradesModal').find('#editGrade').val(obj.message.grade);
+            $('#editGradesModal').find('#editMoistureAfGrade').val(obj.message.moisture_after_grading);
+            $('#editGradesModal').find('#editRemark').val(obj.message.remark);
+
+            $('#editGradesModal').modal('show');
             
-            $('#gradeForm').validate({
+            $('#editGradeForm').validate({
                 errorElement: 'span',
                 errorPlacement: function (error, element) {
                     error.addClass('invalid-feedback');

@@ -36,41 +36,71 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
 
     $success = true;
 
-    for($i=0; $i<sizeof($newLotNo); $i++){
-        if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('sssssssssssssss', $itemType, $grossWeight, $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $netWeight, $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $remark[$i]);
+    if($_POST['id'] != null && $_POST['id'] != ''){
+
+        if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, lot_no=?, tray_weight=?, tray_no=?, grading_net_weight=?, grade, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading=? WHERE id=?")) {
+            $update_stmt->bind_param('ssssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $moistureValue, $_POST['id']);
             
             // Execute the prepared query.
-            if (! $insert_stmt->execute()) {
-                $success = false;
+            if (! $update_stmt->execute()) {
+                echo json_encode(
+                    array(
+                        "status"=> "failed", 
+                        "message"=> $update_stmt->error
+                    )
+                );
+            }
+            else{
+                $update_stmt->close();
+                $db->close();
+                
+                echo json_encode(
+                    array(
+                        "status"=> "success", 
+                        "message"=> "Updated Successfully!!" 
+                    )
+                );
             }
         }
     }
+    else{
 
-    if($success){
-        echo json_encode(
-            array(
-                "status"=> "success", 
-                "message"=> "Added Successfully!!" 
-            )
-        );
+
+        for($i=0; $i<sizeof($newLotNo); $i++){
+            if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                $insert_stmt->bind_param('sssssssssssssss', $itemType, $grossWeight, $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $netWeight, $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $remark[$i]);
+                
+                // Execute the prepared query.
+                if (! $insert_stmt->execute()) {
+                    $success = false;
+                }
+            }
+        }
+
+        if($success){
+            echo json_encode(
+                array(
+                    "status"=> "success", 
+                    "message"=> "Added Successfully!!" 
+                )
+            );
+        }
+        else{
+            echo json_encode(
+                array(
+                    "status"=> "failed", 
+                    "message"=> "Failed to insert into database!!" 
+                )
+            );
+        }
+    
     }
     else{
         echo json_encode(
             array(
                 "status"=> "failed", 
-                "message"=> "Failed to insert into database!!" 
+                "message"=> "Please fill in all the fields"
             )
         );
     }
-    
-}
-else{
-    echo json_encode(
-        array(
-            "status"=> "failed", 
-            "message"=> "Please fill in all the fields"
-        )
-    );
-}
-?>
+    ?>
