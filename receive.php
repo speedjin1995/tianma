@@ -130,7 +130,7 @@ else{
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="bTrayNo">Box/Tray No 桶/托盘代号 *</label>
-                                <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
+                                <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No" readonly>
                             </div>
                         </div>
 
@@ -161,7 +161,7 @@ else{
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="moistureValue">Moisture Value 水分值</label>
-                                <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value">
+                                <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value" min="0" max="100">
                             </div>
                         </div>
 
@@ -233,6 +233,7 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
+            debugger;
             $.post('php/receive.php', $('#receiveForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
@@ -292,9 +293,9 @@ $(function () {
                 $("#TableId tbody").append(markup);
 
                 // Reset to empty again
-                $("#itemType").val($('#lotNo').val());
+                $("#itemType").val(itemType);
+                $("#lotNo").val(lotNo);
                 $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
-                $("#lotNo").val("");
                 $("#grossWeight").val("");
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
@@ -328,9 +329,9 @@ $(function () {
                 $("#TableId tbody").append(markup);
 
                 // Reset to empty again
-                $("#itemType").val($('#lotNo').val());
+                $("#itemType").val(itemType);
+                $("#lotNo").val(lotNo);
                 $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
-                $("#lotNo").val("");
                 $("#grossWeight").val("");
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
@@ -413,6 +414,15 @@ $(function () {
             $("#bTrayWeight").attr("required","required");
             $("#bTrayNo").attr("required","required");
         }
+    });
+
+    $('#lotNo').on('change', function(){
+        var lotNo = $(this).val();
+
+        if($("#bTrayNo").val() == null || $("#bTrayNo").val() == ""){
+            $("#bTrayNo").val(lotNo);
+        }
+
     });
 });
 

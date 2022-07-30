@@ -28,11 +28,17 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
     $qty=$_POST['qty'];
     $newNetWeight=$_POST['newNetWeight'];
     $moistureAfGrade=$_POST['moistureAfGrade'];
+    $remark = "";
+
+    if($_POST['remark'] != null && $_POST['remark'] != ""){
+        $remark = $_POST['remark'];
+    }
+
     $success = true;
 
     for($i=0; $i<sizeof($newLotNo); $i++){
-        if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('ssssssssssssss', $itemType, $grossWeight, $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $netWeight, $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i]);
+        if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+            $insert_stmt->bind_param('sssssssssssssss', $itemType, $grossWeight, $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $netWeight, $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $remark[$i]);
             
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {

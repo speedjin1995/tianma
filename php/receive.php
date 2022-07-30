@@ -10,15 +10,17 @@ if(!isset($_SESSION['userID'])){
 
 if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTrayWeight'], $_POST['bTrayNo'], $_POST['netWeight'])){
     $itemType = filter_input(INPUT_POST, 'itemType', FILTER_SANITIZE_STRING);
-    $grossWeight = filter_input(INPUT_POST, 'grossWeight', FILTER_SANITIZE_STRING);
-    $lotNo = filter_input(INPUT_POST, 'lotNo', FILTER_SANITIZE_STRING);
-    $bTrayWeight = filter_input(INPUT_POST, 'bTrayWeight', FILTER_SANITIZE_STRING);
-    $bTrayNo = filter_input(INPUT_POST, 'bTrayNo', FILTER_SANITIZE_STRING);
-    $netWeight = filter_input(INPUT_POST, 'netWeight', FILTER_SANITIZE_STRING);
+    $grossWeight = $_POST['grossWeight'];
+    $lotNo = $_POST['lotNo'];
+    $bTrayWeight = $_POST['bTrayWeight'];
+    $bTrayNo = $_POST['bTrayNo'];
+    $netWeight = $_POST['netWeight'];
+    $moistureValue = $_POST['moistureValue'];
+    $success = true;
 
     if($_POST['id'] != null && $_POST['id'] != ''){
-        if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=? WHERE id=?")) {
-            $update_stmt->bind_param('sssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $_POST['id']);
+        if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=?, moisture_after_receiving=? WHERE id=?")) {
+            $update_stmt->bind_param('ssssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $moistureValue, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
@@ -43,31 +45,37 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
         }
     }
     else{
-        if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight) VALUES (?, ?, ?, ?, ? ,?)")) {
-            $insert_stmt->bind_param('ssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight);
-            
-            // Execute the prepared query.
-            if (! $insert_stmt->execute()) {
-                echo json_encode(
-                    array(
-                        "status"=> "failed", 
-                        "message"=> $insert_stmt->error
-                    )
-                );
-            }
-            else{
-                $insert_stmt->close();
-                $db->close();
+        for($i=0; $i<sizeof($lotNo); $i++){
+
+            if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, moisture_after_receiving) VALUES (?, ?, ?, ?, ? ,?, ?)")) {
+                $insert_stmt->bind_param('sssssss', $itemType, $grossWeight[$i], $lotNo[$i], $bTrayWeight[$i], $bTrayNo[$i], $netWeight[$i], $moistureValue[$i]);
                 
-                echo json_encode(
-                    array(
-                        "status"=> "success", 
-                        "message"=> "Added Successfully!!" 
-                    )
-                );
+                // Execute the prepared query.
+                if (! $insert_stmt->execute()) {
+                    $success = false;
+                }   
             }
         }
+
+        if($success){
+            echo json_encode(
+                array(
+                    "status"=> "success", 
+                    "message"=> "Added Successfully!!" 
+                )
+            );
+        }
+        else{
+            echo json_encode(
+                array(
+                    "status"=> "failed", 
+                    "message"=> "Failed to insert into database!!" 
+                )
+            );
+        }
     }
+        
+    
 }
 else{
     echo json_encode(
