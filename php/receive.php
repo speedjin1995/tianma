@@ -9,7 +9,7 @@ if(!isset($_SESSION['userID'])){
 }
 
 if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTrayWeight'], $_POST['bTrayNo'], $_POST['netWeight'])){
-    $itemType = filter_input(INPUT_POST, 'itemType', FILTER_SANITIZE_STRING);
+    $itemType = $_POST['itemType'];
     $grossWeight = $_POST['grossWeight'];
     $lotNo = $_POST['lotNo'];
     $bTrayWeight = $_POST['bTrayWeight'];
@@ -47,7 +47,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
     else{
         for($i=0; $i<sizeof($lotNo); $i++){
             if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, moisture_after_receiving) VALUES (?, ?, ?, ?, ? ,?, ?)")) {
-                $insert_stmt->bind_param('sssssss', $itemType, $grossWeight[$i], $lotNo[$i], $bTrayWeight[$i], $bTrayNo[$i], $netWeight[$i], $moistureValue[$i]);
+                $insert_stmt->bind_param('sssssss', $itemType[$i], $grossWeight[$i], $lotNo[$i], $bTrayWeight[$i], $bTrayNo[$i], $netWeight[$i], $moistureValue[$i]);
                 
                 // Execute the prepared query.
                 if (! $insert_stmt->execute()) {
