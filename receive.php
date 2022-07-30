@@ -208,6 +208,7 @@ else{
             </div>
             <div class="modal-body">
                 <div class="card-body">
+                <input type="hidden" class="form-control" id="id" name="id">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -344,7 +345,7 @@ $(function () {
             }
             else if($('#editModal').hasClass('show')){
                 $('#spinnerLoading').show();
-                $.post('php/receive.php', $('#editForm').serialize(), function(data){
+                $.post('php/editReceive.php', $('#editForm').serialize(), function(data){
                     var obj = JSON.parse(data); 
                     
                     if(obj.status === 'success'){
