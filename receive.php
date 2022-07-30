@@ -404,7 +404,7 @@ $(function () {
                 // Reset to empty again
                 $("#itemType").val(itemType);
                 $("#lotNo").val(lotNo);
-                $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
+                $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size+2).toString(), 3));
                 $("#grossWeight").val("");
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
@@ -438,7 +438,7 @@ $(function () {
                 // Reset to empty again
                 $("#itemType").val(itemType);
                 $("#lotNo").val(lotNo);
-                $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size+2).toString());
+                $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size+2).toString(), 3));
                 $("#grossWeight").val("");
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
@@ -524,10 +524,8 @@ $(function () {
     });
 
     $('#lotNo').on('change', function(){
-        if($("#bTrayNo").val() == null || $("#bTrayNo").val() == ""){
-            var size = $("#TableId").find("tr").length;
-            $("#bTrayNo").val(parseInt($('#lotNo').val() + "00") + (size).toString());
-        }
+        var size = $("#TableId").find("tr").length;
+        $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size).toString(), 3));
     });
 });
 
@@ -615,5 +613,11 @@ function deactivate(id){
             $('#spinnerLoading').hide();
         }
     });
+}
+
+function padLeadingZeros(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
 }
 </script>
