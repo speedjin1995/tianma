@@ -165,6 +165,7 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                                 <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
                                     <option selected="selected" value="PASSED">Passed 合格</option>
                                     <option value="REJECT">Reject 不合格</option>
+                                    <option value="LAB">Lab 化验</option>
                                 </select>
                             </div>
                         </div>
@@ -275,7 +276,7 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                             <th>Qty <br>片数(pcs)</th>
                             <th>Net weight <br>分级净重(G)</th>
                             <th>Moisture after grading <br>分级后湿度(%)</th>
-                            <!--th>Status <br>状态</th-->
+                            <th>Status <br>状态</th>
                             <th>Action <br>行动</th>
                         </tr>
                     </thead>
@@ -639,9 +640,11 @@ $(function () {
         var newStatus;
         var newReason;
 
-        if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != "" 
-        && $("#qty").val() != "" && $("#newNetWeight").val() != ""
-        && $("#moistureAfGrade").val() != ""){
+        if($("#newStatus").val() != "LAB"){
+
+            if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != "" 
+            && $("#qty").val() != "" && $("#newNetWeight").val() != ""
+            && $("#moistureAfGrade").val() != ""){
 
                 newLotNo = $("#newLotNo").val();
                 newGrade = $("#newGrade").val();
@@ -655,34 +658,82 @@ $(function () {
                 newReason = $("#newReason").val();
 
 
-            var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
-            newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
-            newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
-            newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
-            newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
-            newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
-            qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
-            newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-            moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
-            newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-            newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-            
-            $("#TableId tbody").append(markup);
+                var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
+                newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
+                newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
+                newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
+                newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
+                newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
+                qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
+                newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
+                moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
+                newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
+                newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+                $("#TableId tbody").append(markup);
 
-            // Reset to empty again
-            $("#newLotNo").val($('#lotNo').val());
-            $("#newGrade").val("");
-            $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
-            $("#newTrayWeight").val("");
-            $("#newGrossWeight").val("");
-            $("#qty").val("");
-            $("#newNetWeight").val("");
-            $("#moistureAfGrade").val("");
-            $('#newStatus').val('ACCEPT');
-            $('#hideReason').attr('hidden', 'hidden');
-            $('#newReason').val('');
+                // Reset to empty again
+                $("#newLotNo").val($('#lotNo').val());
+                $("#newGrade").val("");
+                $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
+                $("#newTrayWeight").val("");
+                $("#newGrossWeight").val("");
+                $("#qty").val("");
+                $("#newNetWeight").val("");
+                $("#moistureAfGrade").val("");
+                $('#newStatus').val('ACCEPT');
+                $('#hideReason').attr('hidden', 'hidden');
+                $('#newReason').val('');
+            }else{
+                alert("Please Fill in all the required field!");
+            }
         }else{
-            alert("Please Fill in all the required field!");
+
+            if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" 
+            && $("#qty").val() != ""){
+
+                newLotNo = $("#newLotNo").val();
+                newGrade = $("#newGrade").val();
+                newTrayNo = $("#newTrayNo").val();
+                newTrayWeight = $("#newTrayWeight").val();
+                newGrossWeight = $("#newGrossWeight").val();
+                qty = $("#qty").val();
+                newNetWeight = $("#newNetWeight").val();
+                moistureAfGrade = $("#moistureAfGrade").val();
+                newStatus = $("#newStatus").val();
+                newReason = $("#newReason").val();
+
+
+                var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
+                newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
+                newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
+                newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
+                newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
+                newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
+                qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
+                newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
+                moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
+                newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
+                newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+                $("#TableId tbody").append(markup);
+
+                // Reset to empty again
+                $("#newLotNo").val($('#lotNo').val());
+                $("#newGrade").val("");
+                $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
+                $("#newTrayWeight").val("");
+                $("#newGrossWeight").val("");
+                $("#qty").val("");
+                $("#newNetWeight").val("");
+                $("#moistureAfGrade").val("");
+                $('#newStatus').val('ACCEPT');
+                $('#hideReason').attr('hidden', 'hidden');
+                $('#newReason').val('');
+            }else{
+                alert("Please Fill in all the required field!");
+            }
+
         }
     });
 
