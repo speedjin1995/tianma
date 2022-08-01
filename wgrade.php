@@ -55,10 +55,10 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
 				<div class="card">
 					<div class="card-header">
                         <div class="row">
-                            <div class="col-3"></div>
-                            <div class="col-3">
+                            <div class="col-6"></div>
+                            <!--div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-success btn-sm" id="excelSearch"><i class="fas fa-file-excel"></i>Export Excel</button>
-                            </div>
+                            </div-->
                             <div class="col-3">
                                 <button type="button" class="btn btn-block bg-gradient-info btn-sm" id="scanGrades">Scan 扫描</button>
                             </div>
