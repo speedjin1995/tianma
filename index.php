@@ -335,32 +335,36 @@ to get the desired effect
         <ul class="nav nav-pills nav-sidebar flex-column" id="sideMenu" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Weighing 称重<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" style="display: block;">
-              <li class="nav-item">
-                <a href="#receive" data-file="receive.php" class="nav-link link">
-                  <i class="nav-icon fas fa-chart-pie"></i>
-                  <p>Receive 验收</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#wgrade" data-file="wgrade.php" class="nav-link link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Grade 分级</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#wMoisturise" data-file="wMoisturise.php" class="nav-link link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Moisturise/Drying 风干/加湿 </p>
-                </a>
-              </li>
-            </ul>
-          </li>
+            <?php 
+              if($role == "NORMAL" || $role == "ADMIN"){
+              echo '<li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>Weighing 称重<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: block;">
+                      <li class="nav-item">
+                        <a href="#receive" data-file="receive.php" class="nav-link link">
+                          <i class="nav-icon fas fa-chart-pie"></i>
+                          <p>Receive 验收</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="#wgrade" data-file="wgrade.php" class="nav-link link">
+                          <i class="nav-icon fas fa-tachometer-alt"></i>
+                          <p>Grade 分级</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="#wMoisturise" data-file="wMoisturise.php" class="nav-link link">
+                          <i class="nav-icon fas fa-tachometer-alt"></i>
+                          <p>Moisturise/Drying 风干/加湿 </p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>';
+                      }
+                  ?>
           <?php 
               if($role == "ADMIN"){
                 echo '<li class="nav-item">
@@ -394,9 +398,8 @@ to get the desired effect
                     </a>
                   </li>
                 </ul>
-              </li>';
-              }
-          ?>
+              </li>
+
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
@@ -426,6 +429,14 @@ to get the desired effect
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="#report" data-file="report.php" class="nav-link link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>Report 报告</p>
+            </a>
+          </li>';
+             }
+          ?>
           <li class="nav-item">
             <a href="php/logout.php" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
