@@ -616,7 +616,8 @@ $(function () {
                     $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newLotNo").val(lotNo + '/1');
+                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    $('#gradesModal').find("#newLotNo").val(lotNo);
 
                     if(obj.message.itemType == 'T1'){
                         $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
@@ -656,6 +657,16 @@ $(function () {
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
                     $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
                     $('#gradesModal').find("#newLotNo").val(lotNo);
+
+                    if(obj.message.itemType == 'T1'){
+                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
+                    }
+                    else if(obj.message.itemType == 'T3'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
+                    }
+                    else if(obj.message.itemType == 'T4'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
+                    }
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
