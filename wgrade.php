@@ -639,13 +639,10 @@ $(function () {
         var moistureAfGrade;
         var newStatus;
         var newReason;
+        var newRemark;
 
         if($("#newStatus").val() != "LAB"){
-
-            if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != "" 
-            && $("#qty").val() != "" && $("#newNetWeight").val() != ""
-            && $("#moistureAfGrade").val() != ""){
-
+            if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != ""  && $("#qty").val() != "" && $("#newNetWeight").val() != "" && $("#moistureAfGrade").val() != ""){
                 newLotNo = $("#newLotNo").val();
                 newGrade = $("#newGrade").val();
                 newTrayNo = $("#newTrayNo").val();
@@ -656,7 +653,13 @@ $(function () {
                 moistureAfGrade = $("#moistureAfGrade").val();
                 newStatus = $("#newStatus").val();
                 newReason = $("#newReason").val();
-
+                
+                if($("#remark").val()){
+                    newRemark = $("#remark").val();
+                }
+                else{
+                    newRemark = "";
+                }
 
                 var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
                 newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
@@ -668,7 +671,7 @@ $(function () {
                 newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
                 moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
                 newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-                newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
                 
                 $("#TableId tbody").append(markup);
 
@@ -681,17 +684,15 @@ $(function () {
                 $("#qty").val("");
                 $("#newNetWeight").val("");
                 $("#moistureAfGrade").val("");
-                $('#newStatus').val('ACCEPT');
+                $('#newStatus').val('PASSED');
                 $('#hideReason').attr('hidden', 'hidden');
                 $('#newReason').val('');
+                $('#remark').val('');
             }else{
                 alert("Please Fill in all the required field!");
             }
         }else{
-
-            if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" 
-            && $("#qty").val() != ""){
-
+            if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" && $("#qty").val() != ""){
                 newLotNo = $("#newLotNo").val();
                 newGrade = $("#newGrade").val();
                 newTrayNo = $("#newTrayNo").val();
@@ -703,6 +704,12 @@ $(function () {
                 newStatus = $("#newStatus").val();
                 newReason = $("#newReason").val();
 
+                if($("#remark").val()){
+                    newRemark = $("#remark").val();
+                }
+                else{
+                    newRemark = "";
+                }
 
                 var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
                 newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
@@ -714,7 +721,7 @@ $(function () {
                 newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
                 moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
                 newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-                newReason + "<td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
                 
                 $("#TableId tbody").append(markup);
 
@@ -727,9 +734,10 @@ $(function () {
                 $("#qty").val("");
                 $("#newNetWeight").val("");
                 $("#moistureAfGrade").val("");
-                $('#newStatus').val('ACCEPT');
+                $('#newStatus').val('PASSED');
                 $('#hideReason').attr('hidden', 'hidden');
                 $('#newReason').val('');
+                $('#remark').val('');
             }else{
                 alert("Please Fill in all the required field!");
             }
