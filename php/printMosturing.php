@@ -39,7 +39,7 @@ if(isset($_POST['userID'])){
                 $frame_Size = 10;
                   
                 // Generates QR Code and Stores it in directory given
-                QRcode::png($text, $file, $ecc, $pixel_Size, $frame_size);
+                QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
                 
                 $message = '<html>
                 <head>

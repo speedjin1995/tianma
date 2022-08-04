@@ -37,7 +37,7 @@ if(isset($_POST['userID'])){
                 $frame_Size = 10;
                   
                 // Generates QR Code and Stores it in directory given
-                QRcode::png($text, $file, $ecc, $pixel_Size, $frame_size);
+                QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
                 
                 $message = '<html>
                 <head>
@@ -118,8 +118,12 @@ if(isset($_POST['userID'])){
                                         <td>
                                             <p>'.$row['lot_no'].'</p>
                                         </td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>
+                                            <p>Receiving Moisture</p>
+                                        </td>
+                                        <td>
+                                            <p>'.$row['moisture_after_receiving'].'</p>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>

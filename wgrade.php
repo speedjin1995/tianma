@@ -12,8 +12,9 @@ else{
 }
 
 $reasons = $db->query("SELECT * FROM reasons WHERE deleted = '0'");
-$grades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
-$editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
+$editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T1'");
+$editGrades2 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T3'");
+$editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T4'");
 ?>
 
 <style>
@@ -36,6 +37,28 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
         text-align: left;
     }
 </style>
+
+<select class="form-control" style="width: 100%;" id="editGradesHidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditGrades=mysqli_fetch_assoc($editGrades)){ ?>
+    <option value="<?=$roweditGrades['id'] ?>"><?=$roweditGrades['grade'] ?></option>
+  <?php } ?>
+</select>
+
+<select class="form-control" style="width: 100%;" id="editGrades2Hidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditGrades2=mysqli_fetch_assoc($editGrades2)){ ?>
+    <option value="<?=$roweditGrades2['id'] ?>"><?=$roweditGrades2['grade'] ?></option>
+  <?php } ?>
+</select>
+
+<select class="form-control" style="width: 100%;" id="editGrades3Hidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditGrades3=mysqli_fetch_assoc($editGrades3)){ ?>
+    <option value="<?=$roweditGrades3['id'] ?>"><?=$roweditGrades3['grade'] ?></option>
+  <?php } ?>
+</select>
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -195,12 +218,7 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="newGrade">Grade 等级</label>
-                                <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade">
-                                    <option selected="selected">-</option>
-                                    <?php while($rowS=mysqli_fetch_assoc($grades)){ ?>
-                                        <option value="<?=$rowS['id'] ?>"><?=$rowS['grade'] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade"></select>
                             </div>
                         </div>
 
@@ -374,12 +392,7 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="editGrade">Grade 等级</label>
-                                <select class="form-control" style="width: 100%;" id="editGrade" name="editGrade">
-                                    <option selected="selected">-</option>
-                                    <?php while($rowS=mysqli_fetch_assoc($editGrades)){ ?>
-                                        <option value="<?=$rowS['id'] ?>"><?=$rowS['grade'] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <select class="form-control" style="width: 100%;" id="editGrade" name="editGrade"></select>
                             </div>
                         </div>
                     </div>
@@ -410,7 +423,6 @@ $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0'");
     </div>
     <!-- /.modal-dialog -->
 </div>
-
 
 <script>
 $(function () {
@@ -523,6 +535,16 @@ $(function () {
                     $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
                     $('#gradesModal').find('#lotNo').trigger('change');
                     $('#gradesModal').modal('show');
+
+                    if(obj.message.itemTypes == 'T1'){
+                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
+                    }
+                    else if(obj.message.itemTypes == 'T3'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
+                    }
+                    else if(obj.message.itemTypes == 'T4'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
+                    }
                 }
                 else{
                     $('#editGradesModal').find('#editId').val(obj.message.id);
@@ -538,6 +560,16 @@ $(function () {
                     $('#editGradesModal').find('#editMoistureAfGrade').val(obj.message.moistureAfterGrading);
                     $('#editGradesModal').find('#editRemark').val(obj.message.remark);
                     $('#editGradesModal').modal('show');
+
+                    if(obj.message.itemTypes == 'T1'){
+                        $('#editGradesModal').find("#editGrade").html($('#editGradesHidden').html());
+                    }
+                    else if(obj.message.itemTypes == 'T3'){
+                        $('#editGradesModal').find("#editGrade").html($('#editGrades2Hidden').html());
+                    }
+                    else if(obj.message.itemTypes == 'T4'){
+                        $('#editGradesModal').find("#editGrade").html($('#editGrades3Hidden').html());
+                    }
                 }
             }
             else if(obj.status === 'failed'){
@@ -585,6 +617,16 @@ $(function () {
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
                     $('#gradesModal').find("#newLotNo").val(lotNo + '/1');
+
+                    if(obj.message.itemType == 'T1'){
+                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
+                    }
+                    else if(obj.message.itemType == 'T3'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
+                    }
+                    else if(obj.message.itemType == 'T4'){
+                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
+                    }
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
@@ -811,8 +853,17 @@ function edit(id){
             $('#editGradesModal').find('#editGrade').val(obj.message.grade);
             $('#editGradesModal').find('#editMoistureAfGrade').val(obj.message.moisture_after_grading);
             $('#editGradesModal').find('#editRemark').val(obj.message.remark);
-
             $('#editGradesModal').modal('show');
+
+            if(obj.message.itemType == 'T1'){
+                $('#editGradesModal').find("#editGrade").html($('#editGradesHidden').html());
+            }
+            else if(obj.message.itemType == 'T3'){
+                $('#editGradesModal').find("#editGrade").html($('#editGrades2Hidden').html());
+            }
+            else if(obj.message.itemType == 'T4'){
+                $('#editGradesModal').find("#editGrade").html($('#editGrades3Hidden').html());
+            }
             
             $('#editGradeForm').validate({
                 errorElement: 'span',

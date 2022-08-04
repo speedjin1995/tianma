@@ -30,7 +30,7 @@ $totalRecordwithFilter = $records['allcount'];
 ## Fetch records
 $empQuery = "select weighing.id, weighing.lot_no, grades.grade, weighing.tray_no, weighing.tray_weight, weighing.moisture_gross_weight,
 weighing.pieces, weighing.moisture_net_weight, weighing.moisture_after_moisturing from weighing, grades 
-WHERE parent_no <> '0' AND weighing.grade=grades.id".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
+WHERE parent_no <> '0' AND weighing.moisture_net_weight IS NOT NULL AND weighing.grade=grades.id".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;

@@ -26,6 +26,7 @@ if(isset($_POST['lotNum'], $_POST['trayNo'])){
                 $message['id'] = $row['id'];
                 $message['itemType'] = $row['item_types'];
                 $message['grossWeight'] = $row['gross_weight'];
+                $message['pieces'] = $row['pieces'];
                 $message['lotNo'] = $row['lot_no'];
                 $message['tray_weight'] = $row['tray_weight'];
                 $message['bTrayNo'] = $row['tray_no'];

@@ -292,6 +292,7 @@ $(function () {
                     $('#moistureModal').find('#id').val(obj.message.id);
                     $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemType);
                     $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.tray_weight);
+                    $('#moistureModal').find('#moisturiseQty').val(obj.message.pieces);
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
@@ -317,6 +318,7 @@ $(function () {
                     $('#moistureModal').find('#id').val(obj.message.id);
                     $('#moistureModal').find('#moisturiseItemType').val(obj.message.itemType);
                     $('#moistureModal').find('#moisturiseTrayWeight').val(obj.message.tray_weight);
+                    $('#moistureModal').find('#moisturiseQty').val(obj.message.pieces);
                 }
                 else if(obj.status === 'failed'){
                     toastr["error"](obj.message, "Failed:");
