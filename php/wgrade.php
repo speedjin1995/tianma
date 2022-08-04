@@ -89,12 +89,13 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
         }
     
     }
-    else{
-        echo json_encode(
-            array(
-                "status"=> "failed", 
-                "message"=> "Please fill in all the fields"
-            )
-        );
-    }
-    ?>
+}
+else{
+    echo json_encode(
+        array(
+            "status"=> "failed", 
+            "message"=> "Please fill in all the fields"
+        )
+    );
+}
+?>
