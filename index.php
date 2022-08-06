@@ -280,6 +280,11 @@ else{
     #barcodeScan:focus {
       outline: none;
     }
+
+    .tab-label {
+      display: flex;
+      justify-content:center;
+    }
   </style>
 </head>
 <!--
@@ -358,26 +363,26 @@ to get the desired effect
                     <li class="nav-item">
                       <a href="#wMoisturise" data-file="wMoisturise.php" class="nav-link link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Moisturise/Drying 风干/加湿 </p>
+                        <p>Moisturise/Drying <span class="tab-label">风干/加湿</span> </p>
                       </a>
                     </li>
                   </ul>
                 </li>
                 <li class="nav-item has-treeview menu-open">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="nav-icon fa fa-file"></i>
                     <p>Report 报告<i class="fas fa-angle-left right"></i></p>
                   </a>
                   <ul class="nav nav-treeview" style="display: block;">
                     <li class="nav-item">
                       <a href="#summary" data-file="summary.php" class="nav-link link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>Summary Report 总结报告</p>
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>Summary Report <span class="tab-label">总结报告</span></p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="#batch" data-file="batch.php" class="nav-link link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fa fa-file"></i>
                         <p>Batch Report 批次报告</p>
                       </a>
                     </li>

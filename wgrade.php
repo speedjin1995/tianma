@@ -36,6 +36,12 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
         padding: 10px;
         text-align: left;
     }
+
+    .radioTray{
+        display: flex;
+        justify-content: center;
+        margin-top:10px;
+    }
 </style>
 
 <select class="form-control" style="width: 100%;" id="editGradesHidden" style="display: none;">
@@ -137,12 +143,12 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <div class="form-group">
                                 <label for="bTrayNo">Box/Tray No 桶/托盘代号</label>
                                 <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-2">
                             <div class="form-group">
@@ -151,7 +157,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <div class="form-group">
                                 <label for="grossWeight">Gross weight 分级毛重(G)</label>
                                 <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Grading Gross weight" readonly>
@@ -170,7 +176,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                                 <label for="netWeight">Net weight 分级净重(G)</label>
                                 <input type="number" class="form-control" name="netWeight" id="netWeight" placeholder="Enter Grading Net weight" readonly>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <hr>
@@ -193,7 +199,36 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                             </div>
                         </div>
 
-                        <div id="hideReason" class="col-md-9" hidden>
+                        <div class="col-md-3 radioTray">
+                            <div class="form-check form-check-inline mr-5">
+                                <input class="form-check-input" type="radio" name="sameTray" id="sameTrayYes" value="Yes">
+                                <label class="form-check-label" for="sameTrayYes">
+                                    Same Tray <br>同样桶/托盘
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline ml-10">
+                                <input class="form-check-input" type="radio" name="sameTray" id="sameTrayNo" value="No" checked>
+                                <label class="form-check-label" for="sameTrayNo">
+                                    Non-Same Tray <br>不同样桶/托盘
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="itemType">Status 状态</label>
+                                <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
+                                    <option selected="selected" value="PASSED">Passed 合格</option>
+                                    <option value="REJECT">Reject 不合格</option>
+                                    <option value="LAB">Lab 化验</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="hideReason" class="col-md-12" hidden>
                             <div class="form-group">
                             <label for="itemType">Reason 状态</label>
                                 <select class="form-control" style="width: 100%;" id="newReason" name="newReason">
@@ -204,7 +239,6 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                                 </select>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="row">

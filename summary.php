@@ -18,11 +18,17 @@ else{
 }
 ?>
 
+<style>
+    .bootstrap-datetimepicker-widget table th:hover {
+        color: black;
+    }
+</style>
+
 <section class="content-header">
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Report 报告</h1>
+				<h1 class="m-0 text-dark">Summary Report 总结报告</h1>
 			</div>
 		</div>
 	</div>
@@ -32,28 +38,42 @@ else{
 	<div class="card">
 		<form role="form" id="profileForm" novalidate="novalidate">
 			<div class="card-body">
-                <div class="form-group col-3">
-                    <label>From Date 从 *</label>
-                    <div class="input-group date" id="fromDatePicker" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#fromDatePicker" id="fromDate" name="fromDate" required/>
-                        <div class="input-group-append" data-target="#fromDatePicker" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
-                    </div>
-                </div>
-
-                <div class="form-group col-3">
-                    <label>To Date 至 *</label>
-                    <div class="input-group date" id="toDatePicker" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#toDatePicker" id="toDate" name="toDate" required/>
-                        <div class="input-group-append" data-target="#toDatePicker" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label>From Date 开始日期</label>
+                        <div class="input-group date" id="fromDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#fromDatePicker" id="fromDate" name="fromDate" required/>
+                            <div class="input-group-append" data-target="#fromDatePicker" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
                         </div>
                     </div>
+
+                    <div class="form-group col-3">
+                        <label>To Date 结束日期</label>
+                        <div class="input-group date" id="toDatePicker" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#toDatePicker" id="toDate" name="toDate" required/>
+                            <div class="input-group-append" data-target="#toDatePicker" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label for="itemType">Item Types 货品种类</label>
+                            <select class="form-control" style="width: 100%;" id="itemType" name="itemType">
+                                <option selected="selected">-</option>
+                                <option value="T1">T1</option>
+                                <option value="T3">T3</option>
+                                <option value="T4">T4</option>
+                            </select>
+                        </div>
+                    </div>                   
                 </div>
 			</div>
 			
 			<div class="card-footer">
-				<button class="btn btn-success" id="saveProfile"><i class="fas fa-save"></i>Save 保存</button>
+				<button class="btn btn-success" id="exportProfile"><i class="fas fa-file-export"></i>Export 导出</button>
 			</div>
 		</form>
 	</div>
