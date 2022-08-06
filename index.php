@@ -363,11 +363,25 @@ to get the desired effect
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item">
-                  <a href="#report" data-file="report.php" class="nav-link link">
-                    <i class="nav-icon fas fa-file"></i>
-                    <p>Report 报告</p>
+                <li class="nav-item has-treeview menu-open">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>Report 报告<i class="fas fa-angle-left right"></i></p>
                   </a>
+                  <ul class="nav nav-treeview" style="display: block;">
+                    <li class="nav-item">
+                      <a href="#summary" data-file="summary.php" class="nav-link link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>Summary Report 总结报告</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#batch" data-file="batch.php" class="nav-link link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Batch Report 批次报告</p>
+                      </a>
+                    </li>
+                  </ul>
                 </li>';
             }
           ?>
@@ -395,12 +409,6 @@ to get the desired effect
                     <a href="#reasons" data-file="reasons.php" class="nav-link link">
                       <i class="nav-icon fas fa-weight"></i>
                       <p>Reasons 理由</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#suppliers" data-file="suppliers.php" class="nav-link link">
-                      <i class="nav-icon fas fa-industry"></i>
-                      <p>Suppliers 供应商</p>
                     </a>
                   </li>
                 </ul>
@@ -467,7 +475,7 @@ to get the desired effect
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2022 <a href="#">SyncWeight</a>.</strong>All rights reserved.<div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0.0 </div>
+    <strong>Copyright &copy; 2022 <a href="#">Tian Ma Birdnest</a>.</strong>All rights reserved.<div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0.0 </div>
   </footer>
 </div>
 <!-- ./wrapper -->

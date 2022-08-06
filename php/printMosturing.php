@@ -104,7 +104,7 @@ if(isset($_POST['userID'])){
                     <table style="width: 640px;height: 27px;">
                         <tr>
                             <td colspan="2">
-                                <h2 style="text-align: center;">Moisturing & Drying Labels</h2>
+                                <h2 style="text-align: center;">Moisturing & Drying Labels 风干/加湿标签</h2>
                             </td>
                         </tr>
                         <tr>
@@ -121,7 +121,7 @@ if(isset($_POST['userID'])){
                                             <p>'.$row['lot_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Moisturise/drying<br>Gross weight<br>分级毛重,g</p>
+                                            <p>Moisturise/drying<br>Gross weight<br>加湿毛重,g</p>
                                         </td>
                                         <td>
                                             <p>'.$row['moisture_gross_weight'].'</p>
@@ -149,7 +149,7 @@ if(isset($_POST['userID'])){
                                             <p>'.$row['grade'].'</p>
                                         </td>
                                         <td>
-                                            <p>Moisturise/drying<br>Net weight<br>分级净重,g</p>
+                                            <p>Moisturise/drying<br>Net weight<br>加湿净重,g</p>
                                         </td>
                                         <td>
                                             <p>'.$row['moisture_net_weight'].'</p>

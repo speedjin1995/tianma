@@ -104,7 +104,7 @@ if(isset($_POST['userID'])){
                     <table style="width: 640px;height: 27px;">
                         <tr>
                             <td colspan="2">
-                                <h2 style="text-align: center;">Grading Labels</h2>
+                                <h2 style="text-align: center;">Grading Labels 分级标签</h2>
                             </td>
                         </tr>
                         <tr>

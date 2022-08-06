@@ -102,7 +102,7 @@ if(isset($_POST['userID'])){
                     <table style="width: 640px;height: 27px;">
                         <tr>
                             <td colspan="2">
-                                <h2 style="text-align: center;">Receive Labels</h2>
+                                <h2 style="text-align: center;">Receive Labels 验收标签</h2>
                             </td>
                         </tr>
                         <tr>
@@ -119,7 +119,7 @@ if(isset($_POST['userID'])){
                                             <p>'.$row['lot_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Receiving Moisture</p>
+                                            <p>Receiving Moisture 验收湿度(%)</p>
                                         </td>
                                         <td>
                                             <p>'.$row['moisture_after_receiving'].'</p>
