@@ -18,6 +18,16 @@ else{
 }
 ?>
 
+<style>
+    .bootstrap-datetimepicker-widget table th:hover {
+        color: black;
+    }
+    .bootstrap-datetimepicker-widget table tbody tr td:hover{
+
+        color: black;
+    }
+</style>
+
 <section class="content-header">
 	<div class="container-fluid">
 		<div class="row mb-2">
