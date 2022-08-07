@@ -3,11 +3,12 @@ require_once "db_connect.php";
 
 session_start();
 
-if(isset($_POST['lotNum'])){
+if(isset($_POST['lotNum'], $_POST['trayNo'])){
 	$lotNum = filter_input(INPUT_POST, 'lotNum', FILTER_SANITIZE_STRING);
+    $trayNo = filter_input(INPUT_POST, 'trayNo', FILTER_SANITIZE_STRING);
 
-    if ($update_stmt = $db->prepare("SELECT * FROM weighing WHERE lot_no=?")) {
-        $update_stmt->bind_param('s', $lotNum);
+    if ($update_stmt = $db->prepare("SELECT * FROM weighing WHERE lot_no=? AND tray_no=?")) {
+        $update_stmt->bind_param('ss', $lotNum, $trayNo);
         
         // Execute the prepared query.
         if (! $update_stmt->execute()) {
@@ -21,7 +22,7 @@ if(isset($_POST['lotNum'])){
             $result = $update_stmt->get_result();
             $message = array();
             
-            if ($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_assoc()) {
                 $message['id'] = $row['id'];
                 $message['itemType'] = $row['item_types'];
                 $message['grossWeight'] = $row['gross_weight'];

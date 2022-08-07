@@ -215,16 +215,15 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div id="hideOldTrayNo" class="col-md-3" hidden>
                             <div class="form-group">
-                            <label for="itemType">Status 状态</label>
-                                <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
-                                    <option selected="selected" value="PASSED">Passed 合格</option>
-                                    <option value="REJECT">Reject 不合格</option>
-                                    <option value="LAB">Lab 化验</option>
-                                </select>
+                                <label for="bTrayNo">Old Tray No 旧桶/托盘代号</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
+                                    <button type="button" class="btn btn-primary" id="oldTrayNoSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        </div>                      
                     </div>
 
                     <div class="row">
@@ -460,6 +459,11 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
 
 <script>
 $(function () {
+
+    $('#editGradesHidden').hide();
+    $('#editGrades2Hidden').hide();
+    $('#editGrades3Hidden').hide();
+
     $("#gradeTable").DataTable({
         "responsive": true,
         "autoWidth": false,
@@ -550,6 +554,15 @@ $(function () {
         }
     });
 
+    $('input[name="sameTray"]').on('click', function(){
+        if($('input[name="sameTray"]:checked').val() == 'Yes'){
+            $('#hideOldTrayNo').removeAttr('hidden');
+        }else{
+            $('#hideOldTrayNo').attr('hidden', 'hidden');
+            $('#hideOldTrayNo').val('');
+        }
+    });
+
     $('#scanGrades').on('click', function(){
         $('#barcodeScan').trigger('focus');
     });
@@ -636,12 +649,11 @@ $(function () {
     });
 
     $('#lotNo').on('change', function(){
-        if($(this).val() && $('#bTrayNo').val()){
+        if($(this).val()){
             $('#spinnerLoading').show();
             var lotNo = $(this).val();
-            var bTrayNo = $('#bTrayNo').val();
 
-            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+            $.post('php/getReceiveInfo.php', {lotNum: lotNo}, function(data){
                 var obj = JSON.parse(data);
                 
                 if(obj.status === 'success'){
@@ -650,7 +662,7 @@ $(function () {
                     $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    // $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
                     $('#gradesModal').find("#newLotNo").val(lotNo);
 
                     if(obj.message.itemType == 'T1'){
@@ -674,22 +686,22 @@ $(function () {
         }
     });
     
+
     $('#bTrayNo').on('change', function(){
         if($(this).val() && $('#lotNo').val()){
             $('#spinnerLoading').show();
             var lotNo = $('#lotNo').val();
             var bTrayNo = $(this).val();
 
-            $.post('php/getReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+            $.post('php/getOldReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
                 var obj = JSON.parse(data);
-                
                 if(obj.status === 'success'){
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
-                    $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
-                    $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
-                    $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    $('#gradesModal').find('#newGrossWeight').val(obj.message.grossWeight);
+                    $('#gradesModal').find('#newTrayWeight').val(obj.message.bTrayWeight);
+                    $('#gradesModal').find('#newNetWeight').val(obj.message.netWeight);
+                    // $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
                     $('#gradesModal').find("#newLotNo").val(lotNo);
 
                     if(obj.message.itemType == 'T1'){
