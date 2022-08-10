@@ -289,6 +289,8 @@ else{
 </div>
 
 <script>
+var re3= /[0-9]/;
+
 $(function () {
     $("#receiveTable").DataTable({
         "responsive": true,
@@ -596,7 +598,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#receiveModal').find('#grossWeight').val(parseFloat(text).toFixed(2));
                 $('#receiveModal').find('#grossWeight').trigger('change');
             }
@@ -610,7 +622,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#receiveModal').find('#bTrayWeight').val(parseFloat(text).toFixed(2));
                 $('#receiveModal').find('#bTrayWeight').trigger('change');
             }
@@ -624,7 +646,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#editModal').find('#bTrayWeight').val(parseFloat(text).toFixed(2));
                 $('#editModal').find('#bTrayWeight').trigger('change');
             }
@@ -638,7 +670,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#editModal').find('#grossWeight').val(parseFloat(text).toFixed(2));
                 $('#editModal').find('#grossWeight').trigger('change');
             }

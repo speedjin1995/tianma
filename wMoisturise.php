@@ -367,7 +367,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#moistureModal').find('#moisturiseGrossWeight').val(parseFloat(text).toFixed(2));
                 $('#moisturiseGrossWeight').trigger('change');
             }
@@ -381,7 +391,17 @@ $(function () {
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
-                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                var str = temp.split(".");
+                var arr=[];
+                
+                for(var i=0; i<str[0].length; i++){
+                    if(str[0].charAt(i).match(re3)){
+                        arr.push(str[0][i]);
+                    }
+                }
+                
+                var text = arr.join("") + "." + str[1];
                 $('#moistureModal').find('#moisturiseTrayWeight').val(parseFloat(text).toFixed(2));
                 $('#moisturiseTrayWeight').trigger('change');
             }
