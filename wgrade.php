@@ -569,8 +569,8 @@ $(function () {
 
     $('#barcodeScan').on('change', function(){
         $('#spinnerLoading').show();
-        var url = this.val();
-        this.val('');
+        var url = $(this).val();
+        $(this).val('');
 
         $.get(url, function(data){
             var obj = JSON.parse(data);
