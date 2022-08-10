@@ -202,6 +202,14 @@ $(function () {
                 if(obj.status === 'success'){
                     $('#moistureModal').modal('hide');
                     toastr["success"](obj.message, "Success:");
+
+                    var printWindow = window.open('', '', 'height=400,width=800');
+                    printWindow.document.write(obj.label);
+                    printWindow.document.close();
+                    setTimeout(function(){
+                        printWindow.print();
+                        printWindow.close();
+                    }, 1000);
                     
                     $.get('wMoisturise.php', function(data) {
                         $('#mainContents').html(data);
@@ -243,6 +251,20 @@ $(function () {
                 $('#moistureModal').find('#moisturiseQty').val(obj.message.pieces);
                 $('#moistureModal').find('#stockOutMoisture').val(obj.message.moistureAfterMoisturing);
                 $('#moistureModal').modal('show');
+
+                $('#moistureForm').validate({
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+                });
             }
             else if(obj.status === 'failed'){
                 toastr["error"](obj.message, "Failed:");

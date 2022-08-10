@@ -42,6 +42,16 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
         justify-content: center;
         margin-top:10px;
     }
+
+    #newBarcodeScan {
+      background-color: #f4f6f9;
+      color: #f4f6f9;
+      border: none;
+    }
+
+    #newBarcodeScan:focus {
+      outline: none;
+    }
 </style>
 
 <select class="form-control" style="width: 100%;" id="editGradesHidden" style="display: none;">
@@ -120,6 +130,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
 	</div><!-- /.container-fluid -->
 </section><!-- /.content -->
 <input type="text" id="barcodeScan">
+<input type="text" id="newBarcodeScan">
 
 <div class="modal fade" id="gradesModal">
     <div class="modal-dialog modal-xl">
@@ -510,6 +521,14 @@ $(function () {
                         if(obj.status === 'success'){
                             $('#gradesModal').modal('hide');
                             toastr["success"](obj.message, "Success:");
+
+                            var printWindow = window.open('', '', 'height=400,width=800');
+                            printWindow.document.write(obj.label);
+                            printWindow.document.close();
+                            setTimeout(function(){
+                                printWindow.print();
+                                printWindow.close();
+                            }, 1000);
                             
                             $.get('wgrade.php', function(data) {
                                 $('#mainContents').html(data);
@@ -566,6 +585,34 @@ $(function () {
     $('#scanGrades').on('click', function(){
         $('#barcodeScan').trigger('focus');
     });
+    
+    $('#oldTrayNoSyncBtn').on('click', function(){
+        $('#bTrayNo').val('');
+        $('#newBarcodeScan').val('');
+        $('#newBarcodeScan').trigger('focus');
+    });
+
+    $('#newBarcodeScan').on('change', function(){
+        $('#spinnerLoading').show();
+        var url = $(this).val();
+        $(this).val('');
+
+        $.get(url, function(data){
+            var obj = JSON.parse(data);
+            
+            if(obj.status === 'success'){
+                $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
+                $('#gradesModal').find('#bTrayNo').trigger("change");
+            }
+            else if(obj.status === 'failed'){
+                toastr["error"](obj.message, "Failed:");
+            }
+            else{
+                toastr["error"]("Something wrong when activate", "Failed:");
+            }
+            $('#spinnerLoading').hide();
+        });
+    });
 
     $('#barcodeScan').on('change', function(){
         $('#spinnerLoading').show();
@@ -577,9 +624,10 @@ $(function () {
             
             if(obj.status === 'success'){
                 if(obj.message.parentNo == '0'){
+                    var size = $("#TableId").find("tr").length;
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
-                    $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
+                    $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo + "/" + (size).toString());
                     $('#gradesModal').find('#lotNo').trigger('change');
                     $('#gradesModal').modal('show');
 
@@ -592,6 +640,20 @@ $(function () {
                     else if(obj.message.itemTypes == 'T4'){
                         $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
                     }
+
+                    $('#gradeForm').validate({
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
                 }
                 else{
                     $('#editGradesModal').find('#editId').val(obj.message.id);
@@ -617,6 +679,20 @@ $(function () {
                     else if(obj.message.itemTypes == 'T4'){
                         $('#editGradesModal').find("#editGrade").html($('#editGrades3Hidden').html());
                     }
+
+                    $('#editGradeForm').validate({
+                        errorElement: 'span',
+                        errorPlacement: function (error, element) {
+                            error.addClass('invalid-feedback');
+                            element.closest('.form-group').append(error);
+                        },
+                        highlight: function (element, errorClass, validClass) {
+                            $(element).addClass('is-invalid');
+                        },
+                        unhighlight: function (element, errorClass, validClass) {
+                            $(element).removeClass('is-invalid');
+                        }
+                    });
                 }
             }
             else if(obj.status === 'failed'){
@@ -695,12 +771,13 @@ $(function () {
             $.post('php/getOldReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
                 var obj = JSON.parse(data);
                 if(obj.status === 'success'){
+                    var size = $("#TableId").find("tr").length - 1;
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
                     $('#gradesModal').find('#newGrossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#newTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#newNetWeight').val(obj.message.netWeight);
-                    // $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/' + (size).toString());
                     $('#gradesModal').find("#newLotNo").val(lotNo);
 
                     if(obj.message.itemType == 'T1'){

@@ -138,20 +138,20 @@ else{
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
+                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight">                                    
-                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight">
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G) *</label>
+                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight">
-                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight">                                    
+                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -333,6 +333,14 @@ $(function () {
                     if(obj.status === 'success'){
                         $('#receiveModal').modal('hide');
                         toastr["success"](obj.message, "Success:");
+
+                        var printWindow = window.open('', '', 'height=400,width=800');
+                        printWindow.document.write(obj.label);
+                        printWindow.document.close();
+                        setTimeout(function(){
+                            printWindow.print();
+                            printWindow.close();
+                        }, 1000);
                         
                         $.get('receive.php', function(data) {
                             $('#mainContents').html(data);
@@ -478,6 +486,20 @@ $(function () {
                 $('#editModal').find('#netWeight').val(obj.message.netWeight);
                 $('#editModal').find('#moistureValue').val(obj.message.afterReceiving);
                 $('#editModal').modal('show');
+
+                $('#editForm').validate({
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function (element, errorClass, validClass) {
+                        $(element).addClass('is-invalid');
+                    },
+                    unhighlight: function (element, errorClass, validClass) {
+                        $(element).removeClass('is-invalid');
+                    }
+                });
             }
             else if(obj.status === 'failed'){
                 toastr["error"](obj.message, "Failed:");
@@ -742,7 +764,7 @@ function print(id){
             setTimeout(function(){
                 printWindow.print();
                 printWindow.close();
-            }, 500);
+            }, 1000);
         }
         else if(obj.status === 'failed'){
             toastr["error"](obj.message, "Failed:");

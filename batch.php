@@ -39,28 +39,9 @@ else{
 		<form role="form" id="profileForm" novalidate="novalidate">
 			<div class="card-body">
                 <div class="row">
-                    <div class="form-group col-3">
-                        <label>From Date 开始日期</label>
-                        <div class="input-group date" id="fromDatePicker" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#fromDatePicker" id="fromDate" name="fromDate" required/>
-                            <div class="input-group-append" data-target="#fromDatePicker" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-3">
-                        <label>To Date 结束日期</label>
-                        <div class="input-group date" id="toDatePicker" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#toDatePicker" id="toDate" name="toDate" required/>
-                            <div class="input-group-append" data-target="#toDatePicker" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="newLotNo">Lot No 批号</label>
+                            <label for="newLotNo">Batch No 批号</label>
                             <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No">
                         </div>
                     </div>
@@ -77,7 +58,7 @@ else{
 <script>
 $(function () {
   //Date picker
-  $('#fromDatePicker').datetimepicker({
+  /*$('#fromDatePicker').datetimepicker({
       icons: { time: 'far fa-clock' },
       format: 'DD/MM/YYYY',
       defaultDate: new Date
@@ -87,12 +68,12 @@ $(function () {
       icons: { time: 'far fa-clock' },
       format: 'DD/MM/YYYY',
       defaultDate: new Date
-  });
+  });*/
 
-  $.validator.setDefaults({
+    /*$.validator.setDefaults({
         submitHandler: function () {
-            /*$('#spinnerLoading').show();
-            $.post('php/updateProfile.php', $('#profileForm').serialize(), function(data){
+            $('#spinnerLoading').show();
+            $.post('php/exportBatch.php', $('#profileForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
                 
                 if(obj.status === 'success'){
@@ -111,9 +92,9 @@ $(function () {
         			toastr["error"]("Failed to update profile", "Failed:");
                     $('#spinnerLoading').hide();
         		}
-            });*/
+            });
         }
-    });
+    });*/
     
     $('#profileForm').validate({
         rules: {
