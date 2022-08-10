@@ -31,27 +31,10 @@ if($_GET['batch'] != null && $_GET['batch'] != ''){
     $excelData = implode("\t", array_values($fields)) . "\n"; 
 
     $searchQuery = " and count.batchNo = '".$_GET['batch']."'";
-    $query = $db->query("select weighing.tray_no, weighing.tray_weight, weighing.moisture_gross_weight, grades.grade
-    weighing.pieces, weighing.moisture_net_weight, weighing.moisture_after_moisturing from weighing, grades 
-    WHERE parent_no <> '0'".$searchQuery);
-}
-
-// Fetch records from database
-if($_GET["file"] == 'weight'){
-    $query = $db->query("select weight.id, weight.serialNo, weight.vehicleNo, weight.lotNo, weight.batchNo, weight.invoiceNo, weight.deliveryNo, users.name,
-    weight.purchaseNo, weight.customer, products.product_name, packages.packages, weight.unitWeight, weight.tare, weight.totalWeight, weight.actualWeight, 
-    weight.supplyWeight, weight.varianceWeight, weight.currentWeight, units.units, weight.moq, weight.dateTime, weight.unitPrice, weight.totalPrice, weight.remark, 
-    weight.status as Status, status.status, weight.manual, weight.manualVehicle, weight.manualOutgoing, weight.reduceWeight, weight.outGDateTime, weight.inCDateTime, 
-    weight.pStatus, weight.variancePerc, weight.transporter from weight, packages, products, units, status, users 
-    WHERE weight.package = packages.id AND users.id = weight.created_by AND weight.pStatus = 'Complete' AND weight.productName = products.id AND status.id=weight.status AND 
-    units.id=weight.unitWeight AND weight.deleted = '0'".$searchQuery."");
-}else{
-    $query = $db->query("select count.id, count.serialNo, vehicles.veh_number, lots.lots_no, count.batchNo, count.invoiceNo, count.deliveryNo, 
-    count.purchaseNo, customers.customer_name, products.product_name, packages.packages, count.unitWeight, count.tare, count.totalWeight, 
-    count.actualWeight, count.currentWeight, units.units, count.moq, count.dateTime, count.unitPrice, count.totalPrice,count.totalPCS, 
-    count.remark, count.deleted, status.status from count, vehicles, packages, lots, customers, products, units, status WHERE 
-    count.vehicleNo = vehicles.id AND count.package = packages.id AND count.lotNo = lots.id AND count.customer = customers.id AND 
-    count.productName = products.id AND status.id=count.status AND units.id=count.unit ".$searchQuery."");
+    $query = $db->query("select weighing.tray_no, weighing.tray_weight, weighing.grading_gross_weight, 
+    weighing.moisture_gross_weight, weighing.grading_net_weight, weighing.moisture_after_grading, 
+    weighing.moisture_after_receiving, grades.grade, weighing.pieces, weighing.moisture_net_weight, 
+    weighing.moisture_after_moisturing from weighing, grades WHERE parent_no <> '0'".$searchQuery);
 }
 
 if($query->num_rows > 0){ 
@@ -104,7 +87,6 @@ header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=\"$fileName\""); 
  
 // Render excel data 
-echo $excelData; 
- 
+echo $excelData;
 exit;
 ?>
