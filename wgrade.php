@@ -389,7 +389,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                                 <label for="editGrossWeight">Gross weight 分级毛重(G)</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="editGrossWeight" id="editGrossWeight" placeholder="Enter Grading Gross weight">
-                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <button type="button" class="btn btn-primary" id="editGrossWeightBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -401,7 +401,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                                 <label for="editBTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="editBTrayWeight" id="editBTrayWeight" placeholder="Enter Box/Tray Weight">
-                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                    <button type="button" class="btn btn-primary" id="editTrayWeightBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -684,8 +684,7 @@ $(function () {
                 $('#spinnerLoading').hide();
             });
         }
-    });
-    
+    });  
 
     $('#bTrayNo').on('change', function(){
         if($(this).val() && $('#lotNo').val()){
@@ -874,6 +873,36 @@ $(function () {
         }
     });
 
+    $('#editGrossWeight').on('change', function(){
+        var grossWeight = $(this).val();
+        var bTrayNo = 0;
+
+        if($('#editBTrayWeight').val()){
+            bTrayNo = $('#editBTrayWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#editNetWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#editNetWeight').val(grossWeight.toFixed(2));
+        }
+    });
+
+    $('#editBTrayWeight').on('change', function(){
+        var grossWeight = 0;
+        var bTrayNo = $(this).val();
+
+        if($('#editGrossWeight').val()){
+            grossWeight = $('#editGrossWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#editNetWeight').val(netweight.toFixed(2));
+
+        }
+        else{
+            $('#editNetWeight').val((0).toFixed(2));
+        }
+    });
+
     $('#newStatus').on('change', function(){
         if($('#newStatus').val() == 'PASSED')
         {
@@ -889,6 +918,62 @@ $(function () {
     // Find and remove selected table rows
     $("#TableId tbody").on('click', 'button[name^="delete"]', function () {
         $(this).parents("tr").remove();
+    });
+
+    $('#grossWeightSyncBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#gradesModal').find('#newGrossWeight').val(parseFloat(text).toFixed(2));
+                $('#newGrossWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
+    });
+
+    $('#trayWeightSyncBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#gradesModal').find('#newTrayWeight').val(parseFloat(text).toFixed(2));
+                $('#newTrayWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
+    });
+
+    $('#editTrayWeightBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#editGradesModal').find('#editBTrayWeight').val(parseFloat(text).toFixed(2));
+                $('#editBTrayWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
+    });
+
+    $('#editGrossWeightBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#editGradesModal').find('#editGrossWeight').val(parseFloat(text).toFixed(2));
+                $('#editGrossWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 });
 

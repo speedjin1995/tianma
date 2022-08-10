@@ -19,6 +19,11 @@ else{
 	if(($row = $result->fetch_assoc()) !== null){
     $role = $row['role_code'];
     $name = $row['name'];
+    $port = $row['port'];
+    $baudrate = $row['baudrate'];
+    $databits = $row['databits'];
+    $parity = $row['parity'];
+    $stopbits = $row['stopbits'];
   }
 }
 ?>
@@ -483,6 +488,61 @@ to get the desired effect
     <strong>Copyright &copy; 2022 <a href="#">Tian Ma Birdnest</a>.</strong>All rights reserved.<div class="float-right d-none d-sm-inline-block"><b>Version</b> 1.0.0 </div>
   </footer>
 </div>
+<div class="modal fade" id="setupModal">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+    <form role="form" id="setupForm">
+      <div class="modal-header bg-gray-dark color-palette">
+        <h4 class="modal-title">Setup</h4>
+        <button type="button" class="close bg-gray-dark color-palette" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label>Serial Port</label>
+              <input class="form-control" type="text" id="serialPort" name="serialPort" value="<?=$port ?>">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Baud Rate</label>
+              <input class="form-control" type="number" id="serialPortBaudRate" name="serialPortBaudRate" value="<?=$baudrate ?>">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Data Bits</label>
+              <input class="form-control" type="text" id="serialPortDataBits" name="serialPortDataBits" value="<?=$databits ?>">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label>Parity</label>
+              <input class="form-control" type="text" id="serialPortParity" name="serialPortParity" value="<?=$parity ?>">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label>Stop bits</label>
+              <input class="form-control" type="text" id="serialPortStopBits" name="serialPortStopBits" value="<?=$stopbits ?>">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between bg-gray-dark color-palette">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>  
 <!-- ./wrapper -->
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -526,6 +586,12 @@ $(function () {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   }
+
+  $.post('http://127.0.0.1:5002/', $('#setupForm').serialize(), function(data){
+    if(data == "false"){
+      alert("Failed to connect to the weighing scale, please check you com port in port setup page");
+    }
+  });
   
   $('#sideMenu').on('click', '.link', function(){
       $('#spinnerLoading').hide();

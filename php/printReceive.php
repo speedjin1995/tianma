@@ -107,50 +107,50 @@ if(isset($_POST['userID'])){
                         </tr>
                         <tr>
                             <td style="width: 30%;">
-                                <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/><hr>
+                                <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                             </td>
                             <td style="width: 70%;">
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
-                                            <p>Lot No 批号</p>
+                                            <p style="font-size: 14px;">Lot No <br>批号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['lot_no'].'</p>
+                                            <p style="font-size: 14px;">'.$row['lot_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Receiving Moisture 验收湿度(%)</p>
+                                            <p style="font-size: 14px;">Receiving Moisture <br>验收湿度(%)</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['moisture_after_receiving'].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Box/tray no<br>桶/托盘代号</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['tray_no'].'</p>
-                                        </td>
-                                        <td>
-                                            <p>Box/tray weight,g<br>桶/托盘重量</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['tray_weight'].'</p>
+                                            <p style="font-size: 14px;">'.$row['moisture_after_receiving'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Receive Gross weight<br>验收毛重,g</p>
+                                            <p style="font-size: 14px;">Box/tray no<br>桶/托盘代号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['gross_weight'].'</p>
+                                            <p style="font-size: 14px;">'.$row['tray_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Receive Net weight<br>验收净重,g</p>
+                                            <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['net_weight'].'</p>
+                                            <p style="font-size: 14px;">'.$row['tray_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Receive Gross weight<br>验收毛重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['gross_weight'].'</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">Receive Net weight<br>验收净重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['net_weight'].'</p>
                                         </td>
                                     </tr>
                                 </table>

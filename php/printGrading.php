@@ -115,58 +115,58 @@ if(isset($_POST['userID'])){
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
-                                            <p>Lot No 批号</p>
+                                            <p style="font-size: 14px;">Lot No <br>批号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['lot_no'].'</p>
+                                            <p style="font-size: 14px;">'.$row['lot_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Grading Gross weight<br>分级毛重,g</p>
+                                            <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['grading_gross_weight'].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Box/tray no<br>桶/托盘代号</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['tray_no'].'</p>
-                                        </td>
-                                        <td>
-                                            <p>Box/tray weight,g<br>桶/托盘重量</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['tray_weight'].'</p>
+                                            <p style="font-size: 14px;">'.$row['grading_gross_weight'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Grade 等级</p>
+                                            <p style="font-size: 14px;">Box/tray no<br>桶/托盘代号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['grade'].'</p>
+                                            <p style="font-size: 14px;">'.$row['tray_no'].'</p>
                                         </td>
                                         <td>
-                                            <p>Grading Net weight<br>分级净重,g</p>
+                                            <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['grading_net_weight'].'</p>
+                                            <p style="font-size: 14px;">'.$row['tray_weight'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Qty 片数(pcs)</p>
+                                            <p style="font-size: 14px;">Grade <br>等级</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['pieces'].'</p>
+                                            <p style="font-size: 14px;">'.$row['grade'].'</p>
                                         </td>
                                         <td>
-                                            <p>Moisture after grading<br>分级后湿度(%)</p>
+                                            <p style="font-size: 14px;">Grading Net weight<br>分级净重,g</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['moisture_after_grading'].'</p>
+                                            <p style="font-size: 14px;">'.$row['grading_net_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Qty <br>片数(pcs)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['pieces'].'</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">Moisture after grading<br>分级后湿度(%)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['moisture_after_grading'].'</p>
                                         </td>
                                     </tr>
                                 </table>

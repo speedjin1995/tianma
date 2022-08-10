@@ -517,33 +517,60 @@ $(function () {
         });
     });
 
-    $('#grossWeight').on('change', function(){
+    $('#receiveModal').find('#grossWeight').on('change', function(){
         var grossWeight = $(this).val();
         var bTrayNo = 0;
 
-        if($('#bTrayWeight').val()){
-            bTrayNo = $('#bTrayWeight').val();
+        if($('#receiveModal').find('#bTrayWeight').val()){
+            bTrayNo = $('#receiveModal').find('#bTrayWeight').val();
             var netweight = grossWeight - bTrayNo;
-            $('#netWeight').val(netweight.toFixed(2));
+            $('#receiveModal').find('#netWeight').val(netweight.toFixed(2));
 
         }
         else{
-            $('#netWeight').val(grossWeight.toFixed(2));
+            $('#receiveModal').find('#netWeight').val(grossWeight.toFixed(2));
         }
     });
 
-    $('#bTrayWeight').on('change', function(){
+    $('#receiveModal').find('#bTrayWeight').on('change', function(){
         var grossWeight = 0;
         var bTrayNo = $(this).val();
 
-        if($('#grossWeight').val()){
-            grossWeight = $('#grossWeight').val();
+        if($('#receiveModal').find('#grossWeight').val()){
+            grossWeight = $('#receiveModal').find('#grossWeight').val();
             var netweight = grossWeight - bTrayNo;
-            $('#netWeight').val(netweight.toFixed(2));
-
+            $('#receiveModal').find('#netWeight').val(netweight.toFixed(2));
         }
         else{
-            $('#netWeight').val((0).toFixed(2));
+            $('#receiveModal').find('#netWeight').val((0).toFixed(2));
+        }
+    });
+
+    $('#editModal').find('#grossWeight').on('change', function(){
+        var grossWeight = $(this).val();
+        var bTrayNo = 0;
+
+        if($('#editModal').find('#bTrayWeight').val()){
+            bTrayNo = $('#editModal').find('#bTrayWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#editModal').find('#netWeight').val(netweight.toFixed(2));
+        }
+        else{
+            $('#editModal').find('#netWeight').val(grossWeight.toFixed(2));
+        }
+    });
+
+    $('#editModal').find('#bTrayWeight').on('change', function(){
+        var grossWeight = 0;
+        var bTrayNo = $(this).val();
+
+        if($('#editModal').find('#grossWeight').val()){
+            grossWeight = $('#editModal').find('#grossWeight').val();
+            var netweight = grossWeight - bTrayNo;
+            $('#editModal').find('#netWeight').val(netweight.toFixed(2));
+        }
+        else{
+            $('#editModal').find('#netWeight').val((0).toFixed(2));
         }
     });
 
@@ -566,19 +593,59 @@ $(function () {
     });
 
     $('#grossWeightSyncBtn').on('click', function(){
-        
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#receiveModal').find('#grossWeight').val(parseFloat(text).toFixed(2));
+                $('#receiveModal').find('#grossWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 
     $('#trayWeightSyncBtn').on('click', function(){
-        
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#receiveModal').find('#bTrayWeight').val(parseFloat(text).toFixed(2));
+                $('#receiveModal').find('#bTrayWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 
     $('#editTrayWeightBtn').on('click', function(){
-        
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#editModal').find('#bTrayWeight').val(parseFloat(text).toFixed(2));
+                $('#editModal').find('#bTrayWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 
     $('#editGrossWeightBtn').on('click', function(){
-        
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#editModal').find('#grossWeight').val(parseFloat(text).toFixed(2));
+                $('#editModal').find('#grossWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 });
 

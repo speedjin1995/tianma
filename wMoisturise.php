@@ -92,6 +92,7 @@ else{
                             <div class="form-group">
                                 <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
                                 <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                                <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
                             </div>
                         </div>
                     </div>
@@ -108,6 +109,7 @@ else{
                             <div class="form-group">
                                 <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G) *</label>
                                 <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
+                                <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
                             </div>
                         </div>
                     </div>
@@ -359,6 +361,34 @@ $(function () {
         else{
             $('#moisturiseNetWeight').val((0).toFixed(2));
         }
+    });
+
+    $('#grossWeightSyncBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#moistureModal').find('#moisturiseGrossWeight').val(parseFloat(text).toFixed(2));
+                $('#moisturiseGrossWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
+    });
+
+    $('#trayWeightSyncBtn').on('click', function(){
+        $.post('http://127.0.0.1:5002/handshaking', function(data){
+            if(data != "Error"){
+                console.log("Data Received:" + data);
+                var text = data.trim().replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
+                $('#moistureModal').find('#moisturiseTrayWeight').val(parseFloat(text).toFixed(2));
+                $('#moisturiseTrayWeight').trigger('change');
+            }
+            else{
+                toastr["error"]("Failed to get the reading!", "Failed:");
+            }
+        });
     });
 });
 
