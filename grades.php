@@ -41,6 +41,7 @@ else{
 							<thead>
 								<tr>
 									<th>No. 排号</th>
+                                    <th>Class 级别</th>
                                     <th>Grades 品规</th>
 									<th></th>
 								</tr>
@@ -113,6 +114,7 @@ $(function () {
         },
         'columns': [
             { data: 'counter' },
+            { data: 'class' },
             { data: 'grade' },
             { 
                 data: 'id',

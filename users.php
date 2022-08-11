@@ -22,7 +22,7 @@ else{
     <div class="container-fluid">
         <div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">Members</h1>
+				<h1 class="m-0 text-dark">Staff 员工</h1>
 			</div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -47,11 +47,11 @@ else{
 						<table id="memberTable" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>Username</th>
-									<th>Name</th>
-									<th>Role</th>
-									<th>Created Date</th>
-									<th>Actions</th>
+									<th>Username <br>用户名</th>
+									<th>Name <br>姓名</th>
+									<th>Role <br>职位</th>
+									<th>Created Date <br>加入日期</th>
+									<th>Actions <br>行动</th>
 								</tr>
 							</thead>
 						</table>
@@ -78,15 +78,15 @@ else{
     					<input type="hidden" class="form-control" id="id" name="id">
     				</div>
     				<div class="form-group">
-    					<label for="username">Username *</label>
+    					<label for="username">Username 用户名*</label>
     					<input type="text" class="form-control" name="username" id="username" placeholder="Enter Username" required>
     				</div>
                     <div class="form-group">
-    					<label for="name">Name *</label>
+    					<label for="name">Name 姓名*</label>
     					<input type="text" class="form-control" name="name" id="name" placeholder="Enter Full Name" required>
     				</div>
                     <div class="form-group">
-						<label>Role *</label>
+						<label>Role 职位*</label>
 						<select class="form-control" id="userRole" name="userRole" required>
 						    <option select="selected" value="">Please Select</option>
 						    <?php while($row2 = $result2->fetch_assoc()){ ?>
@@ -97,8 +97,8 @@ else{
     			</div>
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" name="submit" id="submitMember">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
+              <button type="submit" class="btn btn-primary" name="submit" id="submitMember">Submit 提交</button>
             </div>
         </form>
       </div>

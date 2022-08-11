@@ -151,6 +151,8 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                         
                         // Execute the prepared query.
                         if ($update_stmt->execute()) {
+                            $result = $update_stmt->get_result();
+
                             if($row = $result->fetch_assoc()){
                                 $message = '<table style="width: 640px;height: 27px;">
                     <tr>

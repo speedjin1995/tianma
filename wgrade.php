@@ -1172,7 +1172,7 @@ function print(id){
 
 function deactivate(id){
     $('#spinnerLoading').show();
-    $.post('php/deleteGrades.php', {userID: id}, function(data){
+    $.post('php/deleteReceives.php', {userID: id}, function(data){
         var obj = JSON.parse(data);
         
         if(obj.status === 'success'){

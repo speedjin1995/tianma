@@ -48,7 +48,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "name"=>$row['name'],
       "username"=>$row['username'],
       "role_name"=>$row['role_name'],
-      "created_date"=>$created_date
+      "created_date"=>$joined_date
     );
 }
 
