@@ -606,8 +606,8 @@ $(function () {
             $("#bTrayNo").removeAttr("required");
         }
         else{
-            $("#bTrayWeight").attr("required","required");
-            $("#bTrayNo").attr("required","required");
+            //$("#bTrayWeight").attr("required","required");
+            //$("#bTrayNo").attr("required","required");
         }
     });
 
