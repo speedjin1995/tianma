@@ -421,6 +421,12 @@ to get the desired effect
                       <p>Reasons 理由</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="#log" data-file="log.php" class="nav-link link">
+                      <i class="nav-icon fas fa-weight"></i>
+                      <p>Log 日志</p>
+                    </a>
+                  </li>                  
                 </ul>
               </li>';
             }
@@ -453,7 +459,7 @@ to get the desired effect
                     <i class="nav-icon fas fa-key"></i>
                     <p>Change Password 更换密码</p>
                   </a>
-                </li>
+                </li>              
               </ul>
             </li>';
             }

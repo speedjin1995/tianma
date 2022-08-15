@@ -68,6 +68,7 @@ else{
 							<thead>
 								<tr>
 									<th>No. <br>排号</th>
+                                    <th>Item Type <br>货品种类</th>
                                     <th>Lot No <br>批号</th>
                                     <th>Box/Tray No <br>桶/托盘代号</th>
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
@@ -298,13 +299,14 @@ $(function () {
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
-        'order': [[ 1, 'asc' ]],
+        'order': [[ 2, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
             'url':'php/loadReceives.php'
         },
         'columns': [
             { data: 'counter' },
+            { data: 'item_types' },
             { data: 'lot_no' },
             { data: 'tray_no' },
             { data: 'tray_weight' },

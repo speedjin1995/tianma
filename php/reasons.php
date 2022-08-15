@@ -8,12 +8,13 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['reasons'])){
+if(isset($_POST['reasons'], $_POST['itemType'])){
     $reasons = filter_input(INPUT_POST, 'reasons', FILTER_SANITIZE_STRING);
+    $itemType = filter_input(INPUT_POST, 'itemType', FILTER_SANITIZE_STRING);
 
     if($_POST['id'] != null && $_POST['id'] != ''){
-        if ($update_stmt = $db->prepare("UPDATE reasons SET reasons=? WHERE id=?")) {
-            $update_stmt->bind_param('ss', $reasons, $_POST['id']);
+        if ($update_stmt = $db->prepare("UPDATE reasons SET class=?, reasons=? WHERE id=?")) {
+            $update_stmt->bind_param('sss', $itemType, $reasons, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
@@ -38,8 +39,8 @@ if(isset($_POST['reasons'])){
         }
     }
     else{
-        if ($insert_stmt = $db->prepare("INSERT INTO reasons (reasons) VALUES (?)")) {
-            $insert_stmt->bind_param('s', $reasons);
+        if ($insert_stmt = $db->prepare("INSERT INTO reasons (class,reasons) VALUES (?,?)")) {
+            $insert_stmt->bind_param('ss', $itemType, $reasons);
             
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {

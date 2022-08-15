@@ -28,8 +28,8 @@ $records = mysqli_fetch_assoc($sel);
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$empQuery = "select weighing.lot_no, grades.grade, weighing.tray_no, weighing.tray_weight, weighing.grading_gross_weight, 
-weighing.pieces, weighing.grading_net_weight, weighing.id, weighing.moisture_after_grading from weighing, grades WHERE 
+$empQuery = "select weighing.lot_no, weighing.item_types, grades.grade, weighing.tray_no, weighing.tray_weight, weighing.grading_gross_weight, 
+weighing.pieces, weighing.grading_net_weight, weighing.id, weighing.moisture_after_grading, weighing.status from weighing, grades WHERE 
 parent_no <> '0' AND weighing.grade=grades.id".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
@@ -39,6 +39,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
   $data[] = array( 
     "counter"=>$counter,
     "lot_no"=>$row['lot_no'],
+    "item_types"=>$row['item_types'],
     "grade"=>$row['grade'],
     "tray_no"=>$row['tray_no'],
     "tray_weight"=>$row['tray_weight'],
@@ -47,6 +48,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
     "grading_net_weight"=>$row['grading_net_weight'],
     "id"=>$row['id'],
     "moisture_after_grading"=>$row['moisture_after_grading'],
+    "status"=>$row['status'],
   );
 
   $counter++;

@@ -42,6 +42,7 @@ else{
 							<thead>
 								<tr>
 									<th>No. 排号</th>
+                                    <th>Item Type 货品种类</th>
 									<th>Reasons 理由</th>
 									<th></th>
 								</tr>
@@ -69,6 +70,15 @@ else{
                     <div class="form-group">
     					<input type="hidden" class="form-control" id="id" name="id">
     				</div>
+                    <div class="form-group">
+                    <label for="itemType">Item Types 货品种类 *</label>
+                        <select class="form-control" style="width: 100%;" id="itemType" name="itemType">
+                            <option selected="selected">-</option>
+                            <option value="T1">T1</option>
+                            <option value="T3">T3</option>
+                            <option value="T4">T4</option>
+                        </select>
+                    </div>
     				<div class="form-group">
     					<label for="reasons">Reasons 理由 *</label>
     					<input type="text" class="form-control" name="reasons" id="reasons" placeholder="Enter Lots Number" required>
@@ -94,13 +104,14 @@ $(function () {
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
-        'order': [[ 1, 'asc' ]],
+        'order': [[ 2, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
             'url':'php/loadReasons.php'
         },
         'columns': [
             { data: 'counter' },
+            { data: 'itemType' },
             { data: 'reasons' },
             { 
                 data: 'id',
@@ -144,6 +155,7 @@ $(function () {
 
     $('#addReasons').on('click', function(){
         $('#reasonModal').find('#id').val("");
+        $('#reasonModal').find('#itemType').val('');
         $('#reasonModal').find('#reasons').val("");
         $('#reasonModal').modal('show');
         
@@ -170,6 +182,7 @@ function edit(id){
         
         if(obj.status === 'success'){
             $('#reasonModal').find('#id').val(obj.message.id);
+            $('#reasonModal').find('#itemType').val(obj.message.itemType);
             $('#reasonModal').find('#reasons').val(obj.message.reasons);
             $('#reasonModal').modal('show');
             

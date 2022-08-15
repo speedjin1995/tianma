@@ -111,6 +111,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
 							<thead>
 								<tr>
 									<th>No. <br>排号</th>
+                                    <th>Item Types <br>货品种类</th>
                                     <th>Lot No <br>批号</th>
 									<th>Grade <br>等级</th>
                                     <th>Box/Tray No <br>桶/托盘代号</th>
@@ -119,6 +120,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                                     <th>Qty <br>片数(PCS)</th>
                                     <th>Grading Net Weight <br>分级净重(G)</th>
                                     <th>Moisture after grading <br>分级后湿度(%)</th>
+                                    <th>Status <br>状态</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -481,13 +483,14 @@ $(function () {
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
-        'order': [[ 1, 'asc' ]],
+        'order': [[ 2, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
         'ajax': {
             'url':'php/loadWgrade.php'
         },
         'columns': [
             { data: 'counter' },
+            { data: 'item_types' },
             { data: 'lot_no' },
             { data: 'grade' },
             { data: 'tray_no' },
@@ -496,10 +499,12 @@ $(function () {
             { data: 'pieces' },
             { data: 'grading_net_weight' },
             { data: 'moisture_after_grading' },
+            { data: 'status' },
             { 
                 data: 'id',
+                width: '140px',
                 render: function ( data, type, row ) {
-                    return '<div class="row"><div class="col-3"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3"><button type="button" id="print'+data+'" onclick="print('+data+')" class="btn btn-info btn-sm"><i class="fas fa-print"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
+                    return '<div class="row px-0"><div class="col-3 mr-1"><button type="button" id="edit'+data+'" onclick="edit('+data+')" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></button></div><div class="col-3 mr-1"><button type="button" id="print'+data+'" onclick="print('+data+')" class="btn btn-info btn-sm"><i class="fas fa-print"></i></button></div><div class="col-3"><button type="button" id="deactivate'+data+'" onclick="deactivate('+data+')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></div></div>';
                 }
             }
         ],
@@ -627,7 +632,8 @@ $(function () {
                     var size = $("#TableId").find("tr").length;
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
-                    $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo + "/" + (size).toString());
+                    // $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo + "/" + (size).toString());
+                    $('#gradesModal').find('#bTrayNo').val(obj.message.lotNo + "G" + (size).toString());
                     $('#gradesModal').find('#lotNo').trigger('change');
                     $('#gradesModal').modal('show');
 
@@ -777,7 +783,7 @@ $(function () {
                     $('#gradesModal').find('#newGrossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#newTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#newNetWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/' + (size).toString());
+                    $('#gradesModal').find("#newTrayNo").val(lotNo + 'G' + (size).toString());
                     $('#gradesModal').find("#newLotNo").val(lotNo);
 
                     if(obj.message.itemType == 'T1'){
@@ -816,19 +822,69 @@ $(function () {
         var newReason;
         var newRemark;
 
-        if($("#newStatus").val() != "LAB"){
-            if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != ""  && $("#qty").val() != "" && $("#newNetWeight").val() != "" && $("#moistureAfGrade").val() != ""){
-                newLotNo = $("#newLotNo").val();
-                newGrade = $("#newGrade").val();
-                newTrayNo = $("#newTrayNo").val();
-                newTrayWeight = $("#newTrayWeight").val();
-                newGrossWeight = $("#newGrossWeight").val();
-                qty = $("#qty").val();
-                newNetWeight = $("#newNetWeight").val();
-                moistureAfGrade = $("#moistureAfGrade").val();
-                newStatus = $("#newStatus").val();
-                newReason = $("#newReason").val();
+        // if($("#newStatus").val() != "LAB"){
+        //     if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != ""  && $("#qty").val() != "" && $("#newNetWeight").val() != "" && $("#moistureAfGrade").val() != ""){
+        //         newLotNo = $("#newLotNo").val();
+        //         newGrade = $("#newGrade").val();
+        //         newTrayNo = $("#newTrayNo").val();
+        //         newTrayWeight = $("#newTrayWeight").val();
+        //         newGrossWeight = $("#newGrossWeight").val();
+        //         qty = $("#qty").val();
+        //         newNetWeight = $("#newNetWeight").val();
+        //         moistureAfGrade = $("#moistureAfGrade").val();
+        //         newStatus = $("#newStatus").val();
+        //         newReason = $("#newReason").val();
                 
+        //         if($("#remark").val()){
+        //             newRemark = $("#remark").val();
+        //         }
+        //         else{
+        //             newRemark = "";
+        //         }
+                
+        //         var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
+        //         newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
+        //         newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
+        //         newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
+        //         newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
+        //         newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
+        //         qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
+        //         newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
+        //         moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
+        //         newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
+        //         newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+        //         $("#TableId tbody").append(markup);
+
+        //         // Reset to empty again
+        //         $("#newLotNo").val($('#lotNo').val());
+        //         $("#newGrade").val("");
+        //         $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
+        //         $("#newTrayWeight").val("");
+        //         $("#newGrossWeight").val("");
+        //         $("#qty").val("");
+        //         $("#newNetWeight").val("");
+        //         $("#moistureAfGrade").val("");
+        //         $('#newStatus').val('PASSED');
+        //         $('#hideReason').attr('hidden', 'hidden');
+        //         $('#newReason').val('');
+        //         $('#remark').val('');
+        //     }else{
+        //         alert("Please Fill in all the required field!");
+        //     }
+        // }else{
+            // if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" && $("#qty").val() != ""){
+                newLotNo = $("#newLotNo").val() != '' ? $("#newLotNo").val() : '-';
+                newGrade = $("#newGrade").val() != '' && $("#newGrade").val() != null ? $("#newGrade").val() : '-';
+                newTrayNo = $("#newTrayNo").val() != '' ? $("#newTrayNo").val() : '-';
+                newTrayWeight = $("#newTrayWeight").val() != '' ? $("#newTrayWeight").val() : '-';
+                newGrossWeight = $("#newGrossWeight").val() != '' ? $("#newGrossWeight").val() : '-';
+                qty = $("#qty").val() != '' ? $("#qty").val() : '-';
+                newNetWeight = $("#newNetWeight").val() != '' ? $("#newNetWeight").val() : '-';
+                moistureAfGrade = $("#moistureAfGrade").val() != '' ? $("#moistureAfGrade").val() : '-';
+                newStatus = $("#newStatus").val() != '' ? $("#newStatus").val() : '-';
+                newReason = $("#newReason").val() != '' ? $("#newReason").val() : '-';
+
                 if($("#remark").val()){
                     newRemark = $("#remark").val();
                 }
@@ -853,7 +909,7 @@ $(function () {
                 // Reset to empty again
                 $("#newLotNo").val($('#lotNo').val());
                 $("#newGrade").val("");
-                $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
+                $("#newTrayNo").val($('#lotNo').val() + "G" + (size).toString());
                 $("#newTrayWeight").val("");
                 $("#newGrossWeight").val("");
                 $("#qty").val("");
@@ -863,61 +919,11 @@ $(function () {
                 $('#hideReason').attr('hidden', 'hidden');
                 $('#newReason').val('');
                 $('#remark').val('');
-            }else{
-                alert("Please Fill in all the required field!");
-            }
-        }else{
-            if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" && $("#qty").val() != ""){
-                newLotNo = $("#newLotNo").val();
-                newGrade = $("#newGrade").val();
-                newTrayNo = $("#newTrayNo").val();
-                newTrayWeight = $("#newTrayWeight").val();
-                newGrossWeight = $("#newGrossWeight").val();
-                qty = $("#qty").val();
-                newNetWeight = $("#newNetWeight").val();
-                moistureAfGrade = $("#moistureAfGrade").val();
-                newStatus = $("#newStatus").val();
-                newReason = $("#newReason").val();
+        //     }else{
+        //         alert("Please Fill in all the required field!");
+        //     }
 
-                if($("#remark").val()){
-                    newRemark = $("#remark").val();
-                }
-                else{
-                    newRemark = "";
-                }
-
-                var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
-                newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
-                newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
-                newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
-                newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
-                newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
-                qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
-                newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-                moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
-                newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-                newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-                
-                $("#TableId tbody").append(markup);
-
-                // Reset to empty again
-                $("#newLotNo").val($('#lotNo').val());
-                $("#newGrade").val("");
-                $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
-                $("#newTrayWeight").val("");
-                $("#newGrossWeight").val("");
-                $("#qty").val("");
-                $("#newNetWeight").val("");
-                $("#moistureAfGrade").val("");
-                $('#newStatus').val('PASSED');
-                $('#hideReason').attr('hidden', 'hidden');
-                $('#newReason').val('');
-                $('#remark').val('');
-            }else{
-                alert("Please Fill in all the required field!");
-            }
-
-        }
+        // }
     });
 
     $('#newGrossWeight').on('change', function(){
