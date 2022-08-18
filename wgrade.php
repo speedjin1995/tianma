@@ -9,6 +9,16 @@ if(!isset($_SESSION['userID'])){
 }
 else{
   $user = $_SESSION['userID'];
+  $stmt = $db->prepare("SELECT * from users where id = ?");
+  $stmt->bind_param('s', $user);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $role = 'NORMAL';
+
+  
+  if(($row = $result->fetch_assoc()) !== null){
+   $role = $row['role_code'];
+  }
 }
 
 $reasons = $db->query("SELECT * FROM reasons WHERE deleted = '0'");
@@ -59,7 +69,11 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
 
     .bootstrap-datetimepicker-widget table th:hover {
         color: black;
-    } 
+    }
+
+    .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
+        background-color: #d0d0d0;
+    }
 </style>
 
 <select class="form-control" style="width: 100%;" id="editGradesHidden" style="display: none;">
@@ -522,18 +536,45 @@ $(function () {
 
     //Date picker
     var oneWeek = new Date();
-    oneWeek.setDate(oneWeek.getDate() - 7);
-    $('#fromDatePicker').datetimepicker({
-        icons: { time: 'far fa-clock' },
-        format: 'DD/MM/YYYY HH:mm:ss A',
-        defaultDate: oneWeek
-    });
+    <?php 
+            if($role  == "NORMAL"){
+               echo "oneWeek.setDate(oneWeek.getDate() - 7);";
+               
 
-    $('#toDatePicker').datetimepicker({
-        icons: { time: 'far fa-clock' },
-        format: 'DD/MM/YYYY HH:mm:ss A',
-        defaultDate: new Date
-    });
+               echo "
+               $('#fromDatePicker').datetimepicker({
+                    icons: { time: 'far fa-clock' },
+                    format: 'DD/MM/YYYY HH:mm:ss A',
+                    minDate: oneWeek,
+                    maxDate: new Date,
+                    defaultDate: oneWeek
+                });";
+        
+
+                echo "
+                $('#toDatePicker').datetimepicker({
+                    icons: { time: 'far fa-clock' },
+                    format: 'DD/MM/YYYY HH:mm:ss A',
+                    minDate: oneWeek,
+                    maxDate: new Date,
+                    defaultDate : new Date
+                });";
+            }else{
+
+                echo "$('#fromDatePicker').datetimepicker({
+                    icons: { time: 'far fa-clock' },
+                    format: 'DD/MM/YYYY HH:mm:ss A',
+                    defaultDate: new Date
+                });";
+            
+                echo "$('#toDatePicker').datetimepicker({
+                    icons: { time: 'far fa-clock' },
+                    format: 'DD/MM/YYYY HH:mm:ss A',
+                    defaultDate: new Date
+                });";
+
+            }
+    ?>
 
     $("#gradeTable").DataTable({
         "responsive": true,
