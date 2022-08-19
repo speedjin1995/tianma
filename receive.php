@@ -237,8 +237,8 @@ else{
                             <th>Item Types <br>货品种类</th>
                             <th>Lot No <br>批号</th>
                             <th>Box/Tray No <br>桶/托盘代号</th>
-                            <th>Box/Tray Weight <br>桶/托盘重量(G)</th>
                             <th>Gross weight <br>分级毛重(G)</th>
+                            <th>Box/Tray Weight <br>桶/托盘重量(G)</th>
                             <th>Net weight <br>分级净重(G)</th>
                             <th>Moisture Value <br>水分值</th>
                             <th>Action <br>行动</th>
