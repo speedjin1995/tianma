@@ -9,11 +9,29 @@ if(!isset($_SESSION['userID'])){
 
 if(isset($_POST['userID'])){
 	$id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
+	$userId = $_SESSION['userID'];
 	
 	if ($stmt2 = $db->prepare("DELETE FROM weighing WHERE id=?")) {
 		$stmt2->bind_param('s', $id);
 		
 		if($stmt2->execute()){
+			
+			$action = "User : " .$userId. " Delete Receives Id : " .$id. " !";
+
+			if ($log_delete_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+				$log_delete_stmt->bind_param('ss', $userId, $action);
+			
+
+				if (! $log_delete_stmt->execute()) {
+
+				}
+				else{
+
+					$log_delete_stmt->close();
+					
+				}
+			}
+
 			$stmt2->close();
 			$db->close();
 			

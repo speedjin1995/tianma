@@ -17,6 +17,7 @@ if(isset($_POST['id'], $_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'
     $grossWeight = filter_input(INPUT_POST, 'grossWeight', FILTER_SANITIZE_STRING);
     $netWeight = filter_input(INPUT_POST, 'netWeight', FILTER_SANITIZE_STRING);
     $moistureValue = filter_input(INPUT_POST, 'moistureValue', FILTER_SANITIZE_STRING);
+    $userId = $_SESSION['userID'];
 
     if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=?, moisture_after_receiving=? WHERE id=?")) {
         $update_stmt->bind_param('ssssssss', $itemType, $grossWeight, $lotNo, $bTrayWeight, $bTrayNo, $netWeight, $moistureValue, $id);
@@ -31,6 +32,22 @@ if(isset($_POST['id'], $_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'
             );
         }
         else{
+
+            $action = "User : ".$userId. " Edit Receive Id : " .$_POST['id']. ' !';
+
+            if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+                $log_insert_stmt->bind_param('ss', $userId, $action);
+            
+
+                if (! $log_insert_stmt->execute()) {
+                }
+                else{
+
+                    $log_insert_stmt->close();
+                    
+                }
+            }
+
             $update_stmt->close();
             $db->close();
             

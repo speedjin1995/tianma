@@ -71,7 +71,7 @@ $(function () {
         'columns': [
             { data: 'counter' },
             { data: 'userId' },
-            { data: 'dateTime' },
+            { data: 'created_dateTime' },
             { data: 'action' }
             // { 
             //     data: 'id',

@@ -9,11 +9,30 @@ if(!isset($_SESSION['userID'])){
 
 if(isset($_POST['userID'])){
 	$id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
+	$userId = $_SESSION['userID'];
 	$del = "1";
+
 	if ($stmt2 = $db->prepare("UPDATE grades SET deleted=? WHERE id=?")) {
 		$stmt2->bind_param('ss', $del , $id);
 		
 		if($stmt2->execute()){
+
+			$action = "User : " .$userId. " Delete Grades Id : " .$id. " !";
+
+			if ($log_delete_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+				$log_delete_stmt->bind_param('ss', $userId, $action);
+			
+
+				if (! $log_delete_stmt->execute()) {
+
+				}
+				else{
+
+					$log_delete_stmt->close();
+					
+				}
+			}
+
 			$stmt2->close();
 			$db->close();
 			

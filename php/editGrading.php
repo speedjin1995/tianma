@@ -38,6 +38,22 @@ if(isset($_POST['editLotNo'], $_POST['editBTrayNo'], $_POST['editItemType'], $_P
                 );
             }
             else{
+
+                $action = "User : ".$userId. " Edit Grading Id : " .$_POST['id']. ' !';
+
+                if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+                    $log_insert_stmt->bind_param('ss', $userId, $action);
+                
+    
+                    if (! $log_insert_stmt->execute()) {
+                    }
+                    else{
+    
+                        $log_insert_stmt->close();
+                        
+                    }
+                }
+
                 $update_stmt->close();
                 $db->close();
                 

@@ -43,6 +43,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "id"=>$row['id'],
       "lot_no"=>$row['lot_no'],
       "item_types"=>$row['item_types'],
+      "moisture_after_receiving"=>$row['moisture_after_receiving'],
     );
 
     $counter++;

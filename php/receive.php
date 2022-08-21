@@ -18,6 +18,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
     $netWeight = $_POST['netWeight'];
     $moistureValue = $_POST['moistureValue'];
     $success = true;
+    $userId = $_SESSION['userID'];
 
     if($_POST['id'] != null && $_POST['id'] != ''){
         if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, gross_weight=?, lot_no=?, tray_weight=?, tray_no=?, net_weight=?, moisture_after_receiving=? WHERE id=?")) {
@@ -33,6 +34,22 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                 );
             }
             else{
+
+                $action = "User : ".$userId. " Update receive id : " .$_POST['id']. ' !';
+
+                if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+                    $log_insert_stmt->bind_param('ss', $userId, $action);
+                
+
+                    if (! $log_insert_stmt->execute()) {
+                    }
+                    else{
+
+                        $log_insert_stmt->close();
+                        
+                    }
+                }
+
                 $update_stmt->close();
                 $db->close();
                 
@@ -197,6 +214,24 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
         }
 
         if($success){
+
+            $action = "User : " .$userId. " Add new receive !";
+
+            if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+                $log_insert_stmt->bind_param('ss', $userId, $action);
+            
+
+                if (! $log_insert_stmt->execute()) {
+
+                }
+                else{
+
+                    $log_insert_stmt->close();
+                    $db->close();
+
+                }
+            }
+
             $message .= '</body></html>';
 
             echo json_encode(

@@ -132,6 +132,7 @@ else{
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
                                     <th>Receive Gross weight <br>验收毛重(G)</th>
                                     <th>Receive Net weight <br>验收净重(G)</th>
+                                    <th>Moisture Value <br>水分值</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -414,6 +415,7 @@ $(function () {
             { data: 'tray_weight' },
             { data: 'gross_weight' },
             { data: 'net_weight' },
+            { data: 'moisture_after_receiving' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -498,8 +500,42 @@ $(function () {
         var netWeight;
         var moistureValue;
 
-        if($("#itemType").val() == "T1" || $("#itemType").val() == "T3"){
-            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != ""){
+        // if($("#itemType").val() == "T1" || $("#itemType").val() == "T3"){
+        //     if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != ""){
+        //         itemType = $("#itemType").val();
+        //         lotNo = $("#lotNo").val();
+        //         bTrayNo = $("#bTrayNo").val();
+        //         grossWeight = $("#grossWeight").val();
+        //         bTrayWeight = $("#bTrayWeight").val();
+        //         netWeight = $("#netWeight").val();
+        //         moistureValue = $("#moistureValue").val();
+
+        //         var markup = "<tr><td><input type='hidden' name='itemType["+size+"]' value='"+itemType+"' />" +
+        //         itemType + "</td><td><input type='hidden' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
+        //         lotNo + "</td><td><input type='hidden' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
+        //         bTrayNo + "</td><td><input type='hidden' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
+        //         grossWeight + "</td><td><input type='hidden' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
+        //         bTrayWeight + "</td><td><input type='hidden' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
+        //         netWeight + "</td><td><input type='hidden' name='moistureValue["+size+"]' value='"+moistureValue+"' />" + 
+        //         moistureValue + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+                
+        //         $("#TableId tbody").append(markup);
+
+        //         // Reset to empty again
+        //         $("#itemType").val(itemType);
+        //         $("#lotNo").val(lotNo);
+        //         $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size+2).toString(), 3));
+        //         $("#grossWeight").val("");
+        //         $("#bTrayWeight").val("");
+        //         $("#netWeight").val("");
+        //         $("#moistureValue").val("");
+        //     }else{
+        //         alert("Please Fill in all the required field!");
+        //     }
+
+        // }
+        // else{
+        //     if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "" && $("#bTrayWeight").val() != "" && $("#bTrayNo").val() != ""){
                 itemType = $("#itemType").val();
                 lotNo = $("#lotNo").val();
                 bTrayNo = $("#bTrayNo").val();
@@ -527,45 +563,11 @@ $(function () {
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
                 $("#moistureValue").val("");
-            }else{
-                alert("Please Fill in all the required field!");
-            }
-
-        }
-        else{
-            if($("#grossWeight").val() != "" && $("#netWeight").val() != "" && $("#moistureValue").val() != "" && $("#bTrayWeight").val() != "" && $("#bTrayNo").val() != ""){
-                itemType = $("#itemType").val();
-                lotNo = $("#lotNo").val();
-                bTrayNo = $("#bTrayNo").val();
-                grossWeight = $("#grossWeight").val();
-                bTrayWeight = $("#bTrayWeight").val();
-                netWeight = $("#netWeight").val();
-                moistureValue = $("#moistureValue").val();
-
-                var markup = "<tr><td><input type='hidden' name='itemType["+size+"]' value='"+itemType+"' />" +
-                itemType + "</td><td><input type='hidden' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
-                lotNo + "</td><td><input type='hidden' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
-                bTrayNo + "</td><td><input type='hidden' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
-                grossWeight + "</td><td><input type='hidden' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
-                bTrayWeight + "</td><td><input type='hidden' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
-                netWeight + "</td><td><input type='hidden' name='moistureValue["+size+"]' value='"+moistureValue+"' />" + 
-                moistureValue + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-                
-                $("#TableId tbody").append(markup);
-
-                // Reset to empty again
-                $("#itemType").val(itemType);
-                $("#lotNo").val(lotNo);
-                $("#bTrayNo").val($('#lotNo').val() + padLeadingZeros((size+2).toString(), 3));
-                $("#grossWeight").val("");
-                $("#bTrayWeight").val("");
-                $("#netWeight").val("");
-                $("#moistureValue").val("");
-            }
-            else{
-                alert("Please Fill in all the required field!");
-            }
-        }
+            // }
+            // else{
+            //     alert("Please Fill in all the required field!");
+            // }
+        // }
     });
 
     $('#scanReceives').on('click', function(){
@@ -787,6 +789,7 @@ $(function () {
         { data: 'tray_weight' },
         { data: 'gross_weight' },
         { data: 'net_weight' },
+        { data: 'moisture_after_receiving' },
         { 
             data: 'id',
             render: function ( data, type, row ) {
