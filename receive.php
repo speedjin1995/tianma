@@ -555,7 +555,28 @@ $(function () {
                 '' + "</td><td style='justify-content:center;display:flex;'><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
 
                 $("#TableId tbody").append(markup);
+                //set dropdown value
                 $('[name="itemType['+size+']"]').val(itemType);
+
+                if(bTrayNo == ""){
+                    $('[name="bTrayNo['+size+']"]').val("-");
+                }
+
+                if(grossWeight == ""){
+                    $('[name="grossWeight['+size+']"]').val(parseFloat(0).toFixed(2));
+                }
+
+                if(bTrayWeight == ""){
+                    $('[name="bTrayWeight['+size+']"]').val(parseFloat(0).toFixed(2));
+                }
+
+                if(netWeight == ""){
+                    $('[name="netWeight['+size+']"]').val(parseFloat(0).toFixed(2));
+                }
+
+                if(moistureValue == ""){
+                    $('[name="moistureValue['+size+']"]').val(parseFloat(0).toFixed(2));
+                }
 
                 // Reset to empty again
                 $("#itemType").val(itemType);
@@ -572,7 +593,7 @@ $(function () {
                     var trayW = $('[name="bTrayWeight['+id+']"]').val();
                     var grossW = $('[name="grossWeight['+id+']"]').val();
                     var netW;
-                    if(typeof trayW !== 'undefined' && trayW !== null){
+                    if(typeof grossW !== 'undefined' && grossW !== null){
                         netW = grossW - trayW;
                         $('[name="netWeight['+id+']"]').val(netW.toFixed(2));
                     }
@@ -584,7 +605,7 @@ $(function () {
                     var trayW = $('[name="bTrayWeight['+id+']"]').val();
                     var grossW = $('[name="grossWeight['+id+']"]').val();
                     var netW;
-                    if(typeof grossW !== 'undefined' && grossW !== null){
+                    if(typeof trayW !== 'undefined' && trayW !== null){
                         netW = grossW - trayW;
                         $('[name="netWeight['+id+']"]').val(netW.toFixed(2));
                     }
