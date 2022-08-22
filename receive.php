@@ -235,14 +235,14 @@ else{
                 <table id="TableId">
                     <thead>
                         <tr>
-                            <th>Item Types <br>货品种类</th>
-                            <th>Lot No <br>批号</th>
-                            <th>Box/Tray No <br>桶/托盘代号</th>
-                            <th>Gross weight <br>分级毛重(G)</th>
-                            <th>Box/Tray Weight <br>桶/托盘重量(G)</th>
-                            <th>Net weight <br>分级净重(G)</th>
-                            <th>Moisture Value <br>水分值</th>
-                            <th>Action <br>行动</th>
+                            <th style="width:130px">Item Types <br>货品种类</th>
+                            <th style="width:130px">Lot No <br>批号</th>
+                            <th style="width:130px">Box/Tray No <br>桶/托盘代号</th>
+                            <th style="width:130px">Gross weight <br>分级毛重(G)</th>
+                            <th style="width:130px">Box/Tray Weight <br>桶/托盘重量(G)</th>
+                            <th style="width:130px">Net weight <br>分级净重(G)</th>
+                            <th style="width:130px">Moisture Value <br>水分值</th>
+                            <th style="width:130px">Action <br>行动</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -331,7 +331,7 @@ else{
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="moistureValue">Moisture Value 水分值</label>
-                                <input type="text" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value" min="0" max="100" required>
+                                <input type="number" class="form-control" name="moistureValue" id="moistureValue" placeholder="Enter Moisture Value" min="0" max="100" required>
                             </div>
                         </div>
                     </div>
@@ -544,16 +544,18 @@ $(function () {
                 netWeight = $("#netWeight").val();
                 moistureValue = $("#moistureValue").val();
 
-                var markup = "<tr><td><input type='hidden' name='itemType["+size+"]' value='"+itemType+"' />" +
-                itemType + "</td><td><input type='hidden' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
-                lotNo + "</td><td><input type='hidden' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
-                bTrayNo + "</td><td><input type='hidden' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
-                grossWeight + "</td><td><input type='hidden' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
-                bTrayWeight + "</td><td><input type='hidden' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
-                netWeight + "</td><td><input type='hidden' name='moistureValue["+size+"]' value='"+moistureValue+"' />" + 
-                moistureValue + "</td><td><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-                
+                var markup = "<tr><td><select class='col-12 form-control' id='itemType' name='itemType["+size+"]' >"
+                + "<option selected='selected'>-</option><option value='T1'>T1</option><option value='T3'>T3</option><option value='T4'>T4</option></select>" +
+                '' + "</td><td><input class='col-12 form-control' type='text' name='lotNo["+size+"]' value='"+lotNo+"' />" + 
+                '' + "</td><td><input class='col-12 form-control' type='text' name='bTrayNo["+size+"]' value='"+bTrayNo+"' />" + 
+                '' + "</td><td><input class='col-12 form-control' type='number' id='"+size+"' name='grossWeight["+size+"]' value='"+grossWeight+"' />" + 
+                '' + "</td><td><input class='col-12 form-control' type='number' id='"+size+"' name='bTrayWeight["+size+"]' value='"+bTrayWeight+"' />" + 
+                '' + "</td><td><input class='col-12 form-control' type='number' id='"+size+"' name='netWeight["+size+"]' value='"+netWeight+"' />" + 
+                '' + "</td><td><span class='form-group'><input class='col-12 form-control' type='number' name='moistureValue["+size+"]' value='"+moistureValue+"' min='0' max='100' /></span>" + 
+                '' + "</td><td style='justify-content:center;display:flex;'><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
+
                 $("#TableId tbody").append(markup);
+                $('[name="itemType['+size+']"]').val(itemType);
 
                 // Reset to empty again
                 $("#itemType").val(itemType);
@@ -563,6 +565,30 @@ $(function () {
                 $("#bTrayWeight").val("");
                 $("#netWeight").val("");
                 $("#moistureValue").val("");
+
+                $('[name^="bTrayWeight["]').on('change', function(){
+                    debugger;
+                    var id = $(this).attr('id');
+                    var trayW = $('[name="bTrayWeight['+id+']"]').val();
+                    var grossW = $('[name="grossWeight['+id+']"]').val();
+                    var netW;
+                    if(typeof trayW !== 'undefined' && trayW !== null){
+                        netW = grossW - trayW;
+                        $('[name="netWeight['+id+']"]').val(netW.toFixed(2));
+                    }
+                });
+
+                $('[name^="grossWeight["]').on('change', function(){
+                    debugger;
+                    var id = $(this).attr('id');
+                    var trayW = $('[name="bTrayWeight['+id+']"]').val();
+                    var grossW = $('[name="grossWeight['+id+']"]').val();
+                    var netW;
+                    if(typeof grossW !== 'undefined' && grossW !== null){
+                        netW = grossW - trayW;
+                        $('[name="netWeight['+id+']"]').val(netW.toFixed(2));
+                    }
+                });                
             // }
             // else{
             //     alert("Please Fill in all the required field!");
@@ -932,14 +958,18 @@ function edit(id){
                     $(element).removeClass('is-invalid');
                 }
             });
+            $('#spinnerLoading').hide();
         }
         else if(obj.status === 'failed'){
             toastr["error"](obj.message, "Failed:");
+            $('#spinnerLoading').hide();
+
         }
         else{
             toastr["error"]("Something wrong when activate", "Failed:");
+            $('#spinnerLoading').hide();
+
         }
-        $('#spinnerLoading').hide();
     });
 }
 
