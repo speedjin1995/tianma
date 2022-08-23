@@ -10,6 +10,7 @@ if(!isset($_SESSION['userID'])){
 if(isset($_POST['userID'])){
 	$id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
 	$userId = $_SESSION['userID'];
+	$name = $_SESSION['name'];
 	$del = "1";
 
 	if ($stmt2 = $db->prepare("UPDATE grades SET deleted=? WHERE id=?")) {
@@ -17,7 +18,7 @@ if(isset($_POST['userID'])){
 		
 		if($stmt2->execute()){
 
-			$action = "User : " .$userId. " Delete Grades Id : " .$id. " !";
+			$action = "User : ".$name." deleted Tray No at Grade table : ".$id." !";
 
 			if ($log_delete_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
 				$log_delete_stmt->bind_param('ss', $userId, $action);

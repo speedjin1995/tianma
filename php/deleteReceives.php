@@ -10,13 +10,14 @@ if(!isset($_SESSION['userID'])){
 if(isset($_POST['userID'])){
 	$id = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_STRING);
 	$userId = $_SESSION['userID'];
+	$name = $_SESSION['name'];
 	
 	if ($stmt2 = $db->prepare("DELETE FROM weighing WHERE id=?")) {
 		$stmt2->bind_param('s', $id);
 		
 		if($stmt2->execute()){
 			
-			$action = "User : " .$userId. " Delete Receives Id : " .$id. " !";
+			$action = "User : ".$name." Deleted Tray No Receives Id : ".$id." !";
 
 			if ($log_delete_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
 				$log_delete_stmt->bind_param('ss', $userId, $action);

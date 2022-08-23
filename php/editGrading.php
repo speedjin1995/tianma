@@ -19,6 +19,8 @@ if(isset($_POST['editLotNo'], $_POST['editBTrayNo'], $_POST['editItemType'], $_P
     $editQty = filter_input(INPUT_POST, 'editQty', FILTER_SANITIZE_STRING);
     $editGrade = filter_input(INPUT_POST, 'editGrade', FILTER_SANITIZE_STRING);
     $editMoistureAfGrade = filter_input(INPUT_POST, 'editMoistureAfGrade', FILTER_SANITIZE_STRING);
+    $userId = $_SESSION['userID'];
+    $name = $_SESSION['name'];
 
     if($_POST['editRemark'] != null && $_POST['editRemark'] != ""){
         $editRemark = $_POST['editRemark'];
@@ -39,12 +41,11 @@ if(isset($_POST['editLotNo'], $_POST['editBTrayNo'], $_POST['editItemType'], $_P
             }
             else{
 
-                $action = "User : ".$userId. " Edit Grading Id : " .$_POST['id']. ' !';
+                $action = "User : ".$name." Edit Grading Id : ".$_POST['id']." !";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
                     $log_insert_stmt->bind_param('ss', $userId, $action);
                 
-    
                     if (! $log_insert_stmt->execute()) {
                     }
                     else{

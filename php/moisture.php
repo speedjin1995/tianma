@@ -14,6 +14,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
     $netWeight = filter_input(INPUT_POST, 'moisturiseNetWeight', FILTER_SANITIZE_STRING);
     $stockOutMoisture = filter_input(INPUT_POST, 'stockOutMoisture', FILTER_SANITIZE_STRING);
     $userId = $_SESSION['userID'];
+    $name = $_SESSION['name'];
 
     if($_POST['id'] != null && $_POST['id'] != ''){
         if ($update_stmt = $db->prepare("UPDATE weighing SET moisture_gross_weight=?, moisture_net_weight=?, moisture_after_moisturing=? WHERE id=?")) {
@@ -30,7 +31,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
             }
             else{
 
-                $action = "User : " .$userId. "Update Moisture Id : " .$_POST['id']. "!";
+                $action = "User : ".$name." Edit Moisture Id : ".$_POST['id']." !";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
                     $log_insert_stmt->bind_param('ss', $userId, $action);
