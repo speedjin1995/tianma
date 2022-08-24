@@ -36,7 +36,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
             }
             else{
 
-                $action = "User : ".$name." Update receive id : ".$_POST['id']." !";
+                $action = "User : ".$name." Update Tray No : ".$bTrayWeight." in receives table!";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
                     $log_insert_stmt->bind_param('ss', $userId, $action);
@@ -135,6 +135,22 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                     $success = false;
                 }
                 else{
+
+                    $action = "User : ".$name." Add new Lot No : ".$lotNo[$i]." And Tray No : ".$bTrayNo[$i]." in receives table!";
+
+                    if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
+                        $log_insert_stmt->bind_param('ss', $userId, $action);
+                    
+        
+                        if (! $log_insert_stmt->execute()) {
+                        }
+                        else{
+        
+                            $log_insert_stmt->close();
+                            
+                        }
+                    }
+
                     // if($count > 0){
                     //     $message .= '<p style="page-break-after:always;"></p>';
                     // }
@@ -216,21 +232,6 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
         }
 
         if($success){
-
-            $action = "User : ".$name." Add new receive !";
-
-            if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
-                $log_insert_stmt->bind_param('ss', $userId, $action);
-            
-
-                if (! $log_insert_stmt->execute()) {
-                }
-                else{
-
-                    $log_insert_stmt->close();
-                    
-                }
-            }
 
             // $message .= '</body></html>';
 

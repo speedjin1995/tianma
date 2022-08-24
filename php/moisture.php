@@ -9,10 +9,11 @@ if(!isset($_SESSION['userID'])){
     echo 'window.location.href = "../login.html";</script>';
 }
 
-if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST['stockOutMoisture'])){
+if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST['stockOutMoisture'], $_POST['bTrayNo'])){
     $grossWeight = filter_input(INPUT_POST, 'moisturiseGrossWeight', FILTER_SANITIZE_STRING);
     $netWeight = filter_input(INPUT_POST, 'moisturiseNetWeight', FILTER_SANITIZE_STRING);
     $stockOutMoisture = filter_input(INPUT_POST, 'stockOutMoisture', FILTER_SANITIZE_STRING);
+    $bTrayNo = filter_input(INPUT_POST, 'bTrayNo', FILTER_SANITIZE_STRING);
     $userId = $_SESSION['userID'];
     $name = $_SESSION['name'];
 
@@ -31,7 +32,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
             }
             else{
 
-                $action = "User : ".$name." Edit Moisture Id : ".$_POST['id']." !";
+                $action = "User : ".$name." Edit Tray No : ".$bTrayNo." in moisture table!";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
                     $log_insert_stmt->bind_param('ss', $userId, $action);
