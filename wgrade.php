@@ -884,7 +884,7 @@ $(function () {
     });
 
     $(".add-row").click(function(){
-        var $addContents = $("#addContents").html();
+        var $addContents = $("#addContents").clone();
         var size = $("#TableId").find(".details").length;
 
         $addContents.find('.details').attr("id", "detail" + size);
@@ -897,18 +897,18 @@ $(function () {
         $addContents.find('#oldTrayNoSyncBtn').attr("id", "oldTrayNoSyncBtn" + size);
 
         $addContents.find('#newStatus').attr('name', 'newStatus['+size+']').attr("id", "newStatus" + size);
-        $addContents.find('#newReason').attr('name', 'newReason['+size+']'.attr("id", "newReason" + size));
+        $addContents.find('#newReason').attr('name', 'newReason['+size+']').attr("id", "newReason" + size);
         $addContents.find('#sameTrayYes').attr('name', 'sameTray['+size+']').attr("id", "sameTrayYes" + size);
         $addContents.find('#sameTrayNo').attr('name', 'sameTray['+size+']').attr("id", "sameTrayNo" + size);
-        $addContents.find('#bTrayNo').attr('name', 'bTrayNo['+size+']'.attr("id", "bTrayNo" + size));
+        $addContents.find('#bTrayNo').attr('name', 'bTrayNo['+size+']').attr("id", "bTrayNo" + size);
         $addContents.find('#newLotNo').attr('name', 'newLotNo['+size+']').attr("id", "newLotNo" + size).val($('#lotNo').val());
         $addContents.find('#newGrade').attr('name', 'newGrade['+size+']').attr("id", "newGrade" + size);
-        $addContents.find('#newTrayNo').attr('name', 'newTrayNo['+size+']'.attr("id", "newTrayNo" + size)).val($('#lotNo').val() + "/G" + (size).toString());
+        $addContents.find('#newTrayNo').attr('name', 'newTrayNo['+size+']').attr("id", "newTrayNo" + size).val($('#lotNo').val() + "/G" + (size).toString());
         $addContents.find('#newTrayWeight').attr('name', 'newTrayWeight['+size+']').attr("id", "newTrayWeight" + size);
         $addContents.find('#newGrossWeight').attr('name', 'newGrossWeight['+size+']').attr("id", "newGrossWeight" + size);
-        $addContents.find('#qty').attr('name', 'qty['+size+']'.attr("id", "qty" + size));
+        $addContents.find('#qty').attr('name', 'qty['+size+']').attr("id", "qty" + size);
         $addContents.find('#newNetWeight').attr('name', 'newNetWeight['+size+']').attr("id", "newNetWeight" + size);
-        $addContents.find('#moistureAfGrade').attr('name', 'moistureAfGrade['+size+']'.attr("id", "moistureAfGrade" + size));
+        $addContents.find('#moistureAfGrade').attr('name', 'moistureAfGrade['+size+']').attr("id", "moistureAfGrade" + size);
         $addContents.find('#remark').attr('name', 'remark['+size+']').attr("id", "remark" + size);
         $("#TableId").append($addContents);
     });
