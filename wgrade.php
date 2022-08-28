@@ -25,6 +25,9 @@ $reasons = $db->query("SELECT * FROM reasons WHERE deleted = '0'");
 $editGrades = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T1'");
 $editGrades2 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T3'");
 $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 'T4'");
+$editReasons = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class = 'T1'");
+$editReasons2 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class = 'T3'");
+$editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class = 'T4'");
 ?>
 
 <style>
@@ -94,6 +97,27 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
   <option value="" selected disabled hidden>Please Select</option>
   <?php while($roweditGrades3=mysqli_fetch_assoc($editGrades3)){ ?>
     <option value="<?=$roweditGrades3['id'] ?>"><?=$roweditGrades3['grade'] ?></option>
+  <?php } ?>
+</select>
+
+<select class="form-control" style="width: 100%;" id="editReasonHidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditReasons=mysqli_fetch_assoc($editReasons)){ ?>
+    <option value="<?=$roweditReasons['id'] ?>"><?=$roweditReasons['reasons'] ?></option>
+  <?php } ?>
+</select>
+
+<select class="form-control" style="width: 100%;" id="editReason2Hidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditReasons2=mysqli_fetch_assoc($editReasons2)){ ?>
+    <option value="<?=$roweditReasons2['id'] ?>"><?=$roweditReasons2['reasons'] ?></option>
+  <?php } ?>
+</select>
+
+<select class="form-control" style="width: 100%;" id="editReason3Hidden" style="display: none;">
+  <option value="" selected disabled hidden>Please Select</option>
+  <?php while($roweditReasons3=mysqli_fetch_assoc($editReasons3)){ ?>
+    <option value="<?=$roweditReasons3['id'] ?>"><?=$roweditReasons3['reasons'] ?></option>
   <?php } ?>
 </select>
 
@@ -201,7 +225,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="TableId">
                 <div class="card-body">
                     <input type="hidden" class="form-control" id="id" name="id">
                     <input type="hidden" class="form-control" id="parentId" name="parentId">
@@ -256,137 +280,9 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                     <button style="margin-left:auto;margin-right: 25px;" type="button" class="btn btn-primary add-row">Add New</button>
                 </div>
 
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                            <label for="itemType">Status 状态</label>
-                                <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
-                                    <option selected="selected" value="PASSED">Passed 合格</option>
-                                    <option value="REJECT">Reject 不合格</option>
-                                    <option value="LAB">Lab 化验</option>
-                                </select>
-                            </div>
-                        </div>
+                
 
-                        <div class="col-md-3 radioTray">
-                            <div class="form-check form-check-inline mr-5">
-                                <input class="form-check-input" type="radio" name="sameTray" id="sameTrayYes" value="Yes">
-                                <label class="form-check-label" for="sameTrayYes">
-                                    Same Tray <br>同样桶/托盘
-                                </label>
-                            </div>
-
-                            <div class="form-check form-check-inline ml-10">
-                                <input class="form-check-input" type="radio" name="sameTray" id="sameTrayNo" value="No" checked>
-                                <label class="form-check-label" for="sameTrayNo">
-                                    Non-Same Tray <br>不同样桶/托盘
-                                </label>
-                            </div>
-                        </div>
-
-                        <div id="hideOldTrayNo" class="col-md-3" hidden>
-                            <div class="form-group">
-                                <label for="bTrayNo">Old Tray No 旧桶/托盘代号</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
-                                    <button type="button" class="btn btn-primary" id="oldTrayNoSyncBtn"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                        </div>                      
-                    </div>
-
-                    <div class="row">
-                        <div id="hideReason" class="col-md-12" hidden>
-                            <div class="form-group">
-                            <label for="itemType">Reason 状态</label>
-                                <select class="form-control" style="width: 100%;" id="newReason" name="newReason">
-                                    <option selected="selected">-</option>
-                                    <?php while($rowS=mysqli_fetch_assoc($reasons)){ ?>
-                                        <option value="<?=$rowS['id'] ?>"><?=$rowS['reasons'] ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newLotNo">Lot No 批号</label>
-                                <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newGrade">Grade 等级</label>
-                                <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade"></select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newTrayNo">Box/Tray No 桶/托盘代号</label>
-                                <input type="text" class="form-control" name="newTrayNo" id="newTrayNo" placeholder="Enter Box/Tray No">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) <span style="color:red;">*</span></label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray Weight">
-                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newGrossWeight">Gross weight 分级毛重(G) <span style="color:red;">*</span></label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
-                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="qty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter qty">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="newNetWeight">Net weight 分级净重(G)</label>
-                                <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)<span style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Moisture after grading" max="100">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="remark">Remark 备注</label>
-                                <textarea class="form-control" name="remark" id="remark" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <table id="TableId">
+                <!--table id="TableId">
                     <thead>
                         <tr>
                             <th>Lot No <br>批号</th>
@@ -403,7 +299,7 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
                     </thead>
                     <tbody>
                     </tbody>
-                </table>
+                </table-->
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close 关闭</button>
@@ -527,12 +423,142 @@ $editGrades3 = $db->query("SELECT * FROM grades WHERE deleted = '0' AND class = 
     <!-- /.modal-dialog -->
 </div>
 
-<script>
-$(function () {
+<div id="addContents">
+    <div class="card-body details">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                <label for="itemType">Status 状态</label>
+                    <select class="form-control" style="width: 100%;" id="newStatus" name="newStatus">
+                        <option selected="selected" value="PASSED">Passed 合格</option>
+                        <option value="REJECT">Reject 不合格</option>
+                        <option value="LAB">Lab 化验</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="col-md-3" >
+                <div class="form-group" id="hideReason" hidden>
+                    <label for="itemType">Reason 状态</label>
+                    <select class="form-control" style="width: 100%;" id="newReason" name="newReason"></select>
+                </div>
+            </div>
+
+            <div class="col-md-3 radioTray">
+                <div class="form-check form-check-inline mr-5">
+                    <input class="form-check-input" type="radio" name="sameTray" id="sameTrayYes" value="Yes">
+                    <label class="form-check-label" for="sameTrayYes">Same Tray <br>同样桶/托盘</label>
+                </div>
+
+                <div class="form-check form-check-inline ml-10">
+                    <input class="form-check-input" type="radio" name="sameTray" id="sameTrayNo" value="No" checked>
+                    <label class="form-check-label" for="sameTrayNo">Non-Same Tray <br>不同样桶/托盘</label>
+                </div>
+            </div>
+
+            <div class="col-md-3" >
+                <div class="form-group" id="hideOldTrayNo" hidden>
+                    <label for="bTrayNo">Old Tray No 旧桶/托盘代号</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
+                        <button type="button" class="btn btn-primary" id="oldTrayNoSyncBtn"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-1">
+                <button class="btn btn-danger btn-sm" id="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newLotNo">Lot No 批号</label>
+                    <input type="text" class="form-control" name="newLotNo" id="newLotNo" placeholder="Enter Lot No">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newGrade">Grade 等级</label>
+                    <select class="form-control" style="width: 100%;" id="newGrade" name="newGrade"></select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newTrayNo">Box/Tray No 桶/托盘代号</label>
+                    <input type="text" class="form-control" name="newTrayNo" id="newTrayNo" placeholder="Enter Box/Tray No">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newTrayWeight">Box/Tray Weight 桶/托盘重量(G) <span style="color:red;">*</span></label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="newTrayWeight" id="newTrayWeight" placeholder="Enter Box/Tray Weight">
+                        <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newGrossWeight">Gross weight 分级毛重(G) <span style="color:red;">*</span></label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="newGrossWeight" id="newGrossWeight" placeholder="Enter Grading Gross weight">
+                        <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="qty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter qty">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="newNetWeight">Net weight 分级净重(G)</label>
+                    <input type="number" class="form-control" name="newNetWeight" id="newNetWeight" placeholder="Enter Grading Net weight">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="moistureAfGrade">Moisture after grading 分级后湿度(%)<span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" name="moistureAfGrade" id="moistureAfGrade" placeholder="Enter Moisture after grading" max="100">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="remark">Remark 备注</label>
+                    <textarea class="form-control" name="remark" id="remark" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var contentIndex = 0;
+var contentItems = "T4";
+
+$(function () {
     $('#editGradesHidden').hide();
     $('#editGrades2Hidden').hide();
     $('#editGrades3Hidden').hide();
+    $('#editReasonHidden').hide();
+    $('#editReason2Hidden').hide();
+    $('#editReason3Hidden').hide();
 
     //Date picker
     var oneWeek = new Date();
@@ -615,10 +641,8 @@ $(function () {
     
     $.validator.setDefaults({
         submitHandler: function () {
-
             $('#spinnerLoading').show();
             if($('#gradesModal').hasClass('show')){
-
                 $.post('php/wgrade.php', $('#gradeForm').serialize(), function(data){
                         var obj = JSON.parse(data); 
                         
@@ -677,23 +701,8 @@ $(function () {
         }
     });
 
-    $('input[name="sameTray"]').on('click', function(){
-        if($('input[name="sameTray"]:checked').val() == 'Yes'){
-            $('#hideOldTrayNo').removeAttr('hidden');
-        }else{
-            $('#hideOldTrayNo').attr('hidden', 'hidden');
-            $('#hideOldTrayNo').val('');
-        }
-    });
-
     $('#scanGrades').on('click', function(){
         $('#barcodeScan').trigger('focus');
-    });
-    
-    $('#oldTrayNoSyncBtn').on('click', function(){
-        $('#bTrayNo').val('');
-        $('#newBarcodeScan').val('');
-        $('#newBarcodeScan').trigger('focus');
     });
 
     $('#newBarcodeScan').on('change', function(){
@@ -705,8 +714,8 @@ $(function () {
             var obj = JSON.parse(data);
             
             if(obj.status === 'success'){
-                $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo);
-                $('#gradesModal').find('#bTrayNo').trigger("change");
+                $('#gradesModal').find('input[name="bTrayNo['+contentIndex+']"]').val(obj.message.bTrayNo);
+                $('#gradesModal').find('input[name="bTrayNo['+contentIndex+']"]').trigger("change");
             }
             else if(obj.status === 'failed'){
                 toastr["error"](obj.message, "Failed:");
@@ -728,22 +737,25 @@ $(function () {
             
             if(obj.status === 'success'){
                 if(obj.message.parentNo == '0'){
-                    var size = $("#TableId").find("tr").length;
+                    //var size = $("#TableId").find("tr").length;
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
-                    // $('#gradesModal').find('#bTrayNo').val(obj.message.bTrayNo + "/" + (size).toString());
-                    $('#gradesModal').find('#bTrayNo').val(obj.message.lotNo + "G" + (size).toString());
+                    $('#gradesModal').find('#lotNo').val(obj.message.lotNo);
+                    contentItems = obj.message.itemTypes;
                     $('#gradesModal').find('#lotNo').trigger('change');
                     $('#gradesModal').modal('show');
 
                     if(obj.message.itemTypes == 'T1'){
-                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGradesHidden').html());
+                        $('#addContents').find("#newReason").html($('#editReasonHidden').html());
                     }
                     else if(obj.message.itemTypes == 'T3'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGrades2Hidden').html());
+                        $('#addContents').find("#newReason").html($('#editReason2Hidden').html());
                     }
                     else if(obj.message.itemTypes == 'T4'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGrades3Hidden').html());
+                        $('#addContents').find("#newReason").html($('#editReason3Hidden').html());
                     }
 
                     $('#gradeForm').validate({
@@ -837,62 +849,27 @@ $(function () {
             $.post('php/getReceiveInfo.php', {lotNum: lotNo}, function(data){
                 var obj = JSON.parse(data);
                 
-                if(obj.status === 'success'){
+                if(obj.status === 'success'){dsd
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
-                    $('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
+                    contentItems = obj.message.itemTypes;
+                    /*$('#gradesModal').find('#grossWeight').val(obj.message.grossWeight);
                     $('#gradesModal').find('#bTrayWeight').val(obj.message.bTrayWeight);
                     $('#gradesModal').find('#netWeight').val(obj.message.netWeight);
-                    // $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
-                    $('#gradesModal').find("#newLotNo").val(lotNo);
+                    $('#gradesModal').find("#newTrayNo").val(bTrayNo + '/1');
+                    $('#gradesModal').find("#newLotNo").val(lotNo);*/
 
                     if(obj.message.itemType == 'T1'){
-                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGradesHidden').html());
+                        $('#addContents').find("#newReason").html($('#editReasonHidden').html());
                     }
                     else if(obj.message.itemType == 'T3'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGrades2Hidden').html());
+                        $('#addContents').find("#newReason").html($('#editReason2Hidden').html());
                     }
                     else if(obj.message.itemType == 'T4'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
-                    }
-                }
-                else if(obj.status === 'failed'){
-                    toastr["error"](obj.message, "Failed:");
-                }
-                else{
-                    toastr["error"]("Something wrong when activate", "Failed:");
-                }
-                $('#spinnerLoading').hide();
-            });
-        }
-    });  
-
-    $('#bTrayNo').on('change', function(){
-        if($(this).val() && $('#lotNo').val()){
-            $('#spinnerLoading').show();
-            var lotNo = $('#lotNo').val();
-            var bTrayNo = $(this).val();
-
-            $.post('php/getOldReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
-                var obj = JSON.parse(data);
-                if(obj.status === 'success'){
-                    var size = $("#TableId").find("tr").length - 1;
-                    $('#gradesModal').find('#parentId').val(obj.message.id);
-                    $('#gradesModal').find('#itemType').val(obj.message.itemType);
-                    $('#gradesModal').find('#newGrossWeight').val(obj.message.grossWeight);
-                    $('#gradesModal').find('#newTrayWeight').val(obj.message.bTrayWeight);
-                    $('#gradesModal').find('#newNetWeight').val(obj.message.netWeight);
-                    $('#gradesModal').find("#newTrayNo").val(lotNo + 'G' + (size).toString());
-                    $('#gradesModal').find("#newLotNo").val(lotNo);
-
-                    if(obj.message.itemType == 'T1'){
-                        $('#gradesModal').find("#newGrade").html($('#editGradesHidden').html());
-                    }
-                    else if(obj.message.itemType == 'T3'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades2Hidden').html());
-                    }
-                    else if(obj.message.itemType == 'T4'){
-                        $('#gradesModal').find("#newGrade").html($('#editGrades3Hidden').html());
+                        $('#addContents').find("#newGrade").html($('#editGrades3Hidden').html());
+                        $('#addContents').find("#newReason").html($('#editReason3Hidden').html());
                     }
                 }
                 else if(obj.status === 'failed'){
@@ -907,151 +884,116 @@ $(function () {
     });
 
     $(".add-row").click(function(){
-        var size = $("#TableId").find("tr").length - 1;
+        var $addContents = $("#addContents").html();
+        var size = $("#TableId").find(".details").length;
 
-        var newLotNo;
-        var newGrade;
-        var newTrayNo;
-        var newTrayWeight;
-        var newGrossWeight;
-        var qty;
-        var newNetWeight;
-        var moistureAfGrade;
-        var newStatus;
-        var newReason;
-        var newRemark;
+        $addContents.find('.details').attr("id", "detail" + size);
+        $addContents.find('.details').attr("data-index", size);
+        $addContents.find('#hideReason').attr("id", "hideReason" + size);
+        $addContents.find('#hideOldTrayNo').attr("id", "hideOldTrayNo" + size);
+        $addContents.find('#remove').attr("id", "remove" + size);
+        $addContents.find('#grossWeightSyncBtn').attr("id", "grossWeightSyncBtn" + size);
+        $addContents.find('#trayWeightSyncBtn').attr("id", "trayWeightSyncBtn" + size);
+        $addContents.find('#oldTrayNoSyncBtn').attr("id", "oldTrayNoSyncBtn" + size);
 
-        // if($("#newStatus").val() != "LAB"){
-        //     if($("#newTrayWeight").val() != "" && $("#newGrossWeight").val() != ""  && $("#qty").val() != "" && $("#newNetWeight").val() != "" && $("#moistureAfGrade").val() != ""){
-        //         newLotNo = $("#newLotNo").val();
-        //         newGrade = $("#newGrade").val();
-        //         newTrayNo = $("#newTrayNo").val();
-        //         newTrayWeight = $("#newTrayWeight").val();
-        //         newGrossWeight = $("#newGrossWeight").val();
-        //         qty = $("#qty").val();
-        //         newNetWeight = $("#newNetWeight").val();
-        //         moistureAfGrade = $("#moistureAfGrade").val();
-        //         newStatus = $("#newStatus").val();
-        //         newReason = $("#newReason").val();
-                
-        //         if($("#remark").val()){
-        //             newRemark = $("#remark").val();
-        //         }
-        //         else{
-        //             newRemark = "";
-        //         }
-                
-        //         var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
-        //         newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
-        //         newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
-        //         newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
-        //         newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
-        //         newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
-        //         qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
-        //         newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-        //         moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
-        //         newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-        //         newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-                
-        //         $("#TableId tbody").append(markup);
-
-        //         // Reset to empty again
-        //         $("#newLotNo").val($('#lotNo').val());
-        //         $("#newGrade").val("");
-        //         $("#newTrayNo").val($('#bTrayNo').val() + "/" + (size+2).toString());
-        //         $("#newTrayWeight").val("");
-        //         $("#newGrossWeight").val("");
-        //         $("#qty").val("");
-        //         $("#newNetWeight").val("");
-        //         $("#moistureAfGrade").val("");
-        //         $('#newStatus').val('PASSED');
-        //         $('#hideReason').attr('hidden', 'hidden');
-        //         $('#newReason').val('');
-        //         $('#remark').val('');
-        //     }else{
-        //         alert("Please Fill in all the required field!");
-        //     }
-        // }else{
-            // if($("#newLotNo").val() != "" && $("#newGrossWeight").val() != "" && $("#qty").val() != ""){
-                newLotNo = $("#newLotNo").val() != '' ? $("#newLotNo").val() : '-';
-                newGrade = $("#newGrade").val() != '' && $("#newGrade").val() != null ? $("#newGrade").val() : '-';
-                newTrayNo = $("#newTrayNo").val() != '' ? $("#newTrayNo").val() : '-';
-                newTrayWeight = $("#newTrayWeight").val() != '' ? $("#newTrayWeight").val() : '-';
-                newGrossWeight = $("#newGrossWeight").val() != '' ? $("#newGrossWeight").val() : '-';
-                qty = $("#qty").val() != '' ? $("#qty").val() : '-';
-                newNetWeight = $("#newNetWeight").val() != '' ? $("#newNetWeight").val() : '-';
-                moistureAfGrade = $("#moistureAfGrade").val() != '' ? $("#moistureAfGrade").val() : '-';
-                newStatus = $("#newStatus").val() != '' ? $("#newStatus").val() : '-';
-                newReason = $("#newReason").val() != '' ? $("#newReason").val() : '-';
-
-                if($("#remark").val()){
-                    newRemark = $("#remark").val();
-                }
-                else{
-                    newRemark = "";
-                }
-
-                var markup = "<tr><td><input type='hidden' name='newLotNo["+size+"]' value='"+newLotNo+"' />" +
-                newLotNo + "</td><td><input type='hidden' name='newGrade["+size+"]' value='"+newGrade+"' />" + 
-                newGrade + "</td><td><input type='hidden' name='newTrayNo["+size+"]' value='"+newTrayNo+"' />" + 
-                newTrayNo + "</td><td><input type='hidden' name='newTrayWeight["+size+"]' value='"+newTrayWeight+"' />" + 
-                newTrayWeight + "</td><td><input type='hidden' name='newGrossWeight["+size+"]' value='"+newGrossWeight+"' />" + 
-                newGrossWeight + "</td><td><input type='hidden' name='qty["+size+"]' value='"+qty+"' />" + 
-                qty + "</td><td><input type='hidden' name='newNetWeight["+size+"]' value='"+newNetWeight+"' />" + 
-                newNetWeight + "</td><td><input type='hidden' name='moistureAfGrade["+size+"]' value='"+moistureAfGrade+"' />" + 
-                moistureAfGrade + "</td><td><input type='hidden' name='newStatus["+size+"]' value='"+newStatus+"' />" + 
-                newStatus + "</td><input type='hidden' name='newReason["+size+"]' value='"+newReason+"' hidden/>" + 
-                newReason + "<td><input type='hidden' name='newRemark["+size+"]' value='"+newRemark+"' hidden/><button type='button' class='btn btn-danger' name=delete"+ size +">delete</button></td></tr>";
-                
-                $("#TableId tbody").append(markup);
-
-                // Reset to empty again
-                $("#newLotNo").val($('#lotNo').val());
-                $("#newGrade").val("");
-                $("#newTrayNo").val($('#lotNo').val() + "G" + (size).toString());
-                $("#newTrayWeight").val("");
-                $("#newGrossWeight").val("");
-                $("#qty").val("");
-                $("#newNetWeight").val("");
-                $("#moistureAfGrade").val("");
-                $('#newStatus').val('PASSED');
-                $('#hideReason').attr('hidden', 'hidden');
-                $('#newReason').val('');
-                $('#remark').val('');
-        //     }else{
-        //         alert("Please Fill in all the required field!");
-        //     }
-
-        // }
+        $addContents.find('#newStatus').attr('name', 'newStatus['+size+']').attr("id", "newStatus" + size);
+        $addContents.find('#newReason').attr('name', 'newReason['+size+']'.attr("id", "newReason" + size));
+        $addContents.find('#sameTrayYes').attr('name', 'sameTray['+size+']').attr("id", "sameTrayYes" + size);
+        $addContents.find('#sameTrayNo').attr('name', 'sameTray['+size+']').attr("id", "sameTrayNo" + size);
+        $addContents.find('#bTrayNo').attr('name', 'bTrayNo['+size+']'.attr("id", "bTrayNo" + size));
+        $addContents.find('#newLotNo').attr('name', 'newLotNo['+size+']').attr("id", "newLotNo" + size).val($('#lotNo').val());
+        $addContents.find('#newGrade').attr('name', 'newGrade['+size+']').attr("id", "newGrade" + size);
+        $addContents.find('#newTrayNo').attr('name', 'newTrayNo['+size+']'.attr("id", "newTrayNo" + size)).val($('#lotNo').val() + "/G" + (size).toString());
+        $addContents.find('#newTrayWeight').attr('name', 'newTrayWeight['+size+']').attr("id", "newTrayWeight" + size);
+        $addContents.find('#newGrossWeight').attr('name', 'newGrossWeight['+size+']').attr("id", "newGrossWeight" + size);
+        $addContents.find('#qty').attr('name', 'qty['+size+']'.attr("id", "qty" + size));
+        $addContents.find('#newNetWeight').attr('name', 'newNetWeight['+size+']').attr("id", "newNetWeight" + size);
+        $addContents.find('#moistureAfGrade').attr('name', 'moistureAfGrade['+size+']'.attr("id", "moistureAfGrade" + size));
+        $addContents.find('#remark').attr('name', 'remark['+size+']').attr("id", "remark" + size);
+        $("#TableId").append($addContents);
     });
 
-    $('#newGrossWeight').on('change', function(){
+    $("#TableId").on('click', 'input[name^="sameTray"]', function () {
+        var index = $(this).parents('.details').attr('data-index');
+
+        if($('input[name="sameTray['+index+']"]:checked').val() == 'Yes'){
+            $(this).parents('.details').find('[id^="hideOldTrayNo"]').removeAttr('hidden');
+        }
+        else{
+            $(this).parents('.details').find('[id^="hideOldTrayNo"]').attr('hidden', 'hidden');
+            $(this).parents('.details').find('[id^="bTrayNo"]').val('');
+        }
+    });
+    
+    $("#TableId").on('click', 'button[id^="oldTrayNoSyncBtn"]', function () {
+        var contentIndex = $(this).parents('.details').attr('data-index');
+        $(this).parents('.details').find('input[name^="bTrayNo"]').val('');
+        $('#newBarcodeScan').val('');
+        $('#newBarcodeScan').trigger('focus');
+    });
+
+    $("#TableId").on('change', 'input[name^="bTrayNo"]', function(){
+        if($(this).val() && $('#lotNo').val()){
+            $('#spinnerLoading').show();
+            var lotNo = $('#lotNo').val();
+            var bTrayNo = $(this).val();
+
+            $.post('php/getOldReceiveInfo.php', {lotNum: lotNo, trayNo: bTrayNo}, function(data){
+                var obj = JSON.parse(data);
+                if(obj.status === 'success'){
+                    var size = $("#TableId").find(".details").length;
+                    $(this).parents('.details').find('input[name^="newGrossWeight"]').val(obj.message.grossWeight);
+                    $(this).parents('.details').find('input[name^="newTrayWeight"]').val(obj.message.grossWeight);
+                    $(this).parents('.details').find('input[name^="newNetWeight"]').val(obj.message.grossWeight);
+                    $(this).parents('.details').find('input[name^="newTrayNo"]').val(lotNo + '/G' + (size).toString());
+                    $(this).parents('.details').find('input[name^="newLotNo"]').val(lotNo);
+
+                    if(obj.message.itemType == 'T1'){
+                        $(this).parents('.details').find('input[name^="newGrade"]').html($('#editGradesHidden').html());
+                    }
+                    else if(obj.message.itemType == 'T3'){
+                        $(this).parents('.details').find('input[name^="newGrade"]').html($('#editGrades2Hidden').html());
+                    }
+                    else if(obj.message.itemType == 'T4'){
+                        $(this).parents('.details').find('input[name^="newGrade"]').html($('#editGrades3Hidden').html());
+                    }
+                }
+                else if(obj.status === 'failed'){
+                    toastr["error"](obj.message, "Failed:");
+                }
+                else{
+                    toastr["error"]("Something wrong when activate", "Failed:");
+                }
+                $('#spinnerLoading').hide();
+            });
+        }
+    });
+
+    $("#TableId").on('change', 'input[name^="newGrossWeight"]', function(){
         var grossWeight = $(this).val();
         var bTrayNo = 0;
 
-        if($('#newTrayWeight').val()){
-            bTrayNo = $('#newTrayWeight').val();
+        if($(this).parents('.details').find('input[name^="newTrayWeight"]').val()){
+            bTrayNo = $(this).parents('.details').find('input[name^="newTrayWeight"]').val();
             var netweight = grossWeight - bTrayNo;
-            $('#newNetWeight').val(netweight.toFixed(2));
-
+            $(this).parents('.details').find('input[name^="newNetWeight"]').val(netweight.toFixed(2));
         }
         else{
-            $('#newNetWeight').val(grossWeight.toFixed(2));
+            $(this).parents('.details').find('input[name^="newNetWeight"]').val(grossWeight.toFixed(2));
         }
     });
 
-    $('#newTrayWeight').on('change', function(){
+    $("#TableId").on('change', 'input[name^="newTrayWeight"]', function(){
         var grossWeight = 0;
         var bTrayNo = $(this).val();
 
-        if($('#newGrossWeight').val()){
-            grossWeight = $('#newGrossWeight').val();
+        if($(this).parents('.details').find('input[name^="newGrossWeight"]').val()){
+            grossWeight = $(this).parents('.details').find('input[name^="newGrossWeight"]').val();
             var netweight = grossWeight - bTrayNo;
-            $('#newNetWeight').val(netweight.toFixed(2));
-
+            $(this).parents('.details').find('input[name^="newNetWeight"]').val(netweight.toFixed(2));
         }
         else{
-            $('#newNetWeight').val((0).toFixed(2));
+            $(this).parents('.details').find('input[name^="newNetWeight"]').val((0).toFixed(2));
         }
     });
 
@@ -1085,21 +1027,19 @@ $(function () {
         }
     });
 
-    $('#newStatus').on('change', function(){
-        if($('#newStatus').val() == 'PASSED')
-        {
-            $('#hideReason').attr('hidden', 'hidden');
-            $('#newReason').val('');
-
-        }else{
-            $('#hideReason').removeAttr('hidden');
+    $("#TableId").on('change', '[name^="newStatus"]', function(){
+        if($(this).val() == 'PASSED'){
+            $(this).parents('.details').find('[id^="hideReason"]').attr('hidden', 'hidden');
+            $(this).parents('.details').find('[id^="newReason"]').val('');
         }
-
+        else{
+            $(this).parents('.details').find('[id^="hideReason"]').removeAttr('hidden');
+        }
     });
         
     // Find and remove selected table rows
-    $("#TableId tbody").on('click', 'button[name^="delete"]', function () {
-        $(this).parents("tr").remove();
+    $("#TableId").on('click', 'button[id^="remove"]', function () {
+        $(this).parents('.details').remove();
     });
 
     $('#filterSearch').on('click', function(){
@@ -1190,7 +1130,7 @@ $(function () {
         $('#spinnerLoading').hide();
     });
 
-    $('#grossWeightSyncBtn').on('click', function(){
+    $("#TableId").on('change', 'button[id^="grossWeightSyncBtn"]', function(){
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
@@ -1205,8 +1145,8 @@ $(function () {
                 }
                 
                 var text = arr.join("") + "." + str[1];
-                $('#gradesModal').find('#newGrossWeight').val(parseFloat(text).toFixed(2));
-                $('#newGrossWeight').trigger('change');
+                $(this).parents('.details').find('input[name^="newGrossWeight"]').val(parseFloat(text).toFixed(2));
+                $(this).parents('.details').find('input[name^="newGrossWeight"]').trigger('change');
             }
             else{
                 toastr["error"]("Failed to get the reading!", "Failed:");
@@ -1214,7 +1154,7 @@ $(function () {
         });
     });
 
-    $('#trayWeightSyncBtn').on('click', function(){
+    $("#TableId").on('change', 'button[id^="trayWeightSyncBtn"]', function(){
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
@@ -1229,8 +1169,8 @@ $(function () {
                 }
                 
                 var text = arr.join("") + "." + str[1];
-                $('#gradesModal').find('#newTrayWeight').val(parseFloat(text).toFixed(2));
-                $('#newTrayWeight').trigger('change');
+                $(this).parents('.details').find('input[name^="newTrayWeight"]').val(parseFloat(text).toFixed(2));
+                $(this).parents('.details').find('input[name^="newTrayWeight"]').trigger('change');
             }
             else{
                 toastr["error"]("Failed to get the reading!", "Failed:");
