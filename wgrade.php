@@ -849,7 +849,7 @@ $(function () {
             $.post('php/getReceiveInfo.php', {lotNum: lotNo}, function(data){
                 var obj = JSON.parse(data);
                 
-                if(obj.status === 'success'){dsd
+                if(obj.status === 'success'){
                     $('#gradesModal').find('#parentId').val(obj.message.id);
                     $('#gradesModal').find('#itemType').val(obj.message.itemType);
                     contentItems = obj.message.itemTypes;
