@@ -38,8 +38,8 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
 
                 $action = "User : ".$name." Update Tray No : ".$bTrayWeight." in receives table!";
 
-                if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
-                    $log_insert_stmt->bind_param('ss', $userId, $action);
+                if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, userName, action) VALUES (?, ?, ?)")) {
+                    $log_insert_stmt->bind_param('sss', $userId, $name, $action);
                 
     
                     if (! $log_insert_stmt->execute()) {
@@ -138,8 +138,8 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
 
                     $action = "User : ".$name." Add new Lot No : ".$lotNo[$i]." And Tray No : ".$bTrayNo[$i]." in receives table!";
 
-                    if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, action) VALUES (?, ?)")) {
-                        $log_insert_stmt->bind_param('ss', $userId, $action);
+                    if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, userName, action) VALUES (?, ?, ?)")) {
+                        $log_insert_stmt->bind_param('sss', $userId, $name, $action);
                     
         
                         if (! $log_insert_stmt->execute()) {

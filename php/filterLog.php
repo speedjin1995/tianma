@@ -13,8 +13,22 @@ $searchValue = mysqli_real_escape_string($db,$_POST['search']['value']); // Sear
 
 ## Search 
 $searchQuery = " ";
-if($searchValue != ''){
-   $searchQuery = " AND log like '%".$searchValue."%'";
+
+if($_POST['fromDate'] != null && $_POST['fromDate'] != ''){
+  $fromDate = new DateTime($_POST['fromDate']);
+  $fromDateTime = date_format($fromDate,"Y-m-d H:i:s");
+  $searchQuery = " where log.created_dateTime >= '".$fromDateTime."'";
+}
+
+if($_POST['toDate'] != null && $_POST['toDate'] != ''){
+  $toDate = new DateTime($_POST['toDate']);
+  $toDateTime = date_format($toDate,"Y-m-d H:i:s");
+	$searchQuery .= " and log.created_dateTime <= '".$toDateTime."'";
+}
+
+if($_POST['filterUserName'] != null && $_POST['filterUserName'] != ''){
+  $filterUserName = $_POST['filterUserName'];
+	$searchQuery .= " and log.userName like '%".$filterUserName."%'";
 }
 
 ## Total number of records without filtering
@@ -29,11 +43,27 @@ $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
 $empQuery = "select * from log".$searchQuery." order by ".$columnName." ".$columnSortOrder." limit ".$row.",".$rowperpage;
+
 $empRecords = mysqli_query($db, $empQuery);
 $data = array();
 $counter = 1;
 
 while($row = mysqli_fetch_assoc($empRecords)) {
+  // if($row['outGDateTime'] == null || $row['outGDateTime'] == ''){
+  //   $outGDateTime = '-';
+  // }
+  // else{
+  //   $dateOut = new DateTime($row['outGDateTime']);
+  //   $outGDateTime = date_format($dateOut,"d/m/Y H:i:s A");
+  // }
+
+  // if($row['inCDateTime'] == null || $row['inCDateTime'] == ''){
+  //   $outGDateTime = '-';
+  // }
+  // else{
+  //   $dateInt = new DateTime($row['inCDateTime']);
+  //   $inCDateTime = date_format($dateInt,"d/m/Y H:i:s A");
+  // }
     $data[] = array( 
       "counter"=>$counter,
       "id"=>$row['id'],
@@ -43,7 +73,8 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "action"=>$row['action']
     );
 
-    $counter++;
+  $counter++;
+
 }
 
 ## Response

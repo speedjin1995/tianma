@@ -571,8 +571,6 @@ $(function () {
                $('#fromDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    minDate: oneWeek,
-                    maxDate: new Date,
                     defaultDate: oneWeek
                 });";
         
@@ -581,8 +579,6 @@ $(function () {
                 $('#toDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    minDate: oneWeek,
-                    maxDate: new Date,
                     defaultDate : new Date
                 });";
             }else{
