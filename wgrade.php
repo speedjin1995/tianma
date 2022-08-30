@@ -603,6 +603,7 @@ $(function () {
         "autoWidth": false,
         'processing': true,
         'serverSide': true,
+        'searching': false,
         'serverMethod': 'post',
         'order': [[ 2, 'asc' ]],
         'columnDefs': [ { orderable: false, targets: [0] }],
