@@ -104,7 +104,7 @@ else{
                                 </div>
                             </div>
                             <div class="form-group col-md-3 mt-32">
-                                <button class="btn btn-success" id="filterSearch"><i class="fas fa-search"></i>Filter 筛选</button> 
+                                <button class="btn btn-success" id="filterSearch"><i class="fas fa-search"></i> Filter 筛选</button> 
                             </div>                                            
                         </div>                         
 						<table id="moistureTable" class="table table-bordered table-striped">

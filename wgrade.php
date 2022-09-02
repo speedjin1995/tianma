@@ -185,7 +185,7 @@ $editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class 
                                 </div>
                             </div>
                             <div class="form-group col-md-3 mt-32">
-                                <button class="btn btn-success" id="filterSearch"><i class="fas fa-search"></i>Filter 筛选</button> 
+                                <button class="btn btn-success" id="filterSearch"><i class="fas fa-search"></i> Filter 筛选</button> 
                             </div>                                            
                         </div>                        
 						<table id="gradeTable" class="table table-bordered table-striped">

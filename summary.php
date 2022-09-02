@@ -73,7 +73,7 @@ else{
 			</div>
 			
 			<div class="card-footer">
-				<button class="btn btn-success" id="exportProfile"><i class="fas fa-file-export"></i>Export 导出</button>
+				<button class="btn btn-success" id="exportProfile"><i class="fas fa-file-export"></i> Export 导出</button>
 			</div>
 		</form>
 	</div>
@@ -143,5 +143,16 @@ $(function () {
             $(element).removeClass('is-invalid');
         }
     });
+
+    $('#exportProfile').on('click', function(){
+        var fromDateValue = $('#fromDate').val() ? $('#fromDate').val() : '';
+        var toDateValue = $('#toDate').val() ? $('#toDate').val() : '';
+        var itemTypeFilter = $('#itemType').val() ? $('#itemType').val() : '';
+        
+        window.open("php/export.php?fromDate="+fromDateValue+"&toDate="+toDateValue+
+        "&itemType="+itemTypeFilter);
+
+    });
+
 });
 </script>

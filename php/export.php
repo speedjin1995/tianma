@@ -11,162 +11,148 @@ function filterData(&$str){
 } 
  
 // Excel file name for download 
-if($_GET["file"] == 'weight'){
-    $fileName = "Weight-data_" . date('Y-m-d') . ".xls";
-}else{
-    $fileName = "Count-data_" . date('Y-m-d') . ".xls";
-} 
- 
-// Column names 
-if($_GET["file"] == 'weight'){
-    $fields = array('SERIAL NO', 'PRODUCT NO', 'UNIT WEIGHT', 'TARE WEIGHT', 'TOTAL WEIGHT', 'ACTUAL WEIGHT', 'MOQ', 'UNIT PRICE(RM)', 'TOTAL PRICE(RM)', 
-                'ORDER WEIGHT', 'CURRENT WEIGHT','VARIANCE WEIGHT', 'REDUCE WEIGHT', 'INCOMING DATETIME', 'OUTGOING DATETIME', 'VARIANCE %',
-                'VEHICLE NO', 'LOT NO', 'BATCH NO', 'INVOICE NO', 'DELIVERY NO', 'PURCHASE NO', 'CUSTOMER', 'PACKAGE', 'DATE', 'REMARK', 'STATUS', 'DELETED'); 
-}else{
-    $fields = array('SERIAL NO', 'PRODUCT NO', 'UNIT', 'UNIT WEIGHT', 'TARE', 'CURRENT WEIGHT', 'ACTUAL WEIGHT', 'TOTAL PCS','MOQ', 'UNIT PRICE(RM)', 'TOTAL PRICE(RM)',
-    'VEHICLE NO', 'LOT NO', 'BATCH NO', 'INVOICE NO', 'DELIVERY NO', 'PURCHASE NO', 'CUSTOMER', 'PACKAGE', 'DATE', 'REMARK', 'STATUS', 'DELETED');    
-}
+$fileName = "Summary_report" . date('Y-m-d') . ".xls";
+$output = ''; 
+// // Column names 
+// $fields = array('Date 日期','Batch 批号', 'Grading Weight 分级重量 (g)', 'Lab Sample 样本 (g)', 'QC Broken 分级破裂 (g)', 'Soaking / Cooking Test 泡发/炖煮测试(g)',
+//                 'Grade 等级', 'Weight 重量 (g)', 'Pass Rate 合格率（%)', 'Qty 片 (pcs)', 'Remark 备注','Date 日期', 'Weight 重量 (g)', 'Moist 水份 (G)', 'Date 日期', 
+//                 'GRADE 等级', 'Weight 重量 (g)', 'Moist 水份', 'Weight 重量(g) *compare to stock in', 'Percentage 比例 (%)', 'Remark 备注', 'Date 日期', 
+//                 'Form No 表格号码', 'Box No 盒号', 'GRADE 等级', 'Weight 重量 (g)', 'Qty 片 (pcs)', 'Weight 重量 (g)', 'Qty 片 (pcs)', 'Percentage 比例 (≤1%)',
+//                 'Remark 备注'); 
 
 // Display column names as first row 
-$excelData = implode("\t", array_values($fields)) . "\n"; 
+// $excelData = implode("\t", array_values($fields)) . "\n"; 
 
 ## Search 
 $searchQuery = " ";
 
 
 if($_GET['fromDate'] != null && $_GET['fromDate'] != ''){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.inCDateTime >= '".$_GET['fromDate']."'";
-    }else{
-        $searchQuery = " and count.dateTime >= '".$_GET['fromDate']."'";
-    }
+
+    $searchQuery = " and weighing.created_datetime >= '".$_GET['fromDate']."'";
+
 }
 
 if($_GET['toDate'] != null && $_GET['toDate'] != ''){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.inCDateTime <= '".$_GET['toDate']."'";
-    }else{
-        $searchQuery = " and count.dateTime <= '".$_GET['toDate']."'";
-    }
+
+    $searchQuery = " and weighing.created_datetime <= '".$_GET['toDate']."'";
 }
 
-if($_GET['status'] != null && $_GET['status'] != '' && $_GET['status'] != '-'){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.status = '".$_GET['status']."'";
-    }else{
-        $searchQuery = " and count.status = '".$_GET['status']."'";
-    }	
+if($_GET['itemType'] != null && $_GET['itemType'] != '' && $_GET['itemType'] != '-'){
+
+    $searchQuery = " and weighing.item_types = '".$_GET['itemType']."'";
+
 }
 
-if($_GET['customer'] != null && $_GET['customer'] != '' && $_GET['customer'] != '-'){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.customer = '".$_GET['customer']."'";
-    }else{
-        $searchQuery = " and count.customer = '".$_GET['customer']."'";
-    }
-}
-
-if($_GET['vehicle'] != null && $_GET['vehicle'] != '' && $_GET['vehicle'] != '-'){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.vehicleNo = '".$_GET['vehicle']."'";
-    }else{
-        $searchQuery = " and count.vehicleNo = '".$_GET['vehicle']."'";
-    }
-}
-
-if($_GET['invoice'] != null && $_GET['invoice'] != ''){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.invoiceNo like '%".$_GET['invoice']."%'";
-    }else{
-        $searchQuery = " and count.invoiceNo like '%".$_GET['invoice']."%'";
-    }
-}
-
-if($_GET['batch'] != null && $_GET['batch'] != ''){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.batchNo like '%".$_GET['batch']."%'";
-    }else{
-        $searchQuery = " and count.batchNo like '%".$_GET['batch']."%'";
-    }
-}
-
-if($_GET['product'] != null && $_GET['product'] != '' && $_GET['product'] != '-'){
-    if($_GET["file"] == 'weight'){
-        $searchQuery = " and weight.productName = '".$_GET['product']."'";
-    }else{
-        $searchQuery = " and count.productName = '".$_GET['product']."'";
-    }
-}
 
 // Fetch records from database
-if($_GET["file"] == 'weight'){
-    $query = $db->query("select weight.id, weight.serialNo, weight.vehicleNo, weight.lotNo, weight.batchNo, weight.invoiceNo, weight.deliveryNo, users.name,
-    weight.purchaseNo, weight.customer, products.product_name, packages.packages, weight.unitWeight, weight.tare, weight.totalWeight, weight.actualWeight, 
-    weight.supplyWeight, weight.varianceWeight, weight.currentWeight, units.units, weight.moq, weight.dateTime, weight.unitPrice, weight.totalPrice, weight.remark, 
-    weight.status as Status, status.status, weight.manual, weight.manualVehicle, weight.manualOutgoing, weight.reduceWeight, weight.outGDateTime, weight.inCDateTime, 
-    weight.pStatus, weight.variancePerc, weight.transporter from weight, packages, products, units, status, users 
-    WHERE weight.package = packages.id AND users.id = weight.created_by AND weight.pStatus = 'Complete' AND weight.productName = products.id AND status.id=weight.status AND 
-    units.id=weight.unitWeight AND weight.deleted = '0'".$searchQuery."");
-}else{
-    $query = $db->query("select count.id, count.serialNo, vehicles.veh_number, lots.lots_no, count.batchNo, count.invoiceNo, count.deliveryNo, 
-    count.purchaseNo, customers.customer_name, products.product_name, packages.packages, count.unitWeight, count.tare, count.totalWeight, 
-    count.actualWeight, count.currentWeight, units.units, count.moq, count.dateTime, count.unitPrice, count.totalPrice,count.totalPCS, 
-    count.remark, count.deleted, status.status from count, vehicles, packages, lots, customers, products, units, status WHERE 
-    count.vehicleNo = vehicles.id AND count.package = packages.id AND count.lotNo = lots.id AND count.customer = customers.id AND 
-    count.productName = products.id AND status.id=count.status AND units.id=count.unit ".$searchQuery."");
-}
+$query = $db->query("select * from weighing WHERE parent_no = '0'".$searchQuery."");
 
 if($query->num_rows > 0){ 
-    // Output each row of the data 
+    $output .= '
+    <table class="table" border="1">
+        <tr>
+            <th>Date<br/>日期</th>
+            <th style="width:130px">Batch<br/>批号</th>
+            <th>Grading Weight<br>分级重量 <br>(g)</th>
+            <th>Lab Sample<br>样本 <br>(g)</th>
+            <th>QC Broken<br>分级破裂 <br>(g)</th>
+            <th>Soaking / Cooking Test<br>泡发/炖煮测试<br>(g)</th>
+            <th>Grade<br>等级</th>
+            <th>Weight<br>重量<br>(g)</th>
+            <th>Pass Rate<br>合格率<br>(%)</th>
+            <th>Qty<br>片<br>(pcs)<br>(g)</th>
+            <th>Remark<br>备注</th>
+            <th>Date<br>日期</th>
+            <th>Weight<br>重量 (g)</th>
+            <th>Moist<br>水份<br>(g)</th>
+            <th>Date<br>日期</th>
+            <th>GRADE<br>等级</th>
+            <th>Weight<br>重量 (g)</th>
+            <th>Moist<br>水份</th>
+            <th>Weight<br>重量<br>(g) *compare to stock in</th>
+            <th>Percentage<br>比例<br>(%)</th>
+            <th>Remark<br>备注</th>
+            <th>Date<br>日期</th>
+            <th>Form No<br>表格号码</th>
+            <th>Box No<br>盒号</th>
+            <th>GRADE<br>等级</th>
+            <th>Weight<br>重量<br>(g)</th>
+            <th>Qty<br>片<br>(pcs)</th>
+            <th>Weight<br>重量<br>(g)</th>
+            <th>Qty<br>片<br>(pcs)</th>
+            <th>Percentage<br>比例<br>(≤1%)</th>
+            <th>Remark<br>备注</th>
+        </tr>
+
+    ';
+
+    // Output each row of the data linkgoog
     while($row = $query->fetch_assoc()){ 
-        $deleted = ($row['deleted'] == 1)?'Active':'Inactive';
-        
-        if($_GET["file"] == 'weight'){
-            $customer = '';
 
-            if($row['Status'] != '1' && $row['Status'] != '2'){
-                $customer = $row['customer'];
-            }
-            else{
-                $cid = $row['customer'];
-            
-                if ($update_stmt = $db->prepare("SELECT * FROM customers WHERE id=?")) {
-                    $update_stmt->bind_param('s', $cid);
-                
-                    // Execute the prepared query.
-                    if ($update_stmt->execute()) {
-                        $result = $update_stmt->get_result();
-                        
-                        if ($row2 = $result->fetch_assoc()) {
-                            $customer = $row2['customer_name'];
-                        }
-                    }
-                }
-            }
-
-            $lineData = array($row['serialNo'], $row['product_name'], $row['units'], $row['tare'], $row['totalWeight'], $row['actualWeight'],
-            $row['moq'], $row['unitPrice'], $row['totalPrice'], $row['supplyWeight'], $row['currentWeight'], $row['varianceWeight'], $row['reduceWeight'],
-            $row['inCDateTime'], $row['outGDateTime'], $row['variancePerc'], $row['vehicleNo'], $row['lotNo'], $row['batchNo'], $row['invoiceNo']
-            , $row['deliveryNo'], $row['purchaseNo'], $customer, $row['packages'], $row['dateTime'], $row['remark'], $row['status'], $deleted);
-        }else{
-            $lineData = array($row['serialNo'], $row['product_name'], $row['units'], $row['unitWeight'], $row['tare'], $row['currentWeight'], $row['actualWeight'],
-            $row['totalPCS'], $row['moq'], $row['unitPrice'], $row['totalPrice'], $row['veh_number'], $row['lots_no'], $row['batchNo'], $row['invoiceNo']
-            , $row['deliveryNo'], $row['purchaseNo'], $row['customer_name'], $row['packages'], $row['dateTime'], $row['remark'], $row['status'], $deleted);
+        $passRate = 0.00;
+        $lossWeightPerc = 0.00;
+        if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
+            $passRate = $row['net_weight'] / $row['grading_net_weight'];
         }
 
-        array_walk($lineData, 'filterData'); 
-        $excelData .= implode("\t", array_values($lineData)) . "\n"; 
-    } 
+        $lossWeight = $row['moisture_net_weight'] - $row['grading_net_weight'];
+
+        if($row['moisture_net_weight'] > 0 && $row['grading_net_weight'] > 0){
+            $lossWeightPerc = ($row['moisture_net_weight'] - $row['grading_net_weight']) / 100;
+        }
+
+        $output .= '
+            <tr>
+                <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                <td style="text-align: center;">="'.$row['lot_no'].'"</td>
+                <td style="text-align: center;">'.$row['net_weight'].'</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;">'."-".'</td>
+                <td style="text-align: center;">'.$row['grade'].'</td>
+                <td style="text-align: center;">'.$row['grading_net_weight'].'</td>
+                <td style="text-align: center;">'.$passRate.'</td>
+                <td style="text-align: center;">'.$row['pieces'].'</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                <td style="text-align: center;">'.$row['grading_net_weight'].'</td>
+                <td style="text-align: center;">'.$row['moisture_after_grading'].'</td>
+                <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                <td style="text-align: center;">'.$row['grade'].'</td>
+                <td style="text-align: center;">'.$row['moisture_net_weight'].'</td>
+                <td style="text-align: center;">'.$row['moisture_after_moisturing'].'</td>
+                <td style="text-align: center;">'.$lossWeight.'</td>
+                <td style="text-align: center;">'.$lossWeightPerc.'</td>
+                <td style="text-align: center;">'.$row['remark'].'</td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+                <td style="text-align: center;"></td>
+            </tr>
+    
+        ';
+        // array_walk($lineData, 'filterData'); 
+        // $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+    }
+    $output .= '</table>';
 }else{ 
-    $excelData .= 'No records found...'. "\n"; 
+    $output .= 'No records found...'. "\n"; 
 } 
  
 // Headers for download 
-header("Content-Type: application/vnd.ms-excel"); 
+header("Content-Type: application/vnd.ms-excel; charset=utf-8"); 
 header("Content-Disposition: attachment; filename=\"$fileName\""); 
- 
+
 // Render excel data 
-echo $excelData; 
+// $str = utf8_decode($excelData);
+echo $output; 
  
 exit;
 ?>
