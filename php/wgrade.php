@@ -34,6 +34,7 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
     $success = true;
     $userID = $_SESSION['userID'];
     $name = $_SESSION['name'];
+    $gradingDateTime = date("Y-m-d H:i:s");
 
     if($_POST['id'] != null && $_POST['id'] != ''){
         if ($update_stmt = $db->prepare("UPDATE weighing SET item_types=?, lot_no=?, tray_weight=?, tray_no=?, grading_net_weight=?, grade, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading=? WHERE id=?")) {
@@ -50,7 +51,7 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
             }
             else{
 
-                $action = "User : ".$name."Update Tray No : ".$bTrayNo,." in grades table!";
+                $action = "User : ".$name."Update Tray No : ".$bTrayNo." in grades table!";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId , userName, action) VALUES (?, ?, ?)")) {
                     $log_insert_stmt->bind_param('sss', $userId, $name, $action);
@@ -142,8 +143,8 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
         <body>';
 
         for($i=0; $i<sizeof($newLotNo); $i++){
-            if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-                $insert_stmt->bind_param('sssssssssssssss', $itemType, $newGrossWeight[$i], $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $newNetWeight[$i], $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $newRemark[$i]);
+            if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark, grading_datetime) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                $insert_stmt->bind_param('ssssssssssssssss', $itemType, $newGrossWeight[$i], $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $newNetWeight[$i], $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $newRemark[$i], $gradingDateTime[$i]);
                 
                 // Execute the prepared query.
                 if (! $insert_stmt->execute()) {
