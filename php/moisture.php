@@ -16,10 +16,11 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
     $bTrayNo = filter_input(INPUT_POST, 'bTrayNo', FILTER_SANITIZE_STRING);
     $userId = $_SESSION['userID'];
     $name = $_SESSION['name'];
+    $moistureDateTime = date("Y-m-d H:i:s");
 
     if($_POST['id'] != null && $_POST['id'] != ''){
-        if ($update_stmt = $db->prepare("UPDATE weighing SET moisture_gross_weight=?, moisture_net_weight=?, moisture_after_moisturing=? WHERE id=?")) {
-            $update_stmt->bind_param('ssss', $grossWeight, $netWeight, $stockOutMoisture, $_POST['id']);
+        if ($update_stmt = $db->prepare("UPDATE weighing SET moisture_gross_weight=?, moisture_net_weight=?, moisture_after_moisturing=?, moisturing_datetime=? WHERE id=?")) {
+            $update_stmt->bind_param('sssss', $grossWeight, $netWeight, $stockOutMoisture, $moistureDateTime, $_POST['id']);
             
             // Execute the prepared query.
             if (! $update_stmt->execute()) {
