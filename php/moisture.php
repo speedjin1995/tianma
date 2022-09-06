@@ -40,12 +40,15 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                 
 
                     if (! $log_insert_stmt->execute()) {
-
+                        echo json_encode(
+                            array(
+                                "status"=> "failed", 
+                                "message"=> $log_insert_stmt->error 
+                            )
+                        );
                     }
                     else{
-
                         $log_insert_stmt->close();
-                        
                     }
                 }
 
