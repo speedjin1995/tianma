@@ -26,11 +26,11 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
     $newGrossWeight=$_POST['newGrossWeight'];
     $newStatus=$_POST['newStatus'];
     $newReason=$_POST['newReason'];
-    $newRemark=$_POST['newRemark'];
+    $newRemark=$_POST['remark'];
     $qty=$_POST['qty'];
     $newNetWeight=$_POST['newNetWeight'];
     $moistureAfGrade=$_POST['moistureAfGrade'];
-    $remark = "";
+    //$remark = "";
     $success = true;
     $userID = $_SESSION['userID'];
     $name = $_SESSION['name'];
@@ -54,16 +54,19 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                 $action = "User : ".$name."Update Tray No : ".$bTrayNo." in grades table!";
 
                 if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId , userName, action) VALUES (?, ?, ?)")) {
-                    $log_insert_stmt->bind_param('sss', $userId, $name, $action);
+                    $log_insert_stmt->bind_param('sss', $userID, $name, $action);
                 
 
                     if (! $log_insert_stmt->execute()) {
-
+                        echo json_encode(
+                            array(
+                                "status"=> "failed", 
+                                "message"=> $log_insert_stmt->error 
+                            )
+                        );
                     }
                     else{
-
                         $log_insert_stmt->close();
-                        
                     }
                 }
 
@@ -143,8 +146,14 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
         <body>';
 
         for($i=0; $i<sizeof($newLotNo); $i++){
+            $reason = null;
+
+            if($newReason[$i] != null && $newReason[$i] != ""){
+                $reason = $newReason[$i];
+            }
+
             if ($insert_stmt = $db->prepare("INSERT INTO weighing (item_types, gross_weight, lot_no, tray_weight, tray_no, net_weight, grade, parent_no, pieces, grading_gross_weight, grading_net_weight, moisture_after_grading, status, reasons, remark, grading_datetime) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-                $insert_stmt->bind_param('ssssssssssssssss', $itemType, $newGrossWeight[$i], $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $newNetWeight[$i], $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $newReason[$i], $newRemark[$i], $gradingDateTime[$i]);
+                $insert_stmt->bind_param('ssssssssssssssss', $itemType, $newGrossWeight[$i], $newLotNo[$i], $newTrayWeight[$i], $newTrayNo[$i], $newNetWeight[$i], $newGrade[$i], $parentId, $qty[$i], $newGrossWeight[$i], $newNetWeight[$i], $moistureAfGrade[$i], $newStatus[$i], $reason, $newRemark[$i], $gradingDateTime);
                 
                 // Execute the prepared query.
                 if (! $insert_stmt->execute()) {
@@ -155,16 +164,18 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                     $action = "User : ".$name." Add new Lot No : ".$newLotNo[$i]." And Tray No : ".$newTrayNo[$i]." in grades table!";
 
                     if ($log_insert_stmt = $db->prepare("INSERT INTO log (userId, userName, action) VALUES (?, ?, ?)")) {
-                        $log_insert_stmt->bind_param('sss', $userId, $name, $action);
-                    
-        
-                        if (! $log_insert_stmt->execute()) {
-        
+                        $log_insert_stmt->bind_param('sss', $userID, $name, $action);
+                        
+                        if (!$log_insert_stmt->execute()) {
+                            echo json_encode(
+                                array(
+                                    "status"=> "failed", 
+                                    "message"=> $log_insert_stmt->error 
+                                )
+                            );
                         }
                         else{
-        
                             $log_insert_stmt->close();
-                            
                         }
                     }
 
