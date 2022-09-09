@@ -155,8 +155,10 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bTrayWeight">Box/Tray Weight 桶/托盘重量(G)</label>
-                                <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
-                                <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="moisturiseTrayWeight" id="moisturiseTrayWeight" placeholder="Enter Box/Tray Weight" readonly>
+                                    <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,8 +174,10 @@ else{
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="grossWeight">Moisturise/Drying Gross weight 加湿/风干后毛重(G) *</label>
-                                <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
-                                <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="moisturiseGrossWeight" id="moisturiseGrossWeight" placeholder="Enter Grading Gross weight" required>
+                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>                      
+                                </div>
                             </div>
                         </div>
                     </div>
