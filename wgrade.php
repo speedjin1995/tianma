@@ -1132,7 +1132,7 @@ $(function () {
         $('#spinnerLoading').hide();
     });
 
-    $("#TableId").on('change', 'button[id^="grossWeightSyncBtn"]', function(){
+    $("#TableId").on('click', 'button[id^="grossWeightSyncBtn"]', function(){
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
@@ -1156,7 +1156,7 @@ $(function () {
         });
     });
 
-    $("#TableId").on('change', 'button[id^="trayWeightSyncBtn"]', function(){
+    $("#TableId").on('click', 'button[id^="trayWeightSyncBtn"]', function(){
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
