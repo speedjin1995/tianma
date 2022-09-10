@@ -585,7 +585,6 @@ $(function () {
                 $("#moistureValue").val("");
 
                 $('[name^="bTrayWeight["]').on('change', function(){
-                    debugger;
                     var id = $(this).attr('id');
                     var trayW = $('[name="bTrayWeight['+id+']"]').val();
                     var grossW = $('[name="grossWeight['+id+']"]').val();
@@ -597,7 +596,6 @@ $(function () {
                 });
 
                 $('[name^="grossWeight["]').on('change', function(){
-                    debugger;
                     var id = $(this).attr('id');
                     var trayW = $('[name="bTrayWeight['+id+']"]').val();
                     var grossW = $('[name="grossWeight['+id+']"]').val();

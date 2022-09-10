@@ -822,6 +822,9 @@ $(function () {
 
     $('#addGrades').on('click', function(){
         $('#gradesModal').find('#id').val("");
+        $('#gradesModal').find('#lotNo').val("");
+        $('#gradesModal').find('#itemType').val("");
+        $('#TableId').find('.details').remove();
         $('#gradesModal').modal('show');
         
         $('#gradeForm').validate({
@@ -883,7 +886,6 @@ $(function () {
 
     $(".add-row").click(function(){
         var $addContents = $("#addContents").clone();
-        debugger;
 
         $addContents.find('.details').attr("id", "detail" + size);
         $addContents.find('.details').attr("data-index", size);
