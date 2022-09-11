@@ -674,6 +674,8 @@ $(function () {
         $('#receiveModal').find('#netWeight').val("");
         $('#receiveModal').modal('show');
         
+        $("#TableId tbody").empty();
+
         $('#receiveForm').validate({
             errorElement: 'span',
             errorPlacement: function (error, element) {
