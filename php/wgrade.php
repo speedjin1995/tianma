@@ -204,17 +204,19 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                 $result = $update_stmt->get_result();
 
                                 if($row = $result->fetch_assoc()){
-                                    $message = '<table style="width: 640px;height: 27px;">
+                                    $message = '<table style="width: 27px;height: 100px;">
                                     <tr>
-                                        <td colspan="2">
+                                        <td>
                                             <h2 style="text-align: center;">Grading Labels 分级标签</h2>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%;">
+                                        <td style="text-align: center;">
                                             <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                                         </td>
-                                        <td style="width: 70%;">
+                                    </tr>
+                                    <tr>   
+                                        <td>
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>

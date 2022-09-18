@@ -99,17 +99,19 @@ if(isset($_POST['userID'])){
                     </style>
                 </head>
                 <body>
-                    <table style="width: 640px;height: 27px;">
+                    <table style="height: 100px;width: 27px;">
                         <tr>
-                            <td colspan="2">
+                            <td>
                                 <h2 style="text-align: center;">Receive Labels 验收标签</h2>
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 30%;">
+                            <td style="text-align: center;">
                                 <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                             </td>
-                            <td style="width: 70%;">
+                        </tr>
+                        <tr>
+                            <td>
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
