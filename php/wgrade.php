@@ -211,10 +211,12 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;width:30%;">
+                                        <td style="text-align: center;">
                                             <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
-                                        </td> 
-                                        <td style="width:70%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>

@@ -142,10 +142,12 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;width:30%;">
+                                        <td style="text-align: center;">
                                             <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                                         </td>
-                                        <td style="width:70%;">
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>
