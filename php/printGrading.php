@@ -108,12 +108,10 @@ if(isset($_POST['userID'])){
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">
+                            <td style="text-align: center;width:30%;">
                                 <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
+                            <td style="width:70%;">
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
@@ -121,12 +119,6 @@ if(isset($_POST['userID'])){
                                         </td>
                                         <td>
                                             <p style="font-size: 14px;">'.$row['lot_no'].'</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$row['grading_gross_weight'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -136,12 +128,6 @@ if(isset($_POST['userID'])){
                                         <td>
                                             <p style="font-size: 14px;">'.$row['tray_no'].'</p>
                                         </td>
-                                        <td>
-                                            <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$row['tray_weight'].'</p>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -150,6 +136,24 @@ if(isset($_POST['userID'])){
                                         <td>
                                             <p style="font-size: 14px;">'.$row['grade'].'</p>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['grading_gross_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$row['tray_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <p style="font-size: 14px;">Grading Net weight<br>分级净重,g</p>
                                         </td>
@@ -164,6 +168,8 @@ if(isset($_POST['userID'])){
                                         <td>
                                             <p style="font-size: 14px;">'.$row['pieces'].'</p>
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <p style="font-size: 14px;">Moisture after grading<br>分级后湿度(%)</p>
                                         </td>

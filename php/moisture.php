@@ -142,12 +142,10 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center;width:30%;">
                                             <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
+                                        <td style="width:70%;">
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>
@@ -155,12 +153,6 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                                     </td>
                                                     <td>
                                                         <p>'.$row['lot_no'].'</p>
-                                                    </td>
-                                                    <td>
-                                                        <p>Moisturise/drying<br>Gross weight<br>加湿毛重,g</p>
-                                                    </td>
-                                                    <td>
-                                                        <p>'.$row['moisture_gross_weight'].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -170,12 +162,6 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                                     <td>
                                                         <p>'.$row['tray_no'].'</p>
                                                     </td>
-                                                    <td>
-                                                        <p>Box/tray weight,g<br>桶/托盘重量</p>
-                                                    </td>
-                                                    <td>
-                                                        <p>'.$row['tray_weight'].'</p>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -184,6 +170,24 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                                     <td>
                                                         <p>'.$row['grade'].'</p>
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Moisturise/drying<br>Gross weight<br>加湿毛重,g</p>
+                                                    </td>
+                                                    <td>
+                                                        <p>'.$row['moisture_gross_weight'].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Box/tray weight,g<br>桶/托盘重量</p>
+                                                    </td>
+                                                    <td>
+                                                        <p>'.$row['tray_weight'].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <p>Moisturise/drying<br>Net weight<br>加湿净重,g</p>
                                                     </td>
@@ -198,6 +202,8 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                                     <td>
                                                         <p>'.$row['pieces'].'</p>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <p>Stock out Moisture<br>出库湿度(%)</p>
                                                     </td>

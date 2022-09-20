@@ -181,12 +181,10 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">
+                            <td style="text-align: center; width:30%;">
                                 <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>
+                            <td style="width:70%;">
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
@@ -194,12 +192,6 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                                         </td>
                                         <td>
                                             <p style="font-size: 14px;">'.$lotNo[$i].'</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">Receiving Moisture <br>验收湿度(%)</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$moistureValue[$i].'</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -209,6 +201,16 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                                         <td>
                                             <p style="font-size: 14px;">'.$bTrayNo[$i].'</p>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Receive Gross weight<br>验收毛重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$grossWeight[$i].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
                                         </td>
@@ -218,16 +220,18 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="font-size: 14px;">Receive Gross weight<br>验收毛重,g</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$grossWeight[$i].'</p>
-                                        </td>
-                                        <td>
                                             <p style="font-size: 14px;">Receive Net weight<br>验收净重,g</p>
                                         </td>
                                         <td>
                                             <p style="font-size: 14px;">'.$netWeight[$i].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 14px;">Receiving Moisture <br>验收湿度(%)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 14px;">'.$moistureValue[$i].'</p>
                                         </td>
                                     </tr>
                                 </table>

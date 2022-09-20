@@ -211,12 +211,10 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;">
+                                        <td style="text-align: center;width:30%;">
                                             <img src="https://speedjin.com/tianma/php/'.$file.'" heigth="auto" width="50%" class="center"/>
-                                        </td>
-                                    </tr>
-                                    <tr>   
-                                        <td>
+                                        </td> 
+                                        <td style="width:70%;">
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>
@@ -224,12 +222,6 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                                     </td>
                                                     <td>
                                                         <p style="font-size: 14px;">'.$newLotNo[$i].'</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">'.$newGrossWeight[$i].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -239,12 +231,6 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                                     <td>
                                                         <p style="font-size: 14px;">'.$newTrayNo[$i].'</p>
                                                     </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">'.$newTrayWeight[$i].'</p>
-                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
@@ -253,6 +239,24 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                                     <td>
                                                         <p style="font-size: 14px;">'.$newGrade[$i].'</p>
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-size: 14px;">'.$newGrossWeight[$i].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-size: 14px;">'.$newTrayWeight[$i].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <p style="font-size: 14px;">Grading Net weight<br>分级净重,g</p>
                                                     </td>
@@ -267,6 +271,8 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                                     <td>
                                                         <p style="font-size: 14px;">'.$qty[$i].'</p>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <p style="font-size: 14px;">Moisture after grading<br>分级后湿度(%)</p>
                                                     </td>
