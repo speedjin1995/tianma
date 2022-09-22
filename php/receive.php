@@ -174,7 +174,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                     // Generates QR Code and Stores it in directory given
                     QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
 
-                    $message .= '<table style="width: 30px;height: 100px;">
+                    $message .= '<table style="width: 100%;height: 100px;">
                         <tr>
                             <td>
                                 <h2 style="text-align: center;">Receive Labels 验收标签</h2>

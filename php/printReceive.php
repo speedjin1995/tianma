@@ -99,7 +99,7 @@ if(isset($_POST['userID'])){
                     </style>
                 </head>
                 <body>
-                    <table style="height: 100px;width: 30px;">
+                    <table style="height: 100px;width: 100%;">
                         <tr>
                             <td>
                                 <h2 style="text-align: center;">Receive Labels 验收标签</h2>

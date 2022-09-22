@@ -204,7 +204,7 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                 $result = $update_stmt->get_result();
 
                                 if($row = $result->fetch_assoc()){
-                                    $message = '<table style="width: 30px;height: 100px;">
+                                    $message = '<table style="width: 100%;height: 100px;">
                                     <tr>
                                         <td>
                                             <h2 style="text-align: center;">Grading Labels 分级标签</h2>

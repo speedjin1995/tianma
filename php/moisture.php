@@ -135,7 +135,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                 </style>
                             </head>
                             <body>
-                                <table style="width: 30px;height: 100px;">
+                                <table style="width: 100%;height: 100px;">
                                     <tr>
                                         <td>
                                             <h2 style="text-align: center;">Moisturing & Drying Labels 风干/加湿标签</h2>
