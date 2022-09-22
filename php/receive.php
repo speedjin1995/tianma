@@ -174,7 +174,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                     // Generates QR Code and Stores it in directory given
                     QRcode::png($text, $file, $ecc, $pixel_Size, $frame_Size);
 
-                    $message .= '<table style="width: 27px;height: 100px;">
+                    $message .= '<table style="width: 30px;height: 100px;">
                         <tr>
                             <td>
                                 <h2 style="text-align: center;">Receive Labels 验收标签</h2>
@@ -190,50 +190,50 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
-                                            <p style="font-size: 14px;">Lot No <br>批号</p>
+                                            <p style="font-size: 12px;">Lot No <br>批号</p>
                                         </td>
                                         <td>
-                                            <p style="font-size: 14px;">'.$lotNo[$i].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p style="font-size: 14px;">Box/tray no<br>桶/托盘代号</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$bTrayNo[$i].'</p>
+                                            <p style="font-size: 12px;">'.$lotNo[$i].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="font-size: 14px;">Receive Gross weight<br>验收毛重,g</p>
+                                            <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                         </td>
                                         <td>
-                                            <p style="font-size: 14px;">'.$grossWeight[$i].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
-                                        </td>
-                                        <td>
-                                            <p style="font-size: 14px;">'.$bTrayWeight[$i].'</p>
+                                            <p style="font-size: 12px;">'.$bTrayNo[$i].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="font-size: 14px;">Receive Net weight<br>验收净重,g</p>
+                                            <p style="font-size: 12px;">Receive Gross weight<br>验收毛重,g</p>
                                         </td>
                                         <td>
-                                            <p style="font-size: 14px;">'.$netWeight[$i].'</p>
+                                            <p style="font-size: 12px;">'.$grossWeight[$i].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="font-size: 14px;">Receiving Moisture <br>验收湿度(%)</p>
+                                            <p style="font-size: 12px;">Box/tray weight,g<br>桶/托盘重量</p>
                                         </td>
                                         <td>
-                                            <p style="font-size: 14px;">'.$moistureValue[$i].'</p>
+                                            <p style="font-size: 12px;">'.$bTrayWeight[$i].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 12px;">Receive Net weight<br>验收净重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 12px;">'.$netWeight[$i].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 12px;">Receiving Moisture <br>验收湿度(%)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 12px;">'.$moistureValue[$i].'</p>
                                         </td>
                                     </tr>
                                 </table>

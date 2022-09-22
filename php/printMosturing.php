@@ -101,7 +101,7 @@ if(isset($_POST['userID'])){
                     </style>
                 </head>
                 <body>
-                    <table style="width: 27px;height: 100px;">
+                    <table style="width: 30px;height: 100px;">
                         <tr>
                             <td>
                                 <h2 style="text-align: center;">Moisturing & Drying Labels 风干/加湿标签</h2>
@@ -117,66 +117,66 @@ if(isset($_POST['userID'])){
                                 <table class="table-bordered" style="width:100%">
                                     <tr>
                                         <td>
-                                            <p>Lot No 批号</p>
+                                            <p style="font-size: 12px;">Lot No 批号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['lot_no'].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Box/tray no<br>桶/托盘代号</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['tray_no'].'</p>
+                                            <p style="font-size: 12px;">'.$row['lot_no'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Grade 等级</p>
+                                            <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['grade'].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Moisturise/drying<br>Gross weight<br>加湿毛重,g</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['moisture_gross_weight'].'</p>
+                                            <p style="font-size: 12px;">'.$row['tray_no'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Box/tray weight,g<br>桶/托盘重量</p>
+                                            <p style="font-size: 12px;">Grade 等级</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['tray_weight'].'</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Moisturise/drying<br>Net weight<br>加湿净重,g</p>
-                                        </td>
-                                        <td>
-                                            <p>'.$row['moisture_net_weight'].'</p>
+                                            <p style="font-size: 12px;">'.$row['grade'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Qty 片数(pcs)</p>
+                                            <p style="font-size: 12px;">Moisturise/drying<br>Gross weight<br>加湿毛重,g</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['pieces'].'</p>
+                                            <p style="font-size: 12px;">'.$row['moisture_gross_weight'].'</p>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>Stock out Moisture<br>出库湿度(%)</p>
+                                            <p style="font-size: 12px;">Box/tray weight,g<br>桶/托盘重量</p>
                                         </td>
                                         <td>
-                                            <p>'.$row['moisture_after_moisturing'].'</p>
+                                            <p style="font-size: 12px;">'.$row['tray_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 12px;">Moisturise/drying<br>Net weight<br>加湿净重,g</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 12px;">'.$row['moisture_net_weight'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 12px;">Qty 片数(pcs)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 12px;">'.$row['pieces'].'</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="font-size: 12px;">Stock out Moisture<br>出库湿度(%)</p>
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 12px;">'.$row['moisture_after_moisturing'].'</p>
                                         </td>
                                     </tr>
                                 </table>

@@ -204,7 +204,7 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                 $result = $update_stmt->get_result();
 
                                 if($row = $result->fetch_assoc()){
-                                    $message = '<table style="width: 27px;height: 100px;">
+                                    $message = '<table style="width: 30px;height: 100px;">
                                     <tr>
                                         <td>
                                             <h2 style="text-align: center;">Grading Labels 分级标签</h2>
@@ -220,66 +220,66 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                             <table class="table-bordered" style="width:100%">
                                                 <tr>
                                                     <td>
-                                                        <p style="font-size: 14px;">Lot No <br>批号</p>
+                                                        <p style="font-size: 12px;">Lot No <br>批号</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 14px;">'.$newLotNo[$i].'</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p style="font-size: 14px;">Box/tray no<br>桶/托盘代号</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">'.$newTrayNo[$i].'</p>
+                                                        <p style="font-size: 12px;">'.$newLotNo[$i].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-size: 14px;">Grade <br>等级</p>
+                                                        <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 14px;">'.$newGrade[$i].'</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p style="font-size: 14px;">Grading Gross weight<br>分级毛重,g</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">'.$newGrossWeight[$i].'</p>
+                                                        <p style="font-size: 12px;">'.$newTrayNo[$i].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-size: 14px;">Box/tray weight,g<br>桶/托盘重量</p>
+                                                        <p style="font-size: 12px;">Grade <br>等级</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 14px;">'.$newTrayWeight[$i].'</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p style="font-size: 14px;">Grading Net weight<br>分级净重,g</p>
-                                                    </td>
-                                                    <td>
-                                                        <p style="font-size: 14px;">'.$newNetWeight[$i].'</p>
+                                                        <p style="font-size: 12px;">'.$newGrade[$i].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-size: 14px;">Qty <br>片数(pcs)</p>
+                                                        <p style="font-size: 12px;">Grading Gross weight<br>分级毛重,g</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 14px;">'.$qty[$i].'</p>
+                                                        <p style="font-size: 12px;">'.$newGrossWeight[$i].'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-size: 14px;">Moisture after grading<br>分级后湿度(%)</p>
+                                                        <p style="font-size: 12px;">Box/tray weight,g<br>桶/托盘重量</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 14px;">'.$moistureAfGrade[$i].'</p>
+                                                        <p style="font-size: 12px;">'.$newTrayWeight[$i].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-size: 12px;">Grading Net weight<br>分级净重,g</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-size: 12px;">'.$newNetWeight[$i].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-size: 12px;">Qty <br>片数(pcs)</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-size: 12px;">'.$qty[$i].'</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-size: 12px;">Moisture after grading<br>分级后湿度(%)</p>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-size: 12px;">'.$moistureAfGrade[$i].'</p>
                                                     </td>
                                                 </tr>
                                             </table>
