@@ -70,7 +70,7 @@ $(function () {
       defaultDate: new Date
   });*/
 
-    /*$.validator.setDefaults({
+    $.validator.setDefaults({
         submitHandler: function () {
             $('#spinnerLoading').show();
             $.post('php/exportBatch.php', $('#profileForm').serialize(), function(data){
@@ -79,7 +79,7 @@ $(function () {
                 if(obj.status === 'success'){
                     toastr["success"](obj.message, "Success:");
                     
-                    $.get('myprofile.php', function(data) {
+                    $.get('batch.php', function(data) {
                         $('#mainContents').html(data);
                         $('#spinnerLoading').hide();
                     });
@@ -89,12 +89,12 @@ $(function () {
                     $('#spinnerLoading').hide();
                 }
         		else{
-        			toastr["error"]("Failed to update profile", "Failed:");
+        			toastr["error"]("Failed to export report", "Failed:");
                     $('#spinnerLoading').hide();
         		}
             });
         }
-    });*/
+    });
     
     $('#profileForm').validate({
         rules: {
