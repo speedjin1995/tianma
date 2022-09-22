@@ -314,18 +314,18 @@ if($itemType == 'T4'){
         $output .= 'No records found...'. "\n"; 
     }
 
-}else{
+}else if($itemType == 'T3'){
 
     if($query->num_rows > 0){ 
         $output .= '
         <table class="table" border="1">
             <tr>
                 <th colspan="2"></th>
-                <th colspan="9">'.$itemType.' Full Stock Summary</th>
+                <th colspan="9">T3 Full Stock Summary</th>
                 <th colspan="3" style="background-color: #FCE4D6;"></th>
                 <th colspan="4" style="background-color: #FCE4D6;"></th>
                 <th colspan="2" style="background-color: #FCE4D6;"></th>
-                <th style="background-color: #FFFF00;"></th>
+                <th style="background-color: #FCE4D6;"></th>
                 <th colspan="3" style="background-color: #D9E1F2;"></th>
                 <th colspan="3" style="background-color: #D9E1F2;"></th>
                 <th colspan="4" style="background-color: #D9E1F2;"></th>
@@ -351,7 +351,7 @@ if($itemType == 'T4'){
                 <th colspan="3" style="background-color: #FCE4D6;">IN 进</th>
                 <th colspan="4" style="background-color: #FCE4D6;">Out 出</th>
                 <th colspan="2" style="background-color: #FCE4D6;">Loss 损失</th>
-                <th style="background-color: #FFFF00;"></th>
+                <th style="background-color: #FCE4D6;"></th>
                 <th colspan="3" style="background-color: #D9E1F2;">IN 进</th>
                 <th colspan="3" style="background-color: #D9E1F2;">Out 出</th>
                 <th colspan="4" style="background-color: #D9E1F2;">Loss 损失</th>
@@ -470,12 +470,260 @@ if($itemType == 'T4'){
         <tr>
             <th style="text-align: center;">Total</th>
             <th style="text-align: center;">="'.$countLotNo.'"</th>
-            <th style="text-align: center;"></th>
+            <th style="text-align: center;">'.$totalNetWeight.'</th>
             <th style="text-align: center;"></th>
             <th style="text-align: center;"></th>
             <th style="text-align: center;">'."-".'</th>
             <th style="text-align: center;"></th>
+            <th style="text-align: center;">'.$totalGradingNetWeight.'</th>
+            <th style="text-align: center;">'.$totalPassRate.'</th>
             <th style="text-align: center;"></th>
+            <th style="text-align: center;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;">'.$totalMoistureNetWeight.'</th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;">'.$totalLossWeight.'</th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+            <th style="text-align: center;background-color: #D9E1F2;"></th>
+        </tr> 
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <th colspan="2" >CONCLUSION</th>
+            <th>GRAM</th>
+            <th>%</th>
+        </tr>
+        <tr>
+            <th rowspan="3" >QC</th>
+            <th>TOTAL BATCH</th>
+            <th>'.$countLotNo.'</th>
+            <th>-</th>
+        </tr>
+        <tr>
+            <th>TOTAL  WEIGHT</th>
+            <th>'.$totalNetWeight.'</th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>PASS RATE</th>
+            <th>'.$totalGradingNetWeight.'</th>
+            <th>'.$totalPassRatePerc.'</th>
+        </tr>                
+        <tr>
+            <th rowspan="4">DRYING / HUMIFIYING</th>
+            <th>TOTAL BATCH</th>
+            <th></th>
+            <th>-</th>
+        </tr>
+        <tr>
+            <th>TOTAL WEIGHT</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>BROKEN</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>YS</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th rowspan="4">P2 </th>
+            <th>TOTAL BATCH</th>
+            <th></th>
+            <th>-</th>
+        </tr>
+        <tr>
+            <th>BROKEN</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>YS</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <th>LOSS</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+        </tr>       
+        </table>';
+    }else{ 
+        $output .= 'No records found...'. "\n"; 
+    }
+
+}else{
+
+    if($query->num_rows > 0){ 
+        $output .= '
+        <table class="table" border="1">
+            <tr>
+                <th colspan="2"></th>
+                <th colspan="6">T1 Full Stock Summary</th>
+                <th colspan="3" style="background-color: #FCE4D6;"></th>
+                <th colspan="4" style="background-color: #FCE4D6;"></th>
+                <th colspan="2" style="background-color: #FCE4D6;"></th>
+                <th style="background-color: #FCE4D6;"></th>
+                <th colspan="3" style="background-color: #D9E1F2;"></th>
+                <th colspan="3" style="background-color: #D9E1F2;"></th>
+                <th colspan="4" style="background-color: #D9E1F2;"></th>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th colspan="6">QC Grading 分级</th>
+                <th colspan="10" style="background-color: #FCE4D6;">Drying/Humidify 风干或加湿</th>
+                <th colspan="10" style="background-color: #D9E1F2;">Production Packing 生产包装</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th colspan="3" style="background-color: #FCE4D6;">IN 进</th>
+                <th colspan="4" style="background-color: #FCE4D6;">Out 出</th>
+                <th colspan="2" style="background-color: #FCE4D6;">Loss 损失</th>
+                <th style="background-color: #FCE4D6;"></th>
+                <th colspan="3" style="background-color: #D9E1F2;">IN 进</th>
+                <th colspan="3" style="background-color: #D9E1F2;">Out 出</th>
+                <th colspan="4" style="background-color: #D9E1F2;">Loss 损失</th>
+            </tr>        
+            <tr>  
+                <th>Date<br/>日期</th>
+                <th style="width:130px">Batch<br/>批号</th>
+                <th>Grading Weight<br>分级重量 <br>(g)</th>
+                <th>Grade<br>等级</th>
+                <th>Weight<br>重量<br>(g)</th>
+                <th>Pass Rate<br>合格率<br>(%)</th>
+                <th>Qty<br>片<br>(pcs)<br>(g)</th>
+                <th>Remark<br>备注</th>
+                <th style="background-color: #FCE4D6;">Date<br>日期</th>
+                <th style="background-color: #FCE4D6;">Weight<br>重量 (g)</th>
+                <th style="background-color: #FCE4D6;">Moist<br>水份<br>(g)</th>
+                <th style="background-color: #FCE4D6;">Date<br>日期</th>
+                <th style="background-color: #FCE4D6;">GRADE<br>等级</th>
+                <th style="background-color: #FCE4D6;">Weight<br>重量 (g)</th>
+                <th style="background-color: #FCE4D6;">Moist<br>水份</th>
+                <th style="background-color: #FCE4D6;">Weight<br>重量<br>(g) *compare to stock in</th>
+                <th style="background-color: #FCE4D6;">Percentage<br>比例<br>(%)</th>
+                <th style="background-color: #FCE4D6;">Remark<br>备注</th>
+                <th style="background-color: #D9E1F2;">Date<br>日期</th>
+                <th style="background-color: #D9E1F2;">Form No<br>表格号码</th>
+                <th style="background-color: #D9E1F2;">Box No<br>盒号</th>
+                <th style="background-color: #D9E1F2;">GRADE<br>等级</th>
+                <th style="background-color: #D9E1F2;">Weight<br>重量<br>(g)</th>
+                <th style="background-color: #D9E1F2;">Qty<br>片<br>(pcs)</th>
+                <th style="background-color: #D9E1F2;">Weight<br>重量<br>(g)</th>
+                <th style="background-color: #D9E1F2;">Qty<br>片<br>(pcs)</th>
+                <th style="background-color: #D9E1F2;">Percentage<br>比例<br>(≤1%)</th>
+                <th style="background-color: #D9E1F2;">Remark<br>备注</th>
+            </tr>
+
+        ';
+
+        $passRate = 0.00;
+        $lossWeightPerc = 0.00;
+        $countLotNo = 0;
+        $totalPassRate = 0;
+        $totalMoistureNetWeight = 0;
+        $totalLossWeight = 0;
+        $totalNetWeight = 0;
+        $totalGradingNetWeight = 0;
+
+        // Output each row of the data linkgoog
+        while($row = $query->fetch_assoc()){ 
+
+            if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
+                $passRate = $row['net_weight'] / $row['grading_net_weight'];
+            }
+
+            $lossWeight = $row['moisture_net_weight'] - $row['grading_net_weight'];
+
+            if($row['moisture_net_weight'] > 0 && $row['grading_net_weight'] > 0){
+                $lossWeightPerc = ($row['moisture_net_weight'] - $row['grading_net_weight']) / 100;
+            }
+
+            if($row['lot_no'] != null)
+            {
+                $countLotNo++;
+            }
+            
+            $totalPassRate += $passRate;
+            $totalMoistureNetWeight += $row['moisture_net_weight'];
+            $totalLossWeight += $lossWeight;
+            $totalGradingNetWeight += $row['grading_net_weight'];
+            $totalNetWeight += $row['net_weight'];
+
+            $output .= '
+                <tr>
+                    <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                    <td style="text-align: center;">="'.$row['lot_no'].'"</td>
+                    <td style="text-align: center;">'.$row['net_weight'].'</td>
+                    <td style="text-align: center;">'.$row['grade'].'</td>
+                    <td style="text-align: center;">'.$row['grading_net_weight'].'</td>
+                    <td style="text-align: center;">'.$passRate.'</td>
+                    <td style="text-align: center;">'.$row['pieces'].'</td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_grading'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisturing_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grade'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeight.'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['remark'].'</td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                </tr>       
+            ';
+            // array_walk($lineData, 'filterData'); 
+            // $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+        }
+
+        $totalPassRatePerc = 0;
+        $totalPassRatePerc = ($totalGradingNetWeight / $totalNetWeight) * 100;
+        $output .= '
+        <tr>
+            <th style="text-align: center;">Total</th>
+            <th style="text-align: center;">="'.$countLotNo.'"</th>
+            <th style="text-align: center;">'.$totalNetWeight.'</th>
+            <th style="text-align: center;"></th>
+            <th style="text-align: center;">'.$totalGradingNetWeight.'</th>
             <th style="text-align: center;">'.$totalPassRate .'</th>
             <th style="text-align: center;"></th>
             <th style="text-align: center;"></th>
@@ -486,8 +734,8 @@ if($itemType == 'T4'){
             <th style="text-align: center;background-color: #FCE4D6;"></th>
             <th style="text-align: center;background-color: #FCE4D6;">'.$totalMoistureNetWeight.'</th>
             <th style="text-align: center;background-color: #FCE4D6;"></th>
-            <th style="text-align: center;background-color: #FCE4D6;">'.$lossWeight.'</th>
-            <th style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</th>
+            <th style="text-align: center;background-color: #FCE4D6;">'.$totalLossWeight.'</th>
+            <th style="text-align: center;background-color: #FCE4D6;"></th>
             <th style="text-align: center;background-color: #FCE4D6;"></th>
             <th style="text-align: center;background-color: #D9E1F2;"></th>
             <th style="text-align: center;background-color: #D9E1F2;"></th>
