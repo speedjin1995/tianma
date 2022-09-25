@@ -71,7 +71,7 @@ $(function () {
   });*/
 
     $.validator.setDefaults({
-        submitHandler: function () {
+        /*submitHandler: function () {
             $('#spinnerLoading').show();
             $.post('php/exportBatch.php', $('#profileForm').serialize(), function(data){
                 var obj = JSON.parse(data); 
@@ -93,7 +93,7 @@ $(function () {
                     $('#spinnerLoading').hide();
         		}
             });
-        }
+        }*/
     });
     
     $('#profileForm').validate({
@@ -118,6 +118,13 @@ $(function () {
         unhighlight: function (element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         }
+    });
+
+    $('#exportProfile').on('click', function(){
+        var newLotNo = $('#newLotNo').val() ? $('#newLotNo').val() : '';
+        
+        window.open("php/exportBatch.php?batch="+newLotNo);
+
     });
 });
 </script>

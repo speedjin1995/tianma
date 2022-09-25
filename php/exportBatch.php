@@ -11,7 +11,9 @@ function filterData(&$str){
 }
 
 // Excel file name for download 
-$fileName = "";
+/*$fileName = "Summary_report" . date('Y-m-d') . ".xls";
+$output = '';
+$lotNo = $_GET['batch'];
  
 // Column names 
 if($_GET["file"] == 'weight'){
@@ -20,10 +22,7 @@ if($_GET["file"] == 'weight'){
                 'VEHICLE NO', 'LOT NO', 'BATCH NO', 'INVOICE NO', 'DELIVERY NO', 'PURCHASE NO', 'CUSTOMER', 'PACKAGE', 'DATE', 'REMARK', 'STATUS', 'DELETED'); 
 }else{
     
-}
-
-// Display column names as first row 
-
+}*/
 
 if($_GET['batch'] != null && $_GET['batch'] != ''){
     $fileName = "Batch_Report_".$_GET['batch'].".xls";
