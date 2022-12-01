@@ -162,7 +162,7 @@ if(isset($_POST['moisturiseGrossWeight'], $_POST['moisturiseNetWeight'], $_POST[
                                                         <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 12px;">'.$row['tray_no'].'</p>
+                                                        <p style="font-size: 12px;">'.str_replace(array($row['lot_no']), "", $row['tray_no']).'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>

@@ -201,7 +201,7 @@ if(isset($_POST['itemType'], $_POST['grossWeight'], $_POST['lotNo'], $_POST['bTr
                                             <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                         </td>
                                         <td>
-                                            <p style="font-size: 12px;">'.$bTrayNo[$i].'</p>
+                                            <p style="font-size: 12px;">'.str_replace(array($lotNo[$i]), "", $bTrayNo[$i]).'</p>
                                         </td>
                                     </tr>
                                     <tr>

@@ -231,7 +231,7 @@ $_POST['newNetWeight'], $_POST['moistureAfGrade'], $_POST['parentId'], $_POST['n
                                                         <p style="font-size: 12px;">Box/tray no<br>桶/托盘代号</p>
                                                     </td>
                                                     <td>
-                                                        <p style="font-size: 12px;">'.$newTrayNo[$i].'</p>
+                                                        <p style="font-size: 12px;">'.str_replace(array($newLotNo[$i]), "", $newTrayNo[$i]).'</p>
                                                     </td>
                                                 </tr>
                                                 <tr>

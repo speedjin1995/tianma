@@ -201,8 +201,8 @@ else{
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="qty">Qty 片数 (pcs) *</label>
-                                <input type="number" class="form-control" name="moisturiseQty" id="moisturiseQty" placeholder="Enter Moisturise Qty" required>
+                                <label for="qty">Qty 片数 (pcs)</label>
+                                <input type="number" class="form-control" name="moisturiseQty" id="moisturiseQty" placeholder="Enter Moisturise Qty">
                             </div>
                         </div>
 

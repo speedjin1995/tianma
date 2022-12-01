@@ -174,7 +174,7 @@ else{
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="lotNo">Lot No 批号 *</label>
-                                <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No">
+                                <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No" autocomplete="off">
                             </div>
                         </div>
                     </div>

@@ -384,14 +384,14 @@ to get the desired effect
                         <i class="nav-icon fa fa-file"></i>
                         <p>Summary Report <span class="tab-label">总结报告</span></p>
                       </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#batch" data-file="batch.php" class="nav-link link">
-                        <i class="nav-icon fa fa-file"></i>
-                        <p>Batch Report 批次报告</p>
-                      </a>
-                    </li>
-                  </ul>
+                    </li>'.
+                    //<li class="nav-item">
+                    //  <a href="#batch" data-file="batch.php" class="nav-link link">
+                    //    <i class="nav-icon fa fa-file"></i>
+                    //    <p>Batch Report 批次报告</p>
+                    //  </a>
+                    //</li>
+                  '</ul>
                 </li>';
             }
           ?>

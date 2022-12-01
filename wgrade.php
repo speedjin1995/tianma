@@ -383,7 +383,7 @@ $editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="editQty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
+                                <label for="editQty">Qty 片数 (pcs) <!--span style="color:red;">*</span--></label>
                                 <input type="number" class="form-control" name="editQty" id="editQty" placeholder="Enter qty">
                             </div>
                         </div>
@@ -458,10 +458,10 @@ $editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class 
 
             <div class="col-md-3" >
                 <div class="form-group" id="hideOldTrayNo" hidden>
-                    <label for="bTrayNo">Old Tray No 旧桶/托盘代号</label>
+                    <label for="bTrayNo">Reused Tray No 重复用桶/托盘代号</label>
                     <div class="input-group">
                         <input type="text" class="form-control" name="bTrayNo" id="bTrayNo" placeholder="Enter Box/Tray No">
-                        <button type="button" class="btn btn-primary" id="oldTrayNoSyncBtn"><i class="fas fa-sync"></i></button>
+                        <button type="button" class="btn btn-primary" id="oldTrayNoSyncBtn"><i class="fas fa-download"></i></button>
                     </div>
                 </div>
             </div>
@@ -517,7 +517,7 @@ $editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class 
 
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="qty">Qty 片数 (pcs) <span style="color:red;">*</span></label>
+                    <label for="qty">Qty 片数 (pcs) <!--span style="color:red;">*</span--></label>
                     <input type="number" class="form-control" name="qty" id="qty" placeholder="Enter qty">
                 </div>
             </div>
@@ -642,36 +642,36 @@ $(function () {
             $('#spinnerLoading').show();
             if($('#gradesModal').hasClass('show')){
                 $.post('php/wgrade.php', $('#gradeForm').serialize(), function(data){
-                        var obj = JSON.parse(data); 
-                        
-                        if(obj.status === 'success'){
-                            $('#gradesModal').modal('hide');
-                            toastr["success"](obj.message, "Success:");
+                    var obj = JSON.parse(data); 
+                    
+                    if(obj.status === 'success'){
+                        $('#gradesModal').modal('hide');
+                        toastr["success"](obj.message, "Success:");
 
-                            var printWindow = window.open('', '', 'height=400,width=800');
-                            printWindow.document.write(obj.label);
-                            printWindow.document.close();
-                            setTimeout(function(){
-                                printWindow.print();
-                                printWindow.close();
-                            }, 1000);
-                            
-                            $.get('wgrade.php', function(data) {
-                                $('#mainContents').html(data);
-                                $('#spinnerLoading').hide();
-                            });
-                        }
-                        else if(obj.status === 'failed'){
-                            toastr["error"](obj.message, "Failed:");
+                        var printWindow = window.open('', '', 'height=400,width=800');
+                        printWindow.document.write(obj.label);
+                        printWindow.document.close();
+                        setTimeout(function(){
+                            printWindow.print();
+                            printWindow.close();
+                        }, 1000);
+                        
+                        $.get('wgrade.php', function(data) {
+                            $('#mainContents').html(data);
                             $('#spinnerLoading').hide();
-                        }
-                        else{
-                            toastr["error"]("Something wrong when edit", "Failed:");
-                            $('#spinnerLoading').hide();
-                        }
-                    });
-                
-            }else if($('#editGradesModal').hasClass('show')){
+                        });
+                    }
+                    else if(obj.status === 'failed'){
+                        toastr["error"](obj.message, "Failed:");
+                        $('#spinnerLoading').hide();
+                    }
+                    else{
+                        toastr["error"]("Something wrong when edit", "Failed:");
+                        $('#spinnerLoading').hide();
+                    }
+                });
+            }
+            else if($('#editGradesModal').hasClass('show')){
 
                 $.post('php/editGrading.php', $('#editGradeForm').serialize(), function(data){
                         var obj = JSON.parse(data); 
@@ -906,7 +906,7 @@ $(function () {
         $addContents.find('#newTrayNo').attr('name', 'newTrayNo['+size+']').attr("id", "newTrayNo" + size);
         $addContents.find('#newTrayWeight').attr('name', 'newTrayWeight['+size+']').attr("id", "newTrayWeight" + size);
         $addContents.find('#newGrossWeight').attr('name', 'newGrossWeight['+size+']').attr("id", "newGrossWeight" + size);
-        $addContents.find('#qty').attr('name', 'qty['+size+']').attr("id", "qty" + size);
+        $addContents.find('#qty').attr('name', 'qty['+size+']').attr("id", "qty" + size).val(0);
         $addContents.find('#newNetWeight').attr('name', 'newNetWeight['+size+']').attr("id", "newNetWeight" + size);
         $addContents.find('#moistureAfGrade').attr('name', 'moistureAfGrade['+size+']').attr("id", "moistureAfGrade" + size);
         $addContents.find('#remark').attr('name', 'remark['+size+']').attr("id", "remark" + size);

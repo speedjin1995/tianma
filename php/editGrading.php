@@ -9,21 +9,25 @@ if(!isset($_SESSION['userID'])){
 }
 
 if(isset($_POST['editLotNo'], $_POST['editBTrayNo'], $_POST['editItemType'], $_POST['editGrossWeight'], $_POST['editBTrayWeight'], $_POST['editNetWeight']
-, $_POST['editQty'], $_POST['editGrade'], $_POST['editMoistureAfGrade'])){
+, $_POST['editGrade'], $_POST['editMoistureAfGrade'])){
     $editLotNo = filter_input(INPUT_POST, 'editLotNo', FILTER_SANITIZE_STRING);
     $editBTrayNo = filter_input(INPUT_POST, 'editBTrayNo', FILTER_SANITIZE_STRING);
     $editItemType = filter_input(INPUT_POST, 'editItemType', FILTER_SANITIZE_STRING);
     $editGrossWeight = filter_input(INPUT_POST, 'editGrossWeight', FILTER_SANITIZE_STRING);
     $editBTrayWeight = filter_input(INPUT_POST, 'editBTrayWeight', FILTER_SANITIZE_STRING);
     $editNetWeight = filter_input(INPUT_POST, 'editNetWeight', FILTER_SANITIZE_STRING);
-    $editQty = filter_input(INPUT_POST, 'editQty', FILTER_SANITIZE_STRING);
     $editGrade = filter_input(INPUT_POST, 'editGrade', FILTER_SANITIZE_STRING);
     $editMoistureAfGrade = filter_input(INPUT_POST, 'editMoistureAfGrade', FILTER_SANITIZE_STRING);
     $userId = $_SESSION['userID'];
     $name = $_SESSION['name'];
+    $editQty = '0';
 
     if($_POST['editRemark'] != null && $_POST['editRemark'] != ""){
         $editRemark = $_POST['editRemark'];
+    }
+
+    if($_POST['editQty'] != null && $_POST['editQty'] != ""){
+        $editQty = filter_input(INPUT_POST, 'editQty', FILTER_SANITIZE_STRING);
     }
 
     if($_POST['editId'] != null && $_POST['editId'] != ''){
