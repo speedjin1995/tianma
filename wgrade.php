@@ -563,6 +563,9 @@ $(function () {
 
     //Date picker
     var oneWeek = new Date();
+    oneWeek.setHours(0,0,0,0);
+    var oneWeek2 = new Date();
+    oneWeek2.setHours(23,59,59,999);
     <?php 
             if($role  == "NORMAL"){
                echo "oneWeek.setDate(oneWeek.getDate() - 7);";
@@ -580,20 +583,20 @@ $(function () {
                 $('#toDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate : new Date
+                    defaultDate : oneWeek2
                 });";
             }else{
 
                 echo "$('#fromDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate: new Date
+                    defaultDate: oneWeek
                 });";
             
                 echo "$('#toDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate: new Date
+                    defaultDate: oneWeek2
                 });";
 
             }
@@ -1135,6 +1138,8 @@ $(function () {
     });
 
     $("#TableId").on('click', 'button[id^="grossWeightSyncBtn"]', function(){
+        var element = $(this);
+        
         $.post('http://127.0.0.1:5002/handshaking', function(data){
             if(data != "Error"){
                 console.log("Data Received:" + data);
@@ -1149,8 +1154,8 @@ $(function () {
                 }
                 
                 var text = arr.join("") + "." + str[1];
-                $(this).parents('.details').find('input[name^="newGrossWeight"]').val(parseFloat(text).toFixed(2));
-                $(this).parents('.details').find('input[name^="newGrossWeight"]').trigger('change');
+                element.parents('.details').find('input[name^="newGrossWeight"]').val(parseFloat(text).toFixed(2));
+                element.parents('.details').find('input[name^="newGrossWeight"]').trigger('change');
             }
             else{
                 toastr["error"]("Failed to get the reading!", "Failed:");
@@ -1159,7 +1164,9 @@ $(function () {
     });
 
     $("#TableId").on('click', 'button[id^="trayWeightSyncBtn"]', function(){
-        $.post('http://127.0.0.1:5002/handshaking', function(data){
+        var element = $(this);
+        
+        $.post('http://127.0.0.1:5002/handshaking', function(data){ 
             if(data != "Error"){
                 console.log("Data Received:" + data);
                 var temp = data.replace('S', '').replace('D', '').replace('+', '').replace('-', '').replace('g', '').replace('G', '').trim();
@@ -1173,8 +1180,8 @@ $(function () {
                 }
                 
                 var text = arr.join("") + "." + str[1];
-                $(this).parents('.details').find('input[name^="newTrayWeight"]').val(parseFloat(text).toFixed(2));
-                $(this).parents('.details').find('input[name^="newTrayWeight"]').trigger('change');
+                element.parents('.details').find('input[name^="newTrayWeight"]').val(parseFloat(text).toFixed(2));
+                element.parents('.details').find('input[name^="newTrayWeight"]').trigger('change');
             }
             else{
                 toastr["error"]("Failed to get the reading!", "Failed:");

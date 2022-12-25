@@ -355,6 +355,9 @@ $(function () {
 
     //Date picker
     var oneWeek = new Date();
+    oneWeek.setHours(0,0,0,0);
+    var oneWeek2 = new Date();
+    oneWeek2.setHours(23,59,59,999);
     <?php 
             if($role  == "NORMAL"){
                echo "oneWeek.setDate(oneWeek.getDate() - 7);";
@@ -372,20 +375,20 @@ $(function () {
                 $('#toDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate : new Date
+                    defaultDate : oneWeek2
                 });";
             }else{
 
                 echo "$('#fromDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate: new Date
+                    defaultDate: oneWeek
                 });";
             
                 echo "$('#toDatePicker').datetimepicker({
                     icons: { time: 'far fa-clock' },
                     format: 'DD/MM/YYYY HH:mm:ss A',
-                    defaultDate: new Date
+                    defaultDate: oneWeek2
                 });";
 
             }
