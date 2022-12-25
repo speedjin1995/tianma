@@ -202,6 +202,7 @@ $editReasons3 = $db->query("SELECT * FROM reasons WHERE deleted = '0' AND class 
                                     <th>Grading Net Weight <br>分级净重(G)</th>
                                     <th>Moisture after grading <br>分级后湿度(%)</th>
                                     <th>Status <br>状态</th>
+                                    <th>Updated Datetime <br>更新时间</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -626,6 +627,7 @@ $(function () {
             { data: 'grading_net_weight' },
             { data: 'moisture_after_grading' },
             { data: 'status' },
+            { data: 'updated_datetime' },
             { 
                 data: 'id',
                 width: '140px',
@@ -1120,6 +1122,7 @@ $(function () {
             { data: 'grading_net_weight' },
             { data: 'moisture_after_grading' },
             { data: 'status' },
+            { data: 'updated_datetime' },
             { 
                 data: 'id',
                 width: '140px',

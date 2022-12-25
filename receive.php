@@ -133,6 +133,7 @@ else{
                                     <th>Receive Gross weight <br>验收毛重(G)</th>
                                     <th>Receive Net weight <br>验收净重(G)</th>
                                     <th>Moisture Value <br>水分值</th>
+                                    <th>Updated Datetime <br>更新时间</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -416,6 +417,7 @@ $(function () {
             { data: 'gross_weight' },
             { data: 'net_weight' },
             { data: 'moisture_after_receiving' },
+            { data: 'updated_datetime' },
             { 
                 data: 'id',
                 render: function ( data, type, row ) {
@@ -837,6 +839,7 @@ $(function () {
         { data: 'gross_weight' },
         { data: 'net_weight' },
         { data: 'moisture_after_receiving' },
+        { data: 'updated_datetime' },
         { 
             data: 'id',
             render: function ( data, type, row ) {

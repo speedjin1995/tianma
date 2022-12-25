@@ -46,7 +46,8 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "moisture_gross_weight"=>$row['moisture_gross_weight'],
       "pieces"=>$row['pieces'],
       "moisture_net_weight"=>$row['moisture_net_weight'],
-      "moisture_after_moisturing"=>$row['moisture_after_moisturing']
+      "moisture_after_moisturing"=>$row['moisture_after_moisturing'],
+      "updated_datetime"=>$row['updated_datetime']
     );
 
     $counter++;

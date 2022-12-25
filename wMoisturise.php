@@ -119,6 +119,7 @@ else{
                                     <th>Qty <br>片数(PCS)</th>
                                     <th>Grading Net Weight <br>分级净重(G)</th>
                                     <th>Moisture after moisturing <br>分级后湿度(%)</th> 
+                                    <th>Updated Datetime <br>更新时间</th>
                                     <th>Action <br>行动</th>
 								</tr>
 							</thead>
@@ -292,6 +293,7 @@ $(function () {
             { data: 'pieces' },
             { data: 'moisture_net_weight' },
             { data: 'moisture_after_moisturing' },
+            { data: 'updated_datetime' },
             { 
                 data: 'id',
                 width: '140px',
@@ -566,6 +568,7 @@ $(function () {
                 { data: 'pieces' },
                 { data: 'moisture_net_weight' },
                 { data: 'moisture_after_moisturing' },
+                { data: 'updated_datetime' },
                 { 
                     data: 'id',
                     width: '140px',
