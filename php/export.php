@@ -203,7 +203,7 @@ if($itemType == 'T4'){
 
             $output .= '
                 <tr>
-                    <td style="text-align: center;background-color: #E2EFDA;">'.$row['created_datetime'].'</td>
+                    <td style="text-align: center;background-color: #E2EFDA;">'.substr($row['created_datetime'], 0, 10).'</td>
                     <td style="text-align: center;background-color: #E2EFDA;">="'.$countLotNo.'"</td>
                     <td style="text-align: center;background-color: #E2EFDA;"></td>
                     <td style="text-align: center;background-color: #E2EFDA;"></td>
@@ -427,7 +427,7 @@ if($itemType == 'T4'){
 
             $output .= '
                 <tr>
-                    <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                    <td style="text-align: center;">'.substr($row['created_datetime'], 0, 10).'</td>
                     <td style="text-align: center;">="'.$row['lot_no'].'"</td>
                     <td style="text-align: center;">'.$row['net_weight'].'</td>
                     <td style="text-align: center;"></td>
@@ -681,7 +681,7 @@ if($itemType == 'T4'){
 
             $output .= '
                 <tr>
-                    <td style="text-align: center;">'.$row['created_datetime'].'</td>
+                    <td style="text-align: center;">'.substr($row['created_datetime'], 0, 10).'</td>
                     <td style="text-align: center;">="'.$row['lot_no'].'"</td>
                     <td style="text-align: center;">'.$row['net_weight'].'</td>
                     <td style="text-align: center;">'.$row['grade'].'</td>

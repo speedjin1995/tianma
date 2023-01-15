@@ -373,25 +373,25 @@ to get the desired effect
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
                     <i class="nav-icon fa fa-file"></i>
                     <p>Report 报告<i class="fas fa-angle-left right"></i></p>
                   </a>
-                  <ul class="nav nav-treeview" style="display: block;">
+                  <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
                       <a href="#summary" data-file="summary.php" class="nav-link link">
                         <i class="nav-icon fa fa-file"></i>
                         <p>Summary Report <span class="tab-label">总结报告</span></p>
                       </a>
-                    </li>'.
-                    //<li class="nav-item">
-                    //  <a href="#batch" data-file="batch.php" class="nav-link link">
-                    //    <i class="nav-icon fa fa-file"></i>
-                    //    <p>Batch Report 批次报告</p>
-                    //  </a>
-                    //</li>
-                  '</ul>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#batch" data-file="batch.php" class="nav-link link">
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>Batch Report 批次报告</p>
+                      </a>
+                    </li>
+                  </ul>
                 </li>';
             }
           ?>
