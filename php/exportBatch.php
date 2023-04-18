@@ -25,16 +25,14 @@ $lotNo = $_GET['batch'];
 }*/
 ## Search 
 $searchQuery = " ";
-
+$itemtype = "T4";
 
 if($_GET['batch'] != null && $_GET['batch'] != '' && $_GET['batch'] != '-'){
-
     $searchQuery = "weighing.lot_no = '".$_GET['batch']."'";
 
+    // Fetch item types
+    $itemtype = $db->query("select DISTINCT item_types FROM `weighing` WHERE lot_no = '" .$_GET['batch']."'");
 }
-
-//Fetch Item Types
-$itemtype = $db->query("select DISTINCT item_types FROM `weighing` WHERE lot_no = '" .$searchQuery."'");
 
 // Fetch records from database
 $query = $db->query("select * from weighing WHERE ".$searchQuery);
