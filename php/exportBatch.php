@@ -37,7 +37,7 @@ if($_GET['batch'] != null && $_GET['batch'] != '' && $_GET['batch'] != '-'){
 $itemtype = $db->query("select DISTINCT item_types FROM `weighing` WHERE lot_no = '" .$searchQuery."'");
 
 // Fetch records from database
-$query = $db->query("select * from weighing WHERE ".$searchQuery."");
+$query = $db->query("select * from weighing WHERE ".$searchQuery);
 
 if($itemtype == 'T4'){
     if($query->num_rows > 0){ 
