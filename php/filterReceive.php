@@ -73,6 +73,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "lot_no"=>$row['lot_no'],
       "item_types"=>$row['item_types'],
       "moisture_after_receiving"=>$row['moisture_after_receiving'],
+      "updated_datetime"=>$row['updated_datetime']
     );
 
   $counter++;
