@@ -130,7 +130,6 @@ else{
                                     <th>Lot No <br>批号</th>
                                     <th>Box/Tray No <br>桶/托盘代号</th>
 									<th>Box/Tray Weight <br>桶/托盘重量(G)</th>
-                                    <th>Receive Gross weight <br>验收毛重(G)</th>
                                     <th>Receive Net weight <br>验收净重(G)</th>
                                     <th>Moisture Value <br>水分值</th>
                                     <th>Updated Datetime <br>更新时间</th>
@@ -203,16 +202,6 @@ else{
                                 <div class="input-group">
                                     <input type="number" class="form-control" name="bTrayWeight" id="bTrayWeight" placeholder="Enter Box/Tray Weight">
                                     <button type="button" class="btn btn-primary" id="trayWeightSyncBtn"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight">                                    
-                                    <button type="button" class="btn btn-primary" id="grossWeightSyncBtn"><i class="fas fa-sync"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -310,16 +299,6 @@ else{
                     </div>
 
                     <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="grossWeight">Gross Weight 验收毛重(G) *</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" name="grossWeight" id="grossWeight" placeholder="Enter Receive Gross weight" required>                                    
-                                    <button type="button" class="btn btn-primary" id="editGrossWeightBtn"><i class="fas fa-sync"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="netWeight">Net weight 验收净重(G)</label>

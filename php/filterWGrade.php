@@ -78,6 +78,7 @@ while($row = mysqli_fetch_assoc($empRecords)) {
       "id"=>$row['id'],
       "moisture_after_grading"=>$row['moisture_after_grading'],
       "status"=>$row['status'],
+      "updated_datetime"=>$row['updated_datetime']
     );
 
   $counter++;
