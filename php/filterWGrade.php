@@ -30,6 +30,10 @@ if($_POST['itemTypeFilter'] != null && $_POST['itemTypeFilter'] != '' && $_POST[
 	$searchQuery .= " and weighing.item_Types = '".$_POST['itemTypeFilter']."'";
 }
 
+if($_POST['lotNo'] != null && $_POST['lotNo'] != '' && $_POST['lotNo'] != '-'){
+	$searchQuery .= " and weighing.lot_no like '%".$_POST['lotNo']."%'";
+}
+
 ## Total number of records without filtering
 $sel = mysqli_query($db,"select count(*) as allcount from weighing WHERE parent_no <> '0'");
 $records = mysqli_fetch_assoc($sel);

@@ -314,7 +314,8 @@ if($itemType == 'T4'){
         $output .= 'No records found...'. "\n"; 
     }
 
-}else if($itemType == 'T3'){
+}
+else if($itemType == 'T3' || $itemType == 'T1'){
 
     if($query->num_rows > 0){ 
         $output .= '
@@ -574,7 +575,8 @@ if($itemType == 'T4'){
         $output .= 'No records found...'. "\n"; 
     }
 
-}else{
+}
+else{
 
     if($query->num_rows > 0){ 
         $output .= '

@@ -107,9 +107,9 @@ else{
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-2">
                                 <div class="form-group">
-                                <label for="itemTypeFilter">Item Types 货品种类</label>
+                                    <label for="itemTypeFilter">Item Types 货品种类</label>
                                     <select class="form-control" style="width: 100%;" id="itemTypeFilter" name="itemTypeFilter">
                                         <option selected="selected">-</option>
                                         <option value="T1">T1</option>
@@ -118,7 +118,15 @@ else{
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3 mt-32">
+
+                            <div class="form-group col-md-2">
+                                <div class="form-group">
+                                    <label for="lotNo">Lot No 批号</label>
+                                    <input type="text" class="form-control" name="lotNo" id="lotNo" placeholder="Enter Lot No">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-2">
                                 <button class="btn btn-success" id="filterSearch"><i class="fas fa-search"></i> Filter 筛选</button> 
                             </div>                                            
                         </div>            
@@ -784,7 +792,7 @@ $(function () {
         }
 
         var itemTypeFilter = $('#itemTypeFilter').val() ? $('#itemTypeFilter').val() : '';
-
+        var lotNo = $('#lotNo').val() ? $('#lotNo').val() : '';
 
         //Destroy the old Datatable
         $("#receiveTable").DataTable().clear().destroy();
@@ -806,6 +814,7 @@ $(function () {
                 fromDate: fromDateValue,
                 toDate: toDateValue,
                 itemTypeFilter: itemTypeFilter,
+                lotNo: lotNo
             } 
         },
         'columns': [
