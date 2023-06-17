@@ -1,7 +1,9 @@
 <?php
 
 require_once 'db_connect.php';
-// // Load the database configuration file 
+// Load the database configuration file 
+
+ini_set("display_errors", 0);
  
 // Filter the excel data 
 function filterData(&$str){ 
@@ -14,15 +16,6 @@ function filterData(&$str){
 $fileName = "Summary_report" . date('Y-m-d') . ".xls";
 $output = '';
 $itemType = $_GET['itemType'];
-// // Column names 
-// $fields = array('Date 日期','Batch 批号', 'Grading Weight 分级重量 (g)', 'Lab Sample 样本 (g)', 'QC Broken 分级破裂 (g)', 'Soaking / Cooking Test 泡发/炖煮测试(g)',
-//                 'Grade 等级', 'Weight 重量 (g)', 'Pass Rate 合格率（%)', 'Qty 片 (pcs)', 'Remark 备注','Date 日期', 'Weight 重量 (g)', 'Moist 水份 (G)', 'Date 日期', 
-//                 'GRADE 等级', 'Weight 重量 (g)', 'Moist 水份', 'Weight 重量(g) *compare to stock in', 'Percentage 比例 (%)', 'Remark 备注', 'Date 日期', 
-//                 'Form No 表格号码', 'Box No 盒号', 'GRADE 等级', 'Weight 重量 (g)', 'Qty 片 (pcs)', 'Weight 重量 (g)', 'Qty 片 (pcs)', 'Percentage 比例 (≤1%)',
-//                 'Remark 备注'); 
-
-// Display column names as first row 
-// $excelData = implode("\t", array_values($fields)) . "\n"; 
 
 ## Search 
 $searchQuery = " ";
@@ -45,16 +38,18 @@ if($_GET['itemType'] != null && $_GET['itemType'] != '' && $_GET['itemType'] != 
 
 }
 
+$message = array();
+$batchList = array();
+$batchGradeList = array();
 
 // Fetch records from database
-$query = $db->query("select * from weighing WHERE parent_no = '0'".$searchQuery."");
+$query = $db->query("select * from weighing WHERE parent_no <> '0'".$searchQuery."");
 if($itemType == 'T4'){
-
     if($query->num_rows > 0){ 
         $output .= '
         <table class="table" border="1">
             <tr>
-                <th colspan="2" style="background-color: #E2EFDA;">T4 Full Stock Summary</th>
+                <th colspan="3" style="background-color: #E2EFDA;">T4 Full Stock Summary</th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
@@ -90,7 +85,7 @@ if($itemType == 'T4'){
                 <th style="background-color: #FFF2CC;"></th>
             </tr>
             <tr>
-                <th colspan="2" style="background-color: #E2EFDA;">Purchase Receiving 采购验收</th>
+                <th colspan="3" style="background-color: #E2EFDA;">Purchase Receiving 采购验收</th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
@@ -104,7 +99,7 @@ if($itemType == 'T4'){
                 <th style="background-color: #FFF2CC;"></th>
             </tr>
             <tr>
-                <th colspan="2" style="background-color: #E2EFDA;"></th>
+                <th colspan="3" style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
                 <th style="background-color: #E2EFDA;"></th>
@@ -124,6 +119,7 @@ if($itemType == 'T4'){
             </tr>  
             <tr>
                 <th style="background-color: #E2EFDA;">Date<br/>日期</th>
+                <th style="background-color: #E2EFDA;">SHIPMENT<br/>发货号</th>
                 <th style="width:130px;background-color: #E2EFDA;">Batch<br/>批号</th>
                 <th style="background-color: #E2EFDA;">MSIA (M) / INDO (I)</th>
                 <th style="background-color: #E2EFDA;">Grade<br>等级</th>
@@ -158,9 +154,7 @@ if($itemType == 'T4'){
                 <th style="background-color: #D9E1F2;">Remark<br>备注</th>
                 <th style="background-color: #FFF2CC;">Weight<br>重量<br>(g)</th>
                 <th style="background-color: #FFF2CC;">Percentage<br>比例<br>(%)</th>
-            </tr>
-
-        ';
+            </tr>';
 
         $passRate = 0.00;
         $lossWeightPerc = 0.00;
@@ -171,10 +165,8 @@ if($itemType == 'T4'){
         $totalLossWeight = 0;
         $totalLossWeightPerc = 0;
 
-        // Output each row of the data linkgoog
         while($row = $query->fetch_assoc()){ 
-
-            if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
+            /*if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
                 $passRate = $row['net_weight'] / $row['grading_net_weight'];
             }
 
@@ -199,71 +191,213 @@ if($itemType == 'T4'){
             $totalNetWeight += $row['net_weight'];
             $totalMoistureNetWeight += $row['moisture_net_weight'];
             $totalLossWeight += $lossWeight;
-            $totalLossWeightPerc += $lossWeightPerc;
+            $totalLossWeightPerc += $lossWeightPerc;*/
 
+            if(!in_array($row['lot_no'], $batchList)){
+                $message[] = array( 
+                    'lot_no' => $row['lot_no'],
+                    'created_datetime' => $row['created_datetime'],
+                    'grading_datetime' => $row['grading_datetime'],
+                    'moisturing_datetime' => $row['moisturing_datetime'],
+                    'remark' => $row['remark'],
+                    'receiving_weight' => 0.00,
+                    'count' => 0,
+                    'moisture_after_receiving' => 0,
+                    'grading' => array(),
+                    'batchGradeList' => array(),
+                    'batchReasonsList' => array()
+                );
+
+                array_push($batchList, $row['lot_no']);
+            }
+
+            $key = array_search($row['lot_no'], $batchList);
+
+            if($row['net_weight'] > 0){
+                $message[$key]['receiving_weight'] += (float)$row['net_weight'];
+            }
+
+            if($row['moisture_after_receiving'] != null){
+                $message[$key]['moisture_after_receiving'] += (float)$row['moisture_after_receiving'];
+                $message[$key]['count'] += 1;
+            }
+
+            if($row['status'] == 'PASSED'){
+                if(!in_array($row['grade'], $message[$key]['batchGradeList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['grade'];
+                    $query3 = $db->query("select * from grades WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['grade'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime']
+                    );
+    
+                    array_push($message[$key]['batchGradeList'], $grade);
+                }
+
+                $key2 = array_search($row['grade'], $message[$key]['batchGradeList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+            }
+            else{
+                if(!in_array($row['reasons'], $message[$key]['batchReasonsList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['reasons'];
+                    $query3 = $db->query("select * from reasons WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['reasons'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime']
+                    );
+    
+                    array_push($message[$key]['batchReasonsList'], $grade);
+                }
+
+                $key2 = array_search($row['reasons'], $message[$key]['batchReasonsList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+            }
+        }
+
+        // Output each row of the data linkgoog
+        for($i=0; $i<count($message); $i++){
             $output .= '
                 <tr>
-                    <td style="text-align: center;background-color: #E2EFDA;">'.substr($row['created_datetime'], 0, 10).'</td>
-                    <td style="text-align: center;background-color: #E2EFDA;">="'.$countLotNo.'"</td>
-                    <td style="text-align: center;background-color: #E2EFDA;"></td>
-                    <td style="text-align: center;background-color: #E2EFDA;"></td>
-                    <td style="text-align: center;background-color: #E2EFDA;"></td>
-                    <td style="text-align: center;background-color: #E2EFDA;"></td>
-                    <td style="text-align: center;background-color: #E2EFDA;"></td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;"></td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grade'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$diffWeight.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$diffWeightPerc.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisturing_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grade'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_moisturing'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeight.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['remark'].'</td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #D9E1F2;"></td>
-                    <td style="text-align: center;background-color: #FFF2CC;"></td>
-                    <td style="text-align: center;background-color: #FFF2CC;"></td>
-                </tr>';
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'">'.substr($message[$i]['created_datetime'], 0, 10).'</td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['lot_no'].'</td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['receiving_weight'].'</td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #E2EFDA;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.substr($message[$i]['grading_datetime'], 0, 10).'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>';
 
+            if($message[$i]['count'] > 0){
+                $output .= '<td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.round((float)$message[$i]['moisture_after_receiving']/(float)$message[$i]['count'] * 100).' %</td>';
+            }
+            else{
+                $output .= '<td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">0 %</td>';
+            }
+
+            
+            $output .= '<td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.substr($message[$i]['grading'][0]['moisturing_datetime'], 0, 10).'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['grading'][0]['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['remark'].'</td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #FFF2CC;"></td>
+                    <td style="text-align: center;background-color: #FFF2CC;"></td>
+                </tr>
+            ';
+
+            for($j=1; $j<count($message[$i]['grading']); $j++){
+                $output .= '
+                    <tr>
+                        <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][$j]['gradeName'].'</td>
+                        <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][$j]['grading_net_weight'].'</td>
+                        <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][$j]['gradeName'].'</td>
+                        <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][$j]['moisture_net_weight'].'</td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #D9E1F2;"></td>
+                        <td style="text-align: center;background-color: #FFF2CC;"></td>
+                        <td style="text-align: center;background-color: #FFF2CC;"></td>
+                    </tr>
+                ';
+            }
         }
+
+        
 
         $output .= '
         <tr>
         <td style="text-align: center;background-color: #E2EFDA;">Total</td>
-        <td style="text-align: center;background-color: #E2EFDA;">="'.$countLotNo.'"</td>
+        <td style="text-align: center;background-color: #E2EFDA;"></td>
+        <td style="text-align: center;background-color: #E2EFDA;">'.count($message).'</td>
         <td style="text-align: center;background-color: #E2EFDA;"></td>
         <td style="text-align: center;background-color: #E2EFDA;"></td>
         <td style="text-align: center;background-color: #E2EFDA;"></td>
         <td style="text-align: center;background-color: #E2EFDA;"></td>
         <td style="text-align: center;background-color: #E2EFDA;"></td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$totalNetWeight.'</td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$diffWeight.'</td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$diffWeightPerc.'</td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$totalMoistureNetWeight.'</td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$totalLossWeight.'</td>
-        <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
+        <td style="text-align: center;background-color: #FCE4D6;"></td>
         <td style="text-align: center;background-color: #FCE4D6;"></td>
         <td style="text-align: center;background-color: #D9E1F2;"></td>
         <td style="text-align: center;background-color: #D9E1F2;"></td>
@@ -285,11 +419,12 @@ if($itemType == 'T4'){
     <tr>
     </tr>
     <tr>
-        <th colspan="2" >CONCLUSION</th>
+        <th colspan="3">CONCLUSION</th>
         <th>GRAM</th>
     </tr>
     <tr>
-        <th rowspan="2" >QC</th>
+        <th rowspan="4">QC</th>
+        <th rowspan="4"></th>
         <th>TOTAL BATCH</th>
         <th>'.$countLotNo.'</th>
     </tr>
@@ -298,12 +433,10 @@ if($itemType == 'T4'){
         <th>'.$totalNetWeight.'</th>
     </tr>
     <tr>
-        <th></th>
         <th>TOTAL RECEIVING WEIGHT</th>
         <th>'.$totalNetWeight.'</th>
     </tr>
     <tr>
-        <th></th>
         <th>TOTAL MOISTURING WEIGHT</th>
         <th>'.$totalMoistureNetWeight.'</th>
     </tr>
@@ -315,8 +448,7 @@ if($itemType == 'T4'){
     }
 
 }
-else if($itemType == 'T3' || $itemType == 'T1'){
-
+else if($itemType == 'T3'){
     if($query->num_rows > 0){ 
         $output .= '
         <table class="table" border="1">
@@ -390,7 +522,6 @@ else if($itemType == 'T3' || $itemType == 'T1'){
                 <th style="background-color: #D9E1F2;">Percentage<br>比例<br>(≤1%)</th>
                 <th style="background-color: #D9E1F2;">Remark<br>备注</th>
             </tr>
-
         ';
 
         $passRate = 0.00;
@@ -404,8 +535,7 @@ else if($itemType == 'T3' || $itemType == 'T1'){
 
         // Output each row of the data linkgoog
         while($row = $query->fetch_assoc()){ 
-
-            if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
+            /*if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
                 $passRate = $row['net_weight'] / $row['grading_net_weight'];
             }
 
@@ -424,31 +554,148 @@ else if($itemType == 'T3' || $itemType == 'T1'){
             $totalMoistureNetWeight += $row['moisture_net_weight'];
             $totalLossWeight += $lossWeight;
             $totalGradingNetWeight += $row['grading_net_weight'];
-            $totalNetWeight += $row['net_weight'];
+            $totalNetWeight += $row['net_weight'];*/
 
+            if(!in_array($row['lot_no'], $batchList)){
+                $message[] = array( 
+                    'lot_no' => $row['lot_no'],
+                    'created_datetime' => $row['created_datetime'],
+                    'grading_datetime' => $row['grading_datetime'],
+                    'total_grading_weight' => 0.00,
+                    'moisturing_datetime' => $row['moisturing_datetime'],
+                    'remark' => $row['remark'],
+                    'receiving_weight' => 0.00,
+                    'count' => 0,
+                    'moisture_after_receiving' => 0,
+                    'grading' => array(),
+                    'batchGradeList' => array(),
+                    'batchReasonsList' => array()
+                );
+
+                array_push($batchList, $row['lot_no']);
+            }
+
+            $key = array_search($row['lot_no'], $batchList);
+
+            if($row['net_weight'] > 0){
+                $message[$key]['receiving_weight'] += (float)$row['net_weight'];
+            }
+
+            if($row['moisture_after_receiving'] != null){
+                $message[$key]['moisture_after_receiving'] += (float)$row['moisture_after_receiving'];
+                $message[$key]['count'] += 1;
+            }
+
+            if($row['status'] == 'PASSED'){
+                if(!in_array($row['grade'], $message[$key]['batchGradeList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['grade'];
+                    $query3 = $db->query("select * from grades WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['grade'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime'],
+                        'pieces' => 0
+                    );
+    
+                    array_push($message[$key]['batchGradeList'], $grade);
+                }
+
+                $key2 = array_search($row['grade'], $message[$key]['batchGradeList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                    $message[$key]['total_grading_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+
+                if($row['pieces'] > 0){
+                    $message[$key]['grading'][$key2]['pieces'] += (float)$row['pieces'];
+                }
+            }
+            else{
+                if(!in_array($row['reasons'], $message[$key]['batchReasonsList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['reasons'];
+                    $query3 = $db->query("select * from reasons WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['reasons'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime'],
+                        'pieces' => 0
+                    );
+    
+                    array_push($message[$key]['batchReasonsList'], $grade);
+                }
+
+                $key2 = array_search($row['reasons'], $message[$key]['batchReasonsList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                    $message[$key]['total_grading_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+
+                if($row['pieces'] > 0){
+                    $message[$key]['grading'][$key2]['pieces'] += (float)$row['pieces'];
+                }
+            }
+        }
+
+        for($i=0; $i<count($message); $i++){
             $output .= '
                 <tr>
-                    <td style="text-align: center;">'.substr($row['created_datetime'], 0, 10).'</td>
-                    <td style="text-align: center;">="'.$row['lot_no'].'"</td>
-                    <td style="text-align: center;">'.$row['net_weight'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.substr($message[$i]['created_datetime'], 0, 10).'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['lot_no'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['total_grading_weight'].'</td>
                     <td style="text-align: center;"></td>
                     <td style="text-align: center;"></td>
                     <td style="text-align: center;">'."-".'</td>
-                    <td style="text-align: center;">'.$row['grade'].'</td>
-                    <td style="text-align: center;">'.$row['grading_net_weight'].'</td>
-                    <td style="text-align: center;">'.$passRate.'</td>
-                    <td style="text-align: center;">'.$row['pieces'].'</td>
-                    <td style="text-align: center;"></td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_grading'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisturing_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grade'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_moisturing'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeight.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['remark'].'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;">'.round((float)$message[$i]['grading'][0]['grading_net_weight']/(float)$message[$i]['total_grading_weight']*100).' %</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['pieces'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['remark'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['grading_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_grading'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['moisturing_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
@@ -461,12 +708,42 @@ else if($itemType == 'T3' || $itemType == 'T1'){
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                 </tr>       
             ';
-            // array_walk($lineData, 'filterData'); 
-            // $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+
+            for($j=1; $j<count($message[$i]['grading']); $j++){
+                $output .= '
+                <tr>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;">'."-".'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;">'.round((float)$message[$i]['grading'][0]['grading_net_weight']/(float)$message[$i]['total_grading_weight']*100).' %</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['pieces'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_grading'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                </tr>
+                ';
+            }
         }
 
         $totalPassRatePerc = 0;
         $totalPassRatePerc = ($totalGradingNetWeight / $totalNetWeight) * 100;
+
         $output .= '
         <tr>
             <th style="text-align: center;">Total</th>
@@ -574,16 +851,14 @@ else if($itemType == 'T3' || $itemType == 'T1'){
     }else{ 
         $output .= 'No records found...'. "\n"; 
     }
-
 }
 else{
-
     if($query->num_rows > 0){ 
         $output .= '
         <table class="table" border="1">
             <tr>
                 <th colspan="2"></th>
-                <th colspan="6">T1 Full Stock Summary</th>
+                <th colspan="9">T3 Full Stock Summary</th>
                 <th colspan="3" style="background-color: #FCE4D6;"></th>
                 <th colspan="4" style="background-color: #FCE4D6;"></th>
                 <th colspan="2" style="background-color: #FCE4D6;"></th>
@@ -594,11 +869,14 @@ else{
             </tr>
             <tr>
                 <th colspan="2"></th>
-                <th colspan="6">QC Grading 分级</th>
+                <th colspan="9">QC Grading 分级</th>
                 <th colspan="10" style="background-color: #FCE4D6;">Drying/Humidify 风干或加湿</th>
                 <th colspan="10" style="background-color: #D9E1F2;">Production Packing 生产包装</th>
             </tr>
             <tr>
+                <th></th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -619,6 +897,9 @@ else{
                 <th>Date<br/>日期</th>
                 <th style="width:130px">Batch<br/>批号</th>
                 <th>Grading Weight<br>分级重量 <br>(g)</th>
+                <th>Lab Sample<br>样本 <br>(g)</th>
+                <th>QC Broken<br>分级破裂 <br>(g)</th>
+                <th>Soaking / Cooking Test<br>泡发/炖煮测试<br>(g)</th>
                 <th>Grade<br>等级</th>
                 <th>Weight<br>重量<br>(g)</th>
                 <th>Pass Rate<br>合格率<br>(%)</th>
@@ -645,7 +926,6 @@ else{
                 <th style="background-color: #D9E1F2;">Percentage<br>比例<br>(≤1%)</th>
                 <th style="background-color: #D9E1F2;">Remark<br>备注</th>
             </tr>
-
         ';
 
         $passRate = 0.00;
@@ -659,8 +939,7 @@ else{
 
         // Output each row of the data linkgoog
         while($row = $query->fetch_assoc()){ 
-
-            if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
+            /*if($row['net_weight'] > 0 && $row['grading_net_weight'] > 0){
                 $passRate = $row['net_weight'] / $row['grading_net_weight'];
             }
 
@@ -679,28 +958,148 @@ else{
             $totalMoistureNetWeight += $row['moisture_net_weight'];
             $totalLossWeight += $lossWeight;
             $totalGradingNetWeight += $row['grading_net_weight'];
-            $totalNetWeight += $row['net_weight'];
+            $totalNetWeight += $row['net_weight'];*/
 
+            if(!in_array($row['lot_no'], $batchList)){
+                $message[] = array( 
+                    'lot_no' => $row['lot_no'],
+                    'created_datetime' => $row['created_datetime'],
+                    'grading_datetime' => $row['grading_datetime'],
+                    'total_grading_weight' => 0.00,
+                    'moisturing_datetime' => $row['moisturing_datetime'],
+                    'remark' => $row['remark'],
+                    'receiving_weight' => 0.00,
+                    'count' => 0,
+                    'moisture_after_receiving' => 0,
+                    'grading' => array(),
+                    'batchGradeList' => array(),
+                    'batchReasonsList' => array()
+                );
+
+                array_push($batchList, $row['lot_no']);
+            }
+
+            $key = array_search($row['lot_no'], $batchList);
+
+            if($row['net_weight'] > 0){
+                $message[$key]['receiving_weight'] += (float)$row['net_weight'];
+            }
+
+            if($row['moisture_after_receiving'] != null){
+                $message[$key]['moisture_after_receiving'] += (float)$row['moisture_after_receiving'];
+                $message[$key]['count'] += 1;
+            }
+
+            if($row['status'] == 'PASSED'){
+                if(!in_array($row['grade'], $message[$key]['batchGradeList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['grade'];
+                    $query3 = $db->query("select * from grades WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['grade'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime'],
+                        'pieces' => 0
+                    );
+    
+                    array_push($message[$key]['batchGradeList'], $grade);
+                }
+
+                $key2 = array_search($row['grade'], $message[$key]['batchGradeList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                    $message[$key]['total_grading_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+
+                if($row['pieces'] > 0){
+                    $message[$key]['grading'][$key2]['pieces'] += (float)$row['pieces'];
+                }
+            }
+            else{
+                if(!in_array($row['reasons'], $message[$key]['batchReasonsList'])){
+                    $gradeName = '';
+                    $grade = '';
+    
+                    $grade = $row['reasons'];
+                    $query3 = $db->query("select * from reasons WHERE id = '" .$grade."'");
+
+                    if($row3 = $query3->fetch_assoc()){ 
+                        $gradeName = $row3['reasons'];
+                    }
+    
+                    $message[$key]['grading'][] = array( 
+                        'grade' => $grade,
+                        'gradeName' => $gradeName,
+                        'grading_net_weight' => 0,
+                        'moisture_after_grading' => $row['moisture_after_grading'],
+                        'grading_datetime' => $row['grading_datetime'],
+                        'moisture_net_weight ' => 0,
+                        'moisture_after_moisturing' => $row['moisture_after_moisturing'],
+                        'moisturing_datetime' => $row['moisturing_datetime'],
+                        'pieces' => 0
+                    );
+    
+                    array_push($message[$key]['batchReasonsList'], $grade);
+                }
+
+                $key2 = array_search($row['reasons'], $message[$key]['batchReasonsList']);
+
+                if($row['grading_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['grading_net_weight'] += (float)$row['grading_net_weight'];
+                    $message[$key]['total_grading_weight'] += (float)$row['grading_net_weight'];
+                }
+
+                if($row['moisture_net_weight'] > 0){
+                    $message[$key]['grading'][$key2]['moisture_net_weight'] += (float)$row['moisture_net_weight'];
+                }
+
+                if($row['pieces'] > 0){
+                    $message[$key]['grading'][$key2]['pieces'] += (float)$row['pieces'];
+                }
+            }
+        }
+
+        for($i=0; $i<count($message); $i++){
             $output .= '
                 <tr>
-                    <td style="text-align: center;">'.substr($row['created_datetime'], 0, 10).'</td>
-                    <td style="text-align: center;">="'.$row['lot_no'].'"</td>
-                    <td style="text-align: center;">'.$row['net_weight'].'</td>
-                    <td style="text-align: center;">'.$row['grade'].'</td>
-                    <td style="text-align: center;">'.$row['grading_net_weight'].'</td>
-                    <td style="text-align: center;">'.$passRate.'</td>
-                    <td style="text-align: center;">'.$row['pieces'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.substr($message[$i]['created_datetime'], 0, 10).'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['lot_no'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['total_grading_weight'].'</td>
                     <td style="text-align: center;"></td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grading_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_grading'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisturing_datetime'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['grade'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_net_weight'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['moisture_after_moisturing'].'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeight.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$lossWeightPerc.'</td>
-                    <td style="text-align: center;background-color: #FCE4D6;">'.$row['remark'].'</td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;">'."-".'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;">'.round((float)$message[$i]['grading'][0]['grading_net_weight']/(float)$message[$i]['total_grading_weight']*100).' %</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['pieces'].'</td>
+                    <td style="text-align: center;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['remark'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['grading_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_grading'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'">'.$message[$i]['moisturing_datetime'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;" rowspan="'.count($message[$i]['grading']).'"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
@@ -713,20 +1112,53 @@ else{
                     <td style="text-align: center;background-color: #D9E1F2;"></td>
                 </tr>       
             ';
-            // array_walk($lineData, 'filterData'); 
-            // $excelData .= implode("\t", array_values($lineData)) . "\n"; 
+
+            for($j=1; $j<count($message[$i]['grading']); $j++){
+                $output .= '
+                <tr>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;">'."-".'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;">'.round((float)$message[$i]['grading'][0]['grading_net_weight']/(float)$message[$i]['total_grading_weight']*100).' %</td>
+                    <td style="text-align: center;">'.$message[$i]['grading'][0]['pieces'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['grading_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_grading'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['gradeName'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_net_weight'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;">'.$message[$i]['grading'][0]['moisture_after_moisturing'].'</td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #FCE4D6;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                    <td style="text-align: center;background-color: #D9E1F2;"></td>
+                </tr>
+                ';
+            }
         }
 
         $totalPassRatePerc = 0;
         $totalPassRatePerc = ($totalGradingNetWeight / $totalNetWeight) * 100;
+
         $output .= '
         <tr>
             <th style="text-align: center;">Total</th>
             <th style="text-align: center;">="'.$countLotNo.'"</th>
             <th style="text-align: center;">'.$totalNetWeight.'</th>
             <th style="text-align: center;"></th>
+            <th style="text-align: center;"></th>
+            <th style="text-align: center;">'."-".'</th>
+            <th style="text-align: center;"></th>
             <th style="text-align: center;">'.$totalGradingNetWeight.'</th>
-            <th style="text-align: center;">'.$totalPassRate .'</th>
+            <th style="text-align: center;">'.$totalPassRate.'</th>
             <th style="text-align: center;"></th>
             <th style="text-align: center;"></th>
             <th style="text-align: center;background-color: #FCE4D6;"></th>
@@ -823,7 +1255,6 @@ else{
     }else{ 
         $output .= 'No records found...'. "\n"; 
     }
-
 }
  
 // Headers for download 
